@@ -1,0 +1,27 @@
+# 忽略依赖目录
+node_modules/
+
+# 忽略环境变量文件
+.env
+*.env
+
+# 忽略系统文件
+.DS_Store
+
+# 忽略编辑器设置
+.vscode/
+.idea/
+
+# 忽略日志文件
+*.log
+
+# 忽略敏感信息
+secrets.js
+config.js
+
+# 忽略构建产物
+dist/
+build/
+
+# 忽略Vercel缓存
+.vercel/
