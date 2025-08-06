@@ -1530,6 +1530,9 @@
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
+          // 确保开始时间被记录（使用试次对象上存储的开始时间）
+          data.trial_start_time = this.trial_start_time;
+
           // 记录试次结束时间和眼动数据
           const endTime = Date.now();
           data.trial_end_time = endTime;
@@ -1636,6 +1639,9 @@
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
+          // 确保开始时间被记录（使用试次对象上存储的开始时间）
+          data.trial_start_time = this.trial_start_time;
+
           // 记录试次结束时间和眼动数据
           const endTime = Date.now();
           data.trial_end_time = endTime;
