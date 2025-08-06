@@ -19,9 +19,10 @@
   <script src="https://unpkg.com/@jspsych/plugin-webgazer-validate@2.0.0"></script>
   <script src="https://cdn.jsdelivr.net/gh/jspsych/jspsych@jspsych@7.0.0/examples/js/webgazer/webgazer.js"></script>
   <script src="https://unpkg.com/@jspsych/extension-webgazer@1.0.3"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-call-function@1.0.0"></script>
 
   <style>
-    /* 全局样式 */
+    /* ==== 全局样式 ==== */
     * {
       margin: 0;
       padding: 0;
@@ -35,7 +36,7 @@
       overflow: hidden;
     }
 
-    /* 顶部导航栏 */
+    /* ==== 顶部导航栏 ==== */
     .header {
       width: 100%;
       background: linear-gradient(90deg, #2c3e50, #4b6082);
@@ -55,7 +56,7 @@
       letter-spacing: 1px;
     }
 
-    /* 内容容器 */
+    /* ==== 内容容器 ==== */
     #jspsych-target {
       position: absolute;
       top: 70px;
@@ -84,7 +85,7 @@
       max-height: 100%;
     }
 
-    /* 图片展示区 */
+    /* ==== 图片展示区 ==== */
     .stimulus-container {
       width: 80%;
       max-width: 1000px;
@@ -105,7 +106,7 @@
       border-radius: 10px;
     }
 
-    /* 中央固定十字 */
+    /* ==== 中央固定十字 ==== */
     .central-fixation {
       position: absolute;
       top: 50%;
@@ -119,7 +120,7 @@
       display: none;
     }
 
-    /* 眼动追踪注视点 - 已禁用显示 */
+    /* ==== 眼动追踪注视点（已禁用） ==== */
     .gaze-point {
       position: absolute;
       width: 10px;
@@ -128,10 +129,10 @@
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
-      display: none;
+      display: none !important; /* 确保小红点被隐藏 */
     }
 
-    /* 按钮样式 */
+    /* ==== 按钮样式 ==== */
     button {
       background: linear-gradient(90deg, #2980b9, #3498db);
       border: none;
@@ -158,27 +159,20 @@
       margin-top: 20px;
     }
 
-    /* 居中文字模块 */
+    /* ==== 居中文字模块 ==== */
     .centered-text {
       text-align: center;
       padding: 20px 30px;
       color: #444;
       line-height: 1.6;
+      max-width: 800px;
     }
     .centered-text p {
       font-size: 1.5rem;
       margin-bottom: 1rem;
     }
 
-    /* 结束页面下载按钮区 */
-    .footer-buttons {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    /* 页脚 */
+    /* ==== 页脚 ==== */
     .footer {
       position: fixed;
       bottom: 10px;
@@ -187,6 +181,411 @@
       color: #888;
       font-size: 0.9rem;
       letter-spacing: 0.5px;
+    }
+
+    /* ==== 登录表单样式 ==== */
+    .login-container {
+      width: 700px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin: 0 auto;
+    }
+    .login-container h2 {
+      color: #2c3e50;
+      margin-bottom: 25px;
+      font-weight: 500;
+    }
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #3498db;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    .login-button {
+      background: linear-gradient(90deg, #2980b9, #3498db);
+      border: none;
+      color: #fff;
+      padding: 14px 36px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .login-button:hover {
+      background: linear-gradient(90deg, #2572a5, #2c82c2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    /* 新增：实验次数显示样式 */
+    .session-display {
+      background: #f0f7ff;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 20px 0;
+      border: 2px solid #d0e4ff;
+      font-size: 1.3rem;
+      font-weight: 500;
+    }
+    .session-display span {
+      color: #2980b9;
+      font-weight: 600;
+    }
+
+    /* ==== 数据报告样式 ==== */
+    .data-report {
+      max-width: 800px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .data-report h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+    .data-report pre {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .copy-button {
+      background: linear-gradient(90deg, #27ae60, #2ecc71);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .copy-button:hover {
+      background: linear-gradient(90deg, #219653, #27ad60);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+    .github-button {
+      background: linear-gradient(90deg, #24292e, #2d3338);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .github-button:hover {
+      background: linear-gradient(90deg, #1a1e21, #22272b);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+    /* 新增：保存按钮样式 */
+    .save-button {
+      background: linear-gradient(90deg, #f39c12, #e67e22);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .save-button:hover {
+      background: linear-gradient(90deg, #d35400, #e67e22);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    /* 退出按钮 */
+    .exit-button {
+      background: linear-gradient(90deg, #e74c3c, #c0392b);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .exit-button:hover {
+      background: linear-gradient(90deg, #c0392b, #a93226);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ==== 状态消息 ==== */
+    .status-message {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 500;
+    }
+    .status-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .status-loading {
+      background: #cce5ff;
+      color: #004085;
+      border: 1px solid #b8daff;
+    }
+    .status-warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+    }
+
+    /* 验证码弹窗 */
+    .auth-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 3000;
+      justify-content: center;
+      align-items: center;
+    }
+    .auth-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+    .auth-content h3 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    .auth-input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .auth-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .auth-button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .auth-confirm {
+      background: #27ae60;
+      color: white;
+    }
+    .auth-confirm:hover {
+      background: #219653;
+    }
+    .auth-cancel {
+      background: #e74c3c;
+      color: white;
+    }
+    .auth-cancel:hover {
+      background: #c0392b;
+    }
+    .auth-error {
+      color: #e74c3c;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* ==== 权限提示和错误提示样式 ==== */
+    .permission-alert {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      text-align: center;
+      z-index: 2000;
+      max-width: 90%;
+      width: 500px;
+      display: none;
+    }
+
+    .permission-alert h3 {
+      color: #e74c3c;
+      margin-bottom: 20px;
+    }
+
+    .permission-alert p {
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    .permission-alert .warning {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .permission-alert .browser-warning {
+      background: #f8d7da;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    .permission-alert .protocol-warning {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    /* ==== 初始化状态面板 ==== */
+    .init-status-panel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      max-width: 400px;
+      z-index: 2000;
+      font-size: 14px;
+      display: none;
+    }
+
+    .init-status-panel h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #3498db;
+      border-bottom: 1px solid #3498db;
+      padding-bottom: 5px;
+    }
+
+    .init-status-panel .status-item {
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .init-status-panel .status-label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .init-status-panel .status-value {
+      color: #2ecc71;
+    }
+
+    .init-status-panel .status-error {
+      color: #e74c3c;
+    }
+
+    .init-status-panel .status-warning {
+      color: #f39c12;
+    }
+
+    .debug-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 2001;
+    }
+
+    /* ==== 错误处理面板 ==== */
+    .error-panel {
+      background: #f8d7da;
+      border-left: 4px solid #e74c3c;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+      text-align: left;
+    }
+
+    .error-panel h4 {
+      color: #721c24;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .error-panel ul {
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    .error-panel li {
+      margin-bottom: 5px;
     }
   </style>
 </head>
@@ -200,8 +599,51 @@
   <!-- 中央固定十字 -->
   <div id="central-fixation" class="central-fixation">+</div>
 
-  <!-- 眼动追踪注视点（已禁用显示） -->
+  <!-- 眼动追踪注视点（已禁用） -->
   <div id="gaze-point" class="gaze-point"></div>
+
+  <!-- 验证码弹窗 -->
+  <div class="auth-modal" id="auth-modal">
+    <div class="auth-content">
+      <h3>请输入验证码以查看GitHub记录</h3>
+      <input type="text" class="auth-input" id="auth-code" placeholder="输入验证码" />
+      <div class="auth-error" id="auth-error">验证码错误，无权限查看</div>
+      <div class="auth-buttons">
+        <button class="auth-button auth-cancel" id="auth-cancel">返回</button>
+        <button class="auth-button auth-confirm" id="auth-confirm">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 摄像头权限提示 -->
+  <div id="camera-permission-alert" class="permission-alert" style="display:none;"></div>
+
+  <!-- 初始化状态面板 -->
+  <div class="init-status-panel" id="init-status-panel">
+    <h4>眼动追踪初始化状态</h4>
+    <div class="status-item">
+      <span class="status-label">摄像头状态:</span>
+      <span class="status-value" id="status-camera">检测中...</span>
+    </div>
+    <div class="status-item">
+      <span class="status-label">Webgazer状态:</span>
+      <span class="status-value" id="status-webgazer">未初始化</span>
+    </div>
+    <div class="status-item">
+      <span class="status-label">权限状态:</span>
+      <span class="status-value" id="status-permission">未知</span>
+    </div>
+    <div class="status-item">
+      <span class="status-label">安全环境:</span>
+      <span class="status-value" id="status-security">检测中...</span>
+    </div>
+    <div class="status-item">
+      <span class="status-label">错误信息:</span>
+      <span class="status-value" id="status-error">无</span>
+    </div>
+  </div>
+
+  <button class="debug-toggle" id="debug-toggle">显示调试信息</button>
 
   <!-- jsPsych 渲染目标容器 -->
   <div id="jspsych-target"></div>
@@ -210,6 +652,16 @@
   <div class="footer">2025 北京师范大学 Eye—ED 项目组联合出品。</div>
 
   <script>
+    /* ==== 用户信息存储 ==== */
+    let userInfo = null;
+    let cameraPermissionDenied = false; // 摄像头权限状态
+    let webgazerInitialized = false;   // Webgazer初始化状态
+    let gazeData = []; // 存储每个试次的眼动数据
+    let gazeUpdateInterval; // 眼动数据更新间隔
+
+    /* ==== GitHub API 中转配置 ==== */
+    const API_BASE_URL = 'https://www.edemi-lab.online/api/gh-eye';
+
     /* 初始化 jsPsych */
     const jsPsych = initJsPsych({
       display_element: 'jspsych-target',
@@ -227,8 +679,360 @@
         if (data.task === 'view') {
           console.log(`试次 ${data.trial_index} 完成:`, data);
         }
+      },
+      on_finish: function() {
+        // 实验结束时停止音乐
+        if (window.globalAudio && !window.globalAudio.paused) {
+          window.globalAudio.pause();
+        }
       }
     });
+
+    /* ==== 状态更新函数 ==== */
+    function updateInitStatus(field, value, isError = false) {
+      const element = document.getElementById(`status-${field}`);
+      if (element) {
+        element.textContent = value;
+        element.className = isError ? 'status-error' : 'status-value';
+      }
+    }
+
+    // 显示/隐藏调试信息
+    document.getElementById('debug-toggle').addEventListener('click', function() {
+      const panel = document.getElementById('init-status-panel');
+      if (panel.style.display === 'block') {
+        panel.style.display = 'none';
+        this.textContent = '显示调试信息';
+      } else {
+        panel.style.display = 'block';
+        this.textContent = '隐藏调试信息';
+      }
+    });
+
+    /* ==== 摄像头权限检测和错误处理函数 ==== */
+    async function checkCameraPermission() {
+      // 更新状态
+      updateInitStatus('camera', '检测中...');
+      updateInitStatus('permission', '检测中...');
+      updateInitStatus('security', '检测中...');
+
+      // 1. 检查是否在安全环境（HTTPS或localhost）
+      const isSecure = location.protocol === 'https:' || location.hostname === 'localhost';
+      updateInitStatus('security', isSecure ? '安全' : '不安全', !isSecure);
+
+      // 2. 检查浏览器是否支持媒体设备
+      const hasMediaDevices = 'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices;
+      updateInitStatus('camera', hasMediaDevices ? '支持' : '不支持', !hasMediaDevices);
+
+      // 3. 尝试获取摄像头权限
+      let hasPermission = false;
+      try {
+        if (hasMediaDevices) {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          hasPermission = true;
+          // 关闭测试流
+          stream.getTracks().forEach(track => track.stop());
+        }
+      } catch (error) {
+        console.error('摄像头权限检测失败:', error);
+        updateInitStatus('error', error.message || error.toString(), true);
+      }
+
+      updateInitStatus('permission', hasPermission ? '已授予' : '未授予', !hasPermission);
+
+      return {
+        hasPermission,
+        isSecure,
+        hasMediaDevices
+      };
+    }
+
+    function showPermissionError(status) {
+      const alertEl = document.getElementById('camera-permission-alert');
+
+      let alertHTML = `
+        <h3>摄像头权限问题</h3>
+        ${!status.hasMediaDevices ? `
+          <div class="browser-warning">
+            <p class="warning">您的浏览器不支持摄像头功能</p>
+            <p>请使用最新版本的Chrome、Firefox或Edge浏览器参与实验。</p>
+          </div>
+        ` : ''}
+
+        ${!status.isSecure ? `
+          <div class="protocol-warning">
+            <p class="warning">当前环境不安全</p>
+            <p>摄像头功能需要HTTPS安全连接或本地环境(localhost)。</p>
+            <p>当前协议: ${location.protocol}</p>
+          </div>
+        ` : ''}
+
+        ${status.hasMediaDevices && status.isSecure && !status.hasPermission ? `
+          <p>实验需要使用您的摄像头进行眼动追踪。</p>
+          <p>您尚未授予摄像头权限或权限已被拒绝。</p>
+          <div class="instructions">
+            <p class="warning">请按照以下步骤操作：</p>
+            <ol>
+              <li>点击浏览器地址栏左侧的摄像头图标</li>
+              <li>选择"始终允许此网站使用摄像头"</li>
+              <li>刷新页面</li>
+            </ol>
+          </div>
+        ` : ''}
+
+        <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+          <button id="reload-btn" class="auth-confirm auth-button">刷新页面</button>
+          <button id="continue-btn" class="auth-cancel auth-button">继续实验(无眼动)</button>
+        </div>
+      `;
+
+      alertEl.innerHTML = alertHTML;
+      alertEl.style.display = 'block';
+
+      // 添加事件处理
+      document.getElementById('reload-btn').addEventListener('click', () => {
+        location.reload();
+      });
+
+      document.getElementById('continue-btn').addEventListener('click', function() {
+        alertEl.style.display = 'none';
+        // 设置标志允许实验继续（无眼动功能）
+        cameraPermissionDenied = true;
+        // 继续执行实验流程
+        if (window.resumeExperiment) {
+          window.resumeExperiment();
+        }
+      });
+    }
+
+    /* ==== GitHub API 功能 ==== */
+
+    // 创建或获取Issue（带错误处理和重试机制） - 总共尝试2次
+    async function getOrCreateIssue(retries = 1) {
+      const issueTitle = `${userInfo.subjectId}`;
+
+      try {
+        // 使用AbortController实现超时
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+        const response = await fetch(API_BASE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'create_issue',
+            subjectId: userInfo.subjectId,
+            gender: userInfo.gender,
+            age: userInfo.age
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('GitHub API错误详情:', errorData);
+          throw new Error(`中转API返回错误: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error(`GitHub Issue操作失败(剩余重试次数: ${retries-1}):`, error);
+
+        // 如果还有重试次数，等待后重试
+        if (retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          return getOrCreateIssue(retries - 1);
+        }
+
+        throw error;
+      }
+    }
+
+    // 添加单条Issue评论 - 修改：重试次数改为1（即总共尝试2次）
+    async function addIssueComment(issueNumber, commentBody, retries = 1) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+        const response = await fetch(API_BASE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'add_comment',
+            issueNumber: issueNumber,
+            commentBody: commentBody
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('添加评论错误详情:', errorData);
+          throw new Error(`中转API返回错误: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error(`添加评论失败(剩余重试次数: ${retries-1}):`, error);
+
+        if (retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          return addIssueComment(issueNumber, commentBody, retries - 1);
+        }
+
+        throw error;
+      }
+    }
+
+    // 上传文件到GitHub仓库（支持分块上传）
+    async function uploadFileToGitHub(content, fileName, directory, retries = 1) {
+      const MAX_FILE_SIZE = 700 * 1024; // 700KB
+      const encoder = new TextEncoder();
+      const fileData = encoder.encode(content);
+      const totalSize = fileData.length;
+
+      try {
+        // 解析文件名和后缀
+        const lastDotIndex = fileName.lastIndexOf('.');
+        let baseName, extension;
+        if (lastDotIndex === -1) {
+          baseName = fileName;
+          extension = '';
+        } else {
+          baseName = fileName.substring(0, lastDotIndex);
+          extension = fileName.substring(lastDotIndex + 1);
+        }
+
+        // 如果文件小于最大限制，直接上传
+        if (totalSize <= MAX_FILE_SIZE) {
+          // 即使未分割也要标记part1
+          const newFileName = extension ? `${baseName}_part1.${extension}` : `${baseName}_part1`;
+          return await uploadFilePart(content, `${directory}/${newFileName}`, retries);
+        }
+
+        // 分割文件
+        let uploadPromises = [];
+        let partIndex = 1;
+        let startIndex = 0;
+
+        while (startIndex < totalSize) {
+          // 计算结束位置（尝试在换行符处分割）
+          let endIndex = Math.min(startIndex + MAX_FILE_SIZE, totalSize);
+
+          // 查找最近的换行符
+          while (endIndex < totalSize && fileData[endIndex] !== 10) { // 10是换行符的ASCII
+            endIndex++;
+          }
+
+          // 如果找不到换行符，使用最大位置
+          if (endIndex >= totalSize) {
+            endIndex = totalSize;
+          }
+
+          // 提取当前部分
+          const partData = fileData.slice(startIndex, endIndex);
+          const partContent = new TextDecoder().decode(partData);
+
+          // 生成文件名（添加分块编号）
+          const newFileName = extension ? `${baseName}_part${partIndex}.${extension}` : `${baseName}_part${partIndex}`;
+          const partFileName = `${directory}/${newFileName}`;
+
+          // 上传分块
+          uploadPromises.push(uploadFilePart(partContent, partFileName, retries));
+
+          // 移动到下一部分
+          startIndex = endIndex;
+          partIndex++;
+        }
+
+        // 等待所有上传完成
+        return await Promise.all(uploadPromises);
+      } catch (error) {
+        console.error(`文件上传失败(剩余重试次数: ${retries-1}):`, error);
+
+        if (retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          return uploadFileToGitHub(content, fileName, directory, retries - 1);
+        }
+
+        throw error;
+      }
+    }
+
+    // 上传单个文件分块到GitHub - 总共尝试2次
+    async function uploadFilePart(content, fileName, retries = 1) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+        const response = await fetch(API_BASE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'upload_file',
+            fileName: fileName,
+            content: content
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          throw new Error(`文件上传失败: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error(`文件分块上传失败(剩余重试次数: ${retries-1}):`, error);
+
+        if (retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          return uploadFilePart(content, fileName, retries - 1);
+        }
+
+        throw error;
+      }
+    }
+
+    // 生成GitHub评论内容（只包含数据点个数和实验时间）
+    function generateGitHubComment(dataPoints) {
+      // 获取当前日期时间
+      const now = new Date();
+      const dateTime = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+
+      return `## 第 ${userInfo.session} 次实验数据\n\n` +
+             `- **实验日期时间**: ${dateTime}\n` +
+             `- **眼动数据点总数**: ${dataPoints}\n`;
+    }
+
+    // 保存CSV到本地
+    function saveCSVToLocal(csvContent, fileName) {
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // 保存JSON到本地
+    function saveJSONToLocal(jsonContent, fileName) {
+      const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
 
     /* 生成图片列表 */
     // 食物图片：f文件夹（共20张）
@@ -263,6 +1067,153 @@
       });
     }
 
+    /* ==== 用户登录页面 ==== */
+    const loginScreen = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: function() {
+        // 获取当前被试的次数信息
+        let sessionInfo = "";
+        const subjectIdEl = document.getElementById('subject-id');
+        if (subjectIdEl && subjectIdEl.value) {
+          const subjectId = subjectIdEl.value;
+          const storedSession = localStorage.getItem(`session_${subjectId}`);
+          const currentSession = storedSession ? parseInt(storedSession) + 1 : 1;
+          sessionInfo = `<div class="session-display">这是您的第 <span>${currentSession}</span> 次实验</div>`;
+        }
+
+        return `
+          <div class="login-container">
+            <h2>实验用户登录</h2>
+            <div class="form-group">
+              <label for="subject-id">被试ID</label>
+              <select id="subject-id">
+                <option value="">请选择被试ID</option>
+                ${Array.from({length: 21}, (_, i) => {
+                  const id = `eye-${(i+1).toString().padStart(3, '0')}`;
+                  return `<option value="${id}">${id}</option>`;
+                }).join('')}
+              </select>
+            </div>
+            ${sessionInfo}
+            <div class="form-group">
+              <label for="gender">性别</label>
+              <select id="gender">
+                <option value="">请选择性别</option>
+                <option value="男">男</option>
+                <option value="女">女</option>
+                <option value="其他">其他</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="age">年龄</label>
+              <input type="number" id="age" min="18" max="60" placeholder="请输入年龄">
+            </div>
+            <button class="login-button" id="login-btn">开始实验</button>
+            <div id="login-status" style="margin-top: 15px;"></div>
+          </div>
+        `;
+      },
+      choices: [],
+      on_load: function() {
+        // 监听被试ID变化，更新次数显示并自动填充用户信息
+        document.getElementById('subject-id').addEventListener('change', function() {
+          const subjectId = this.value;
+          if (subjectId) {
+            const storedSession = localStorage.getItem(`session_${subjectId}`);
+            const currentSession = storedSession ? parseInt(storedSession) + 1 : 1;
+
+            // 创建或更新次数显示
+            let sessionDisplay = document.querySelector('.session-display');
+            if (!sessionDisplay) {
+              sessionDisplay = document.createElement('div');
+              sessionDisplay.className = 'session-display';
+              document.querySelector('.login-container').insertBefore(sessionDisplay, document.querySelector('.form-group:last-child'));
+            }
+            sessionDisplay.innerHTML = `这是您的第 <span>${currentSession}</span> 次实验`;
+
+            // 尝试获取存储的用户信息并自动填充
+            const userData = localStorage.getItem(`user_${subjectId}`);
+            if (userData) {
+              try {
+                const { gender, age } = JSON.parse(userData);
+                document.getElementById('gender').value = gender;
+                document.getElementById('age').value = age;
+              } catch (e) {
+                console.error('解析用户信息失败', e);
+              }
+            }
+          }
+        });
+
+        document.getElementById('login-btn').addEventListener('click', function() {
+          const subjectId = document.getElementById('subject-id').value;
+          const gender = document.getElementById('gender').value;
+          const age = document.getElementById('age').value;
+          const statusEl = document.getElementById('login-status');
+
+          if (!subjectId) {
+            statusEl.innerHTML = '<p style="color: #e74c3c;">请选择被试ID</p>';
+            return;
+          }
+          if (!gender) {
+            statusEl.innerHTML = '<p style="color: #e74c3c;">请选择性别</p>';
+            return;
+          }
+          if (!age) {
+            statusEl.innerHTML = '<p style="color: #e74c3c;">请输入年龄</p>';
+            return;
+          }
+
+          // 从localStorage获取当前次数
+          const storedSession = localStorage.getItem(`session_${subjectId}`);
+          const session = storedSession ? parseInt(storedSession) + 1 : 1;
+
+          // 保存用户信息
+          userInfo = {
+            subjectId,
+            session,
+            gender,
+            age: parseInt(age)
+          };
+
+          // 存储用户信息（性别和年龄）
+          localStorage.setItem(`user_${subjectId}`, JSON.stringify({ gender, age }));
+
+          // 显示成功信息
+          statusEl.innerHTML = '<p style="color: #27ae60;">验证通过，正在进入实验...</p>';
+
+          // 继续实验流程
+          setTimeout(() => {
+            jsPsych.finishTrial();
+          }, 1000);
+        });
+      }
+    };
+
+    const timeline = [];
+    timeline.push(loginScreen);
+
+    // 显示欢迎信息
+    timeline.push({
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: function() {
+        if (!userInfo) {
+          return `
+            <div class="centered-text">
+              <p>欢迎参与实验</p>
+              <p>按任意键继续</p>
+            </div>
+          `;
+        }
+        return `
+          <div class="centered-text">
+            <p>欢迎您参与第 ${userInfo.session} 次实验</p>
+            <p>按任意键继续</p>
+          </div>
+        `;
+      }
+    });
+
     /* 预加载资源 */
     const allImages = [...foodImages, ...bodyImages].map(img => img.src);
     const preload = {
@@ -279,8 +1230,6 @@
         </div>`;
       }
     };
-
-    const timeline = [];
     timeline.push(preload);
 
     /* ==== 校准相关的各个步骤 ==== */
@@ -288,26 +1237,82 @@
       type: jsPsychHtmlButtonResponse,
       stimulus: `
         <div class="centered-text">
-          <p>为了参与实验，您必须允许使用您的摄像头。</p>
+          <p>为了进行眼动追踪，我们需要访问您的摄像头。</p>
           <p>您将在下一屏幕收到权限请求。</p>
-          <p>如果您不同意使用摄像头，将无法参与本实验。</p>
-          <p>摄像头初始化可能需要最多30秒时间。</p>
+          <p class="warning">请务必点击"允许"，否则眼动追踪功能将无法工作。</p>
+          <p>摄像头仅用于分析您的眼部运动，不会保存任何视频数据。</p>
         </div>
       `,
-      choices: ['明白了']
+      choices: ['明白了'],
+      on_load: async function() {
+        // 提前检测权限
+        const cameraStatus = await checkCameraPermission();
+
+        // 如果权限有问题，显示错误提示
+        if (!cameraStatus.hasPermission || !cameraStatus.isSecure || !cameraStatus.hasMediaDevices) {
+          showPermissionError(cameraStatus);
+
+          // 保存继续实验的函数
+          window.resumeExperiment = () => {
+            jsPsych.finishTrial();
+          };
+
+          // 暂停实验直到用户操作
+          return false;
+        }
+      }
     };
     timeline.push(camera_instructions);
 
+    // 初始化摄像头（显示画面）
     const init_camera = {
       type: jsPsychWebgazerInitCamera,
-      on_failure: function() {
-        return `<div class="centered-text">
-          <p style="color: #e74c3c; font-weight: bold;">摄像头初始化失败</p>
-          <p>请检查摄像头是否可用或更换浏览器重试</p>
-        </div>`;
+      on_error: function() {
+        cameraPermissionDenied = true;
+        updateInitStatus('webgazer', '初始化失败', true);
+      },
+      on_load: function() {
+        updateInitStatus('webgazer', '初始化中...');
+      },
+      on_finish: function() {
+        if (!cameraPermissionDenied) {
+          updateInitStatus('webgazer', '已初始化');
+          webgazerInitialized = true;
+        }
       }
     };
     timeline.push(init_camera);
+
+    // 添加权限检查点
+    timeline.push({
+      type: jsPsychHtmlButtonResponse,
+      stimulus: '',
+      choices: [],
+      trial_duration: 100,
+      on_load: function() {
+        // 如果权限被拒绝，跳过眼动相关步骤
+        if (cameraPermissionDenied) {
+          // 直接跳转到实验说明
+          jsPsych.endCurrentTimeline();
+
+          // 显示警告
+          const warningHTML = `
+            <div class="centered-text">
+              <p class="warning">警告：摄像头权限未授予</p>
+              <p>眼动追踪功能已被禁用，实验将继续进行但不会记录眼动数据。</p>
+              <p>按任意键继续实验。</p>
+            </div>
+          `;
+
+          const warningTrial = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: warningHTML
+          };
+
+          jsPsych.addNodeToEndOfTimeline(warningTrial);
+        }
+      }
+    });
 
     const calibration_instructions = {
       type: jsPsychHtmlButtonResponse,
@@ -372,7 +1377,7 @@
       timeline: [recalibrate_instructions, calibration, validation_instructions, validation],
       conditional_function: function() {
         const val_data = jsPsych.data.get().filter({ task: 'validate' }).values()[0];
-        return val_data?.percent_in_roi?.some(x => x < 50) || false;
+        return val_data && val_data.percent_in_roi && val_data.percent_in_roi.some(x => x < 50);
       },
       data: { phase: 'recalibration' }
     };
@@ -426,8 +1431,6 @@
 
     const centralFixation = document.getElementById('central-fixation');
     const gazePoint = document.getElementById('gaze-point');
-    let gazeUpdateInterval;
-    let gazeData = []; // 存储每个试次的眼动数据
 
     // 开始眼动追踪并记录数据
     function startGazeTracking(trialData) {
@@ -486,7 +1489,7 @@
         }
       });
 
-      // 图片展示试次 - 修改为6秒
+      // 图片展示试次
       const foodTrial = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: function() {
@@ -496,21 +1499,21 @@
             </div>
           `;
         },
-        trial_duration: 6000,  // 呈现时间改为6秒
+        trial_duration: 6000,
         choices: "NO_KEYS",
         data: {
           task: 'view',
           phase: 'food',
           block: 'food_presentation',
           image_type: img.type,
-          image_attribute: img.attribute, // 记录低热量/高热量
-          image_position: img.position, // 记录目标属性在左侧
-          original_index: img.index, // 记录原始序号（1-20）
-          image_src: img.src, // 记录图片路径
+          image_attribute: img.attribute,
+          image_position: img.position,
+          original_index: img.index,
+          image_src: img.src,
           trial_index: index + 1,
           total_trials: shuffledFoodImages.length,
-          trial_start_time: null, // 将在试次开始时记录
-          gaze_data: null // 将在试次结束时记录
+          trial_start_time: null, // 将在on_start中设置
+          gaze_data: null
         },
         extensions: [
           {
@@ -519,14 +1522,33 @@
           }
         ],
         on_start: function(trial) {
-          // 记录试次开始时间
-          trial.data.trial_start_time = Date.now();
+          // 记录试次开始时间 - 修复点：直接存储到data对象
+          const startTime = Date.now();
+          trial.data.trial_start_time = startTime;
+          // 在试次对象上存储开始时间
+          this.trial_start_time = startTime;
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
           // 记录试次结束时间和眼动数据
-          data.trial_end_time = Date.now();
-          data.trial_duration_actual = data.trial_end_time - data.trial_start_time;
+          const endTime = Date.now();
+          data.trial_end_time = endTime;
+
+          // 确保有有效的开始时间
+          const startTime = this.trial_start_time;
+          if (startTime) {
+            data.trial_duration_actual = endTime - startTime;
+          } else {
+            // 如果开始时间无效，使用眼动数据的第一条时间戳（如果有）
+            if (gazeData.length > 0) {
+              data.trial_start_time = gazeData[0].timestamp;
+              data.trial_duration_actual = endTime - data.trial_start_time;
+            } else {
+              // 没有眼动数据，使用默认试次时长
+              data.trial_duration_actual = 6000;
+            }
+          }
+
           data.gaze_data = stopGazeTracking(); // 保存眼动数据
         }
       };
@@ -538,7 +1560,7 @@
           type: jsPsychHtmlKeyboardResponse,
           stimulus: '',
           choices: "NO_KEYS",
-          trial_duration: 2000,  // 休息2秒
+          trial_duration: 2000,
           data: {
             task: 'rest',
             phase: 'food',
@@ -573,7 +1595,7 @@
         }
       });
 
-      // 图片展示试次 - 修改为6秒
+      // 图片展示试次
       const bodyTrial = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: function() {
@@ -583,21 +1605,21 @@
             </div>
           `;
         },
-        trial_duration: 6000,  // 呈现时间改为6秒
+        trial_duration: 6000,
         choices: "NO_KEYS",
         data: {
           task: 'view',
           phase: 'body',
           block: 'body_presentation',
           image_type: img.type,
-          image_attribute: img.attribute, // 记录胖/瘦
-          image_position: img.position, // 记录目标属性在左侧
-          original_index: img.index, // 记录原始序号（1-25）
-          image_src: img.src, // 记录图片路径
+          image_attribute: img.attribute,
+          image_position: img.position,
+          original_index: img.index,
+          image_src: img.src,
           trial_index: index + 1,
           total_trials: shuffledBodyImages.length,
-          trial_start_time: null, // 将在试次开始时记录
-          gaze_data: null // 将在试次结束时记录
+          trial_start_time: null, // 将在on_start中设置
+          gaze_data: null
         },
         extensions: [
           {
@@ -606,14 +1628,33 @@
           }
         ],
         on_start: function(trial) {
-          // 记录试次开始时间
-          trial.data.trial_start_time = Date.now();
+          // 记录试次开始时间 - 修复点：直接存储到data对象
+          const startTime = Date.now();
+          trial.data.trial_start_time = startTime;
+          // 在试次对象上存储开始时间
+          this.trial_start_time = startTime;
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
           // 记录试次结束时间和眼动数据
-          data.trial_end_time = Date.now();
-          data.trial_duration_actual = data.trial_end_time - data.trial_start_time;
+          const endTime = Date.now();
+          data.trial_end_time = endTime;
+
+          // 确保有有效的开始时间
+          const startTime = this.trial_start_time;
+          if (startTime) {
+            data.trial_duration_actual = endTime - startTime;
+          } else {
+            // 如果开始时间无效，使用眼动数据的第一条时间戳（如果有）
+            if (gazeData.length > 0) {
+              data.trial_start_time = gazeData[0].timestamp;
+              data.trial_duration_actual = endTime - data.trial_start_time;
+            } else {
+              // 没有眼动数据，使用默认试次时长
+              data.trial_duration_actual = 6000;
+            }
+          }
+
           data.gaze_data = stopGazeTracking(); // 保存眼动数据
         }
       };
@@ -625,7 +1666,7 @@
           type: jsPsychHtmlKeyboardResponse,
           stimulus: '',
           choices: "NO_KEYS",
-          trial_duration: 2000,  // 休息2秒
+          trial_duration: 2000,
           data: {
             task: 'rest',
             phase: 'body',
@@ -658,23 +1699,33 @@
     timeline.push(phaseTransition);
     timeline.push({ timeline: bodyTrials });
 
-    /* ==== 结束页面 ==== */
-    const done = {
+    /* ==== 数据处理和GitHub上传 ==== */
+    const dataProcessingTrial = {
       type: jsPsychHtmlButtonResponse,
-      stimulus: `
-        <div class="centered-text">
-          <p>实验完成！</p>
-          <p>感谢您参与本实验。</p>
-          <p>如果您需要下载实验数据，请选择格式：</p>
-        </div>
-      `,
-      choices: ['下载 CSV', '下载 JSON'],
-      on_finish: function(data) {
-        // 准备要保存的数据
-        const allData = jsPsych.data.get().filter({task: 'view'}).values();
+      stimulus: function() {
+        return `
+          <div class="centered-text">
+            <p>实验完成！正在处理数据...</p>
+            <div class="status-message status-loading" id="status-message">
+              数据计算中，请稍候...
+            </div>
+          </div>
+        `;
+      },
+      choices: [],
+      on_load: async function() {
+        try {
+          const statusMessage = document.getElementById('status-message');
 
-        if (data.response === 0) {
-          // 对于CSV，我们需要将眼动数据格式化
+          // 收集所有实验数据
+          const allData = jsPsych.data.get().filter({task: 'view'}).values();
+
+          // 计算眼动数据点总数
+          const dataPoints = allData.reduce((total, trial) => {
+            return total + (trial.gaze_data ? trial.gaze_data.length : 0);
+          }, 0);
+
+          // 生成CSV数据
           const csvData = allData.map(trial => {
             // 基础信息
             const baseData = {
@@ -690,7 +1741,7 @@
               duration: trial.trial_duration_actual
             };
 
-            // 如果有眼动数据，添加第一条和最后一条作为示例（完整数据在JSON中）
+            // 如果有眼动数据，添加第一条和最后一条作为示例
             if (trial.gaze_data && trial.gaze_data.length > 0) {
               baseData.first_gaze_x = trial.gaze_data[0].x;
               baseData.first_gaze_y = trial.gaze_data[0].y;
@@ -702,16 +1753,249 @@
             return baseData;
           });
 
-          jsPsych.data.customWrite('csv', csvData, '进食障碍眼动程序数据.csv');
-        }
+          // 转换为CSV字符串
+          let csvContent = Object.keys(csvData[0]).join(',') + '\n';
+          csvData.forEach(row => {
+            csvContent += Object.values(row).join(',') + '\n';
+          });
 
-        if (data.response === 1) {
-          // JSON格式保存完整数据
-          jsPsych.data.customWrite('json', allData, '进食障碍眼动程序数据.json');
+          // 转换为JSON字符串
+          const jsonContent = JSON.stringify(allData, null, 2);
+
+          // 生成文件名（新格式：csv_eye-00X_01_part1）
+          const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
+          const sessionStr = userInfo.session.toString().padStart(2, '0');
+          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_part1.csv`;
+          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_part1.json`;
+
+          // 如果摄像头权限被拒绝，跳过GitHub上传
+          if (cameraPermissionDenied) {
+            statusMessage.className = "status-message status-error";
+            statusMessage.textContent = "眼动数据未记录（摄像头权限被拒绝）";
+            return;
+          }
+
+          // 上传数据的核心函数
+          const uploadData = async () => {
+            // 1. 创建或获取GitHub Issue（每个被试只创建一个）
+            statusMessage.textContent = "连接GitHub仓库...";
+            const issue = await getOrCreateIssue();
+
+            // 2. 生成GitHub评论内容
+            statusMessage.textContent = "生成数据报告...";
+            const commentBody = generateGitHubComment(dataPoints);
+
+            // 3. 添加评论到Issue（每次的数据作为一条评论）
+            statusMessage.textContent = "上传数据到GitHub Issues...";
+            await addIssueComment(issue.number, commentBody);
+
+            // 4. 上传CSV文件到data1目录（使用新文件名格式）
+            statusMessage.textContent = "上传CSV文件到data1目录...";
+            await uploadFileToGitHub(csvContent, csvFileName, 'data1');
+
+            // 5. 上传JSON文件到data2目录（使用新文件名格式）
+            statusMessage.textContent = "上传JSON文件到data2目录...";
+            await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
+
+            // 6. 更新次数记录
+            localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
+
+            // 7. 更新状态显示
+            statusMessage.className = "status-message status-success";
+            statusMessage.textContent = "数据上传成功！";
+
+            // 8. 显示数据报告和操作按钮
+            const content = `
+              <div class="centered-text">
+                <h2>第 ${userInfo.session} 次实验完成</h2>
+                <p>详细眼动数据已成功上传至GitHub仓库</p>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+                  <button class="copy-button" id="copy-btn">复制报告摘要</button>
+                  <button class="github-button" id="github-btn">查看GitHub记录</button>
+                  <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
+                  <button class="save-button" id="save-json-btn">保存JSON到本地</button>
+                  <button class="exit-button" id="exit-btn">退出实验</button>
+                </div>
+              </div>
+            `;
+
+            document.querySelector('.jspsych-content').innerHTML = content;
+
+            // 添加按钮事件
+            document.getElementById('copy-btn').addEventListener('click', function() {
+              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
+              navigator.clipboard.writeText(summary)
+                .then(() => alert('报告摘要已复制到剪贴板'))
+                .catch(err => console.error('复制失败:', err));
+            });
+
+            // GitHub查看权限验证
+            document.getElementById('github-btn').addEventListener('click', function() {
+              const authModal = document.getElementById('auth-modal');
+              const authError = document.getElementById('auth-error');
+              const authCode = document.getElementById('auth-code');
+
+              // 重置验证状态
+              authError.style.display = 'none';
+              authCode.value = '';
+
+              // 显示验证弹窗
+              authModal.style.display = 'flex';
+
+              // 确认按钮事件
+              document.getElementById('auth-confirm').onclick = function() {
+                if (authCode.value.toLowerCase() === 'eye') {
+                  window.open(issue.html_url, '_blank');
+                  authModal.style.display = 'none';
+                } else {
+                  authError.style.display = 'block';
+                }
+              };
+
+              // 返回按钮事件
+              document.getElementById('auth-cancel').onclick = function() {
+                authModal.style.display = 'none';
+              };
+            });
+
+            // 保存CSV到本地按钮（使用新文件名格式）
+            document.getElementById('save-csv-btn').addEventListener('click', function() {
+              saveCSVToLocal(csvContent, csvFileName);
+            });
+
+            // 保存JSON到本地按钮（使用新文件名格式）
+            document.getElementById('save-json-btn').addEventListener('click', function() {
+              saveJSONToLocal(jsonContent, jsonFileName);
+            });
+
+            // 退出实验按钮 - 改为刷新页面
+            document.getElementById('exit-btn').addEventListener('click', function() {
+              location.reload(); // 刷新页面回到登录界面
+            });
+          };
+
+          // 执行上传
+          await uploadData();
+
+        } catch (error) {
+          const statusMessage = document.getElementById('status-message');
+          statusMessage.className = "status-message status-error";
+          statusMessage.textContent = `数据处理失败: ${error.message}`;
+          console.error('完整错误信息:', error);
+
+          // 获取数据用于本地保存
+          const allData = jsPsych.data.get().filter({task: 'view'}).values();
+
+          // 生成CSV数据
+          const csvData = allData.map(trial => {
+            const baseData = {
+              trial_id: trial.trial_index,
+              phase: trial.phase,
+              image_type: trial.image_type,
+              image_attribute: trial.image_attribute,
+              image_position: trial.image_position,
+              original_index: trial.original_index,
+              image_src: trial.image_src,
+              start_time: trial.trial_start_time,
+              end_time: trial.trial_end_time,
+              duration: trial.trial_duration_actual
+            };
+            if (trial.gaze_data && trial.gaze_data.length > 0) {
+              baseData.first_gaze_x = trial.gaze_data[0].x;
+              baseData.first_gaze_y = trial.gaze_data[0].y;
+              baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
+              baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
+              baseData.gaze_samples = trial.gaze_data.length;
+            }
+            return baseData;
+          });
+
+          let csvContent = Object.keys(csvData[0]).join(',') + '\n';
+          csvData.forEach(row => {
+            csvContent += Object.values(row).join(',') + '\n';
+          });
+
+          const jsonContent = JSON.stringify(allData, null, 2);
+
+          // 生成新格式文件名
+          const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
+          const sessionStr = userInfo.session.toString().padStart(2, '0');
+          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_part1.csv`;
+          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_part1.json`;
+
+          // 显示错误恢复选项
+          document.querySelector('.jspsych-content').innerHTML += `
+            <div class="error-panel">
+              <h4>数据上传失败处理方案</h4>
+              <p>系统无法自动上传数据到服务器，请选择以下操作：</p>
+              <ul>
+                <li>检查您的网络连接后重试</li>
+                <li>保存数据到本地并稍后提交给实验负责人</li>
+                <li>退出实验并重新开始</li>
+              </ul>
+            </div>
+
+            <div style="margin-top: 20px; text-align: center;">
+              <button class="login-button" id="retry-btn">重试上传</button>
+              <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
+              <button class="save-button" id="save-json-btn">保存JSON到本地</button>
+              <button class="exit-button" id="exit-btn">退出实验</button>
+            </div>
+          `;
+
+          // 重试上传按钮
+          document.getElementById('retry-btn').addEventListener('click', async () => {
+            const statusMessage = document.getElementById('status-message');
+            statusMessage.className = "status-message status-loading";
+            statusMessage.textContent = "正在重试上传数据...";
+
+            try {
+              // 重新执行上传逻辑
+              const issue = await getOrCreateIssue();
+              const commentBody = generateGitHubComment(dataPoints);
+              await addIssueComment(issue.number, commentBody);
+              await uploadFileToGitHub(csvContent, csvFileName, 'data1');
+              await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
+
+              // 更新次数记录
+              localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
+
+              statusMessage.className = "status-message status-success";
+              statusMessage.textContent = "数据上传成功！";
+
+              // 刷新页面
+              setTimeout(() => location.reload(), 2000);
+
+            } catch (retryError) {
+              statusMessage.className = "status-message status-error";
+              statusMessage.textContent = `重试失败: ${retryError.message}`;
+              console.error('重试错误信息:', retryError);
+            }
+          });
+
+          // 保存CSV按钮（使用新文件名格式）
+          document.getElementById('save-csv-btn').addEventListener('click', function() {
+            saveCSVToLocal(csvContent, csvFileName);
+            // 更新实验次数
+            localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
+          });
+
+          // 保存JSON按钮（使用新文件名格式）
+          document.getElementById('save-json-btn').addEventListener('click', function() {
+            saveJSONToLocal(jsonContent, jsonFileName);
+            // 更新实验次数
+            localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
+          });
+
+          // 退出实验按钮 - 改为刷新页面
+          document.getElementById('exit-btn').addEventListener('click', function() {
+            location.reload(); // 刷新页面回到登录界面
+          });
         }
       }
     };
-    timeline.push(done);
+
+    timeline.push(dataProcessingTrial);
 
     /* ==== 运行实验 ==== */
     jsPsych.run(timeline);
