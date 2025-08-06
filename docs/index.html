@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>进食障碍眼动程序</title>
+
+  <!-- 引入 Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- jsPsych 相关脚本 -->
+  <script src="https://unpkg.com/jspsych@8.0.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-webgazer-init-camera@2.0.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-webgazer-calibrate@2.0.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-webgazer-validate@2.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jspsych/jspsych@jspsych@7.0.0/examples/js/webgazer/webgazer.js"></script>
+  <script src="https://unpkg.com/@jspsych/extension-webgazer@1.0.3"></script>
+
+  <style>
+    /* 全局样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Roboto', 'Microsoft YaHei', sans-serif;
+      background: #f5f6f8;
+      color: #333;
+      overflow: hidden;
+    }
+
+    /* 顶部导航栏 */
+    .header {
+      width: 100%;
+      background: linear-gradient(90deg, #2c3e50, #4b6082);
+      padding: 15px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+    }
+    .header h1 {
+      color: #fff;
+      font-weight: 500;
+      font-size: 1.6rem;
+      letter-spacing: 1px;
+    }
+
+    /* 内容容器 */
+    #jspsych-target {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 70px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f6f8;
+    }
+    #jspsych-target .jspsych-display-element {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f6f8;
+    }
+    #jspsych-target .jspsych-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-height: 100%;
+    }
+
+    /* 图片展示区 */
+    .stimulus-container {
+      width: 80%;
+      max-width: 1000px;
+      height: 70vh;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stimulus-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    /* 中央固定十字 */
+    .central-fixation {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 80px;
+      color: #555;
+      -webkit-user-select: none;
+      user-select: none;
+      z-index: 999;
+      display: none;
+    }
+
+    /* 眼动追踪注视点 - 已禁用显示 */
+    .gaze-point {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      display: none;
+    }
+
+    /* 按钮样式 */
+    button {
+      background: linear-gradient(90deg, #2980b9, #3498db);
+      border: none;
+      color: #fff;
+      padding: 14px 36px;
+      text-align: center;
+      font-size: 1rem;
+      margin: 6px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    button:hover {
+      background: linear-gradient(90deg, #2572a5, #2c82c2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .jspsych-html-button-response .jspsych-button-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    /* 居中文字模块 */
+    .centered-text {
+      text-align: center;
+      padding: 20px 30px;
+      color: #444;
+      line-height: 1.6;
+    }
+    .centered-text p {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* 结束页面下载按钮区 */
+    .footer-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    /* 页脚 */
+    .footer {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #888;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 顶部导航栏 -->
+  <div class="header">
+    <h1>进食障碍眼动程序</h1>
+  </div>
+
+  <!-- 中央固定十字 -->
+  <div id="central-fixation" class="central-fixation">+</div>
+
+  <!-- 眼动追踪注视点（已禁用显示） -->
+  <div id="gaze-point" class="gaze-point"></div>
+
+  <!-- jsPsych 渲染目标容器 -->
+  <div id="jspsych-target"></div>
+
+  <!-- 页脚 -->
+  <div class="footer">2025 北京师范大学 Eye—ED 项目组联合出品。</div>
+
+  <script>
+    /* 初始化 jsPsych */
+    const jsPsych = initJsPsych({
+      display_element: 'jspsych-target',
+      extensions: [
+        {
+          type: jsPsychExtensionWebgazer,
+          params: {
+            capture_events: ['gaze'], // 捕获眼动事件
+            sampling_rate: 50 // 每秒采样50次
+          }
+        }
+      ],
+      on_trial_finish: function(data) {
+        // 在每个试次结束时记录额外信息
+        if (data.task === 'view') {
+          console.log(`试次 ${data.trial_index} 完成:`, data);
+        }
+      }
+    });
+
+    /* 生成图片列表 */
+    // 食物图片：f文件夹（共20张）
+    // 前8张：左侧低热量；后12张：左侧高热量
+    const foodImages = [];
+    const totalFood = 20;
+    const lowCalorieCount = 8; // 前8张为左侧低热量
+    for (let i = 1; i <= totalFood; i++) {
+      const isLowCalorie = i <= lowCalorieCount;
+      foodImages.push({
+        src: `f/${i}.jpg`, // 图片路径：f文件夹下
+        type: 'food',
+        attribute: isLowCalorie ? 'low_calorie' : 'high_calorie', // 标记高低热量
+        position: 'left', // 左侧为目标属性（低/高热量）
+        index: i // 原始序号
+      });
+    }
+
+    // 身材图片：b文件夹（共25张）
+    // 前11张：左侧胖；后14张：左侧瘦
+    const bodyImages = [];
+    const totalBody = 25;
+    const fatCount = 11; // 前11张为左侧胖
+    for (let i = 1; i <= totalBody; i++) {
+      const isFat = i <= fatCount;
+      bodyImages.push({
+        src: `b/${i}.jpg`, // 图片路径：b文件夹下
+        type: 'body',
+        attribute: isFat ? 'fat' : 'thin', // 标记胖/瘦
+        position: 'left', // 左侧为目标属性（胖/瘦）
+        index: i // 原始序号
+      });
+    }
+
+    /* 预加载资源 */
+    const allImages = [...foodImages, ...bodyImages].map(img => img.src);
+    const preload = {
+      type: jsPsychPreload,
+      images: allImages,
+      message: '<div class="centered-text"><p>正在加载资源，请稍候…</p></div>',
+      on_error: function(failed_resources) {
+        const resources = Array.isArray(failed_resources) ? failed_resources : [failed_resources];
+        const errorList = resources.map(r => `<p>• 资源加载失败: ${r.url || r}</p>`).join('');
+        return `<div class="centered-text">
+          <p style="color: #e74c3c; font-weight: bold;">资源加载错误：</p>
+          ${errorList}
+          <p>请检查文件是否存在于正确路径</p>
+        </div>`;
+      }
+    };
+
+    const timeline = [];
+    timeline.push(preload);
+
+    /* ==== 校准相关的各个步骤 ==== */
+    const camera_instructions = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>为了参与实验，您必须允许使用您的摄像头。</p>
+          <p>您将在下一屏幕收到权限请求。</p>
+          <p>如果您不同意使用摄像头，将无法参与本实验。</p>
+          <p>摄像头初始化可能需要最多30秒时间。</p>
+        </div>
+      `,
+      choices: ['明白了']
+    };
+    timeline.push(camera_instructions);
+
+    const init_camera = {
+      type: jsPsychWebgazerInitCamera,
+      on_failure: function() {
+        return `<div class="centered-text">
+          <p style="color: #e74c3c; font-weight: bold;">摄像头初始化失败</p>
+          <p>请检查摄像头是否可用或更换浏览器重试</p>
+        </div>`;
+      }
+    };
+    timeline.push(init_camera);
+
+    const calibration_instructions = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>现在将进行眼动校准，以便软件使用您的眼部图像预测您的注视位置。</p>
+          <p>您将看到一系列圆点出现在屏幕上。请注视每个圆点并点击它。</p>
+        </div>
+      `,
+      choices: ['明白了']
+    };
+    timeline.push(calibration_instructions);
+
+    const calibration = {
+      type: jsPsychWebgazerCalibrate,
+      calibration_points: [
+        [25, 25], [75, 25], [50, 50], [25, 75], [75, 75]
+      ],
+      repetitions_per_point: 2,
+      randomize_calibration_order: true
+    };
+    timeline.push(calibration);
+
+    const validation_instructions = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>现在我们将测量校准的准确性。</p>
+          <p>请注视屏幕上出现的每个圆点。</p>
+          <p style="font-weight: bold;">这次您不需要点击圆点。</p>
+        </div>
+      `,
+      choices: ['明白了'],
+      post_trial_gap: 1000
+    };
+    timeline.push(validation_instructions);
+
+    const validation = {
+      type: jsPsychWebgazerValidate,
+      validation_points: [
+        [25, 25], [75, 25], [50, 50], [25, 75], [75, 75]
+      ],
+      roi_radius: 200,
+      time_to_saccade: 1000,
+      validation_duration: 2000,
+      data: { task: 'validate' }
+    };
+    timeline.push(validation);
+
+    const recalibrate_instructions = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>校准的准确性低于预期水平。</p>
+          <p>让我们再尝试校准一次。</p>
+          <p>在下一屏幕，请注视圆点并点击它们。</p>
+        </div>
+      `,
+      choices: ['好的']
+    };
+    const recalibrate = {
+      timeline: [recalibrate_instructions, calibration, validation_instructions, validation],
+      conditional_function: function() {
+        const val_data = jsPsych.data.get().filter({ task: 'validate' }).values()[0];
+        return val_data?.percent_in_roi?.some(x => x < 50) || false;
+      },
+      data: { phase: 'recalibration' }
+    };
+    timeline.push(recalibrate);
+
+    const calibration_done = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>太好了，校准已完成！</p>
+          <p>接下来将开始实验，请注视屏幕中央的十字，然后观看图片。</p>
+        </div>
+      `,
+      choices: ['继续']
+    };
+    timeline.push(calibration_done);
+
+    /* ==== 欢迎页 和 实验说明 ==== */
+    const welcome = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>欢迎参加进食障碍眼动程序。按任意键继续。</p>
+        </div>
+      `
+    };
+    timeline.push(welcome);
+
+    const instructions = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>在实验中，您将先后观看两类对比图片：食物图片和身材图片。</p>
+          <p>食物图片展示左侧低热量/高热量食物的对比，身材图片展示左侧胖/瘦身材的对比。</p>
+          <p>每张图片将呈现6秒，图片之间休息2秒。</p>
+          <p>请按任意键开始实验。</p>
+        </div>
+      `,
+      post_trial_gap: 2000
+    };
+    timeline.push(instructions);
+
+    /* ==== 构建实验试次 ==== */
+    // 1. 食物图片试次（随机呈现所有食物图片）
+    const shuffledFoodImages = jsPsych.randomization.shuffle(foodImages); // 随机排序
+    const foodTrials = [];
+
+    // 2. 身材图片试次（随机呈现所有身材图片）
+    const shuffledBodyImages = jsPsych.randomization.shuffle(bodyImages); // 随机排序
+    const bodyTrials = [];
+
+    const centralFixation = document.getElementById('central-fixation');
+    const gazePoint = document.getElementById('gaze-point');
+    let gazeUpdateInterval;
+    let gazeData = []; // 存储每个试次的眼动数据
+
+    // 开始眼动追踪并记录数据
+    function startGazeTracking(trialData) {
+      if (gazeUpdateInterval) clearInterval(gazeUpdateInterval);
+      gazeData = []; // 重置眼动数据数组
+
+      // 每20ms记录一次眼动数据（50Hz采样率）
+      gazeUpdateInterval = setInterval(() => {
+        if (webgazer) {
+          webgazer.getCurrentPrediction().then(function(pred) {
+            if (pred) {
+              gazeData.push({
+                timestamp: Date.now(),
+                trial_start_time: trialData.trial_start_time,
+                relative_time: Date.now() - trialData.trial_start_time,
+                x: pred.x,
+                y: pred.y,
+                confidence: pred.confidence || null
+              });
+            }
+          });
+        }
+      }, 20);
+    }
+
+    // 停止眼动追踪并保存数据
+    function stopGazeTracking() {
+      if (gazeUpdateInterval) {
+        clearInterval(gazeUpdateInterval);
+        gazeUpdateInterval = null;
+      }
+      gazePoint.style.display = 'none';
+      return gazeData; // 返回收集的眼动数据
+    }
+
+    // 生成食物试次
+    shuffledFoodImages.forEach((img, index) => {
+      // 注视点试次
+      foodTrials.push({
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: '',
+        choices: "NO_KEYS",
+        trial_duration: jsPsych.randomization.sampleWithoutReplacement([800, 1000, 1200], 1)[0],
+        data: {
+          task: 'fixation',
+          phase: 'food',
+          block: 'food_presentation',
+          trial_index: index + 1,
+          total_trials: shuffledFoodImages.length
+        },
+        on_start: function() {
+          centralFixation.style.display = 'block';
+        },
+        on_finish: function() {
+          centralFixation.style.display = 'none';
+        }
+      });
+
+      // 图片展示试次 - 修改为6秒
+      const foodTrial = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function() {
+          return `
+            <div class="stimulus-container">
+              <img src="${img.src}" class="stimulus-image" alt="食物对比图片" />
+            </div>
+          `;
+        },
+        trial_duration: 6000,  // 呈现时间改为6秒
+        choices: "NO_KEYS",
+        data: {
+          task: 'view',
+          phase: 'food',
+          block: 'food_presentation',
+          image_type: img.type,
+          image_attribute: img.attribute, // 记录低热量/高热量
+          image_position: img.position, // 记录目标属性在左侧
+          original_index: img.index, // 记录原始序号（1-20）
+          image_src: img.src, // 记录图片路径
+          trial_index: index + 1,
+          total_trials: shuffledFoodImages.length,
+          trial_start_time: null, // 将在试次开始时记录
+          gaze_data: null // 将在试次结束时记录
+        },
+        extensions: [
+          {
+            type: jsPsychExtensionWebgazer,
+            params: { targets: ['.stimulus-container'] }
+          }
+        ],
+        on_start: function(trial) {
+          // 记录试次开始时间
+          trial.data.trial_start_time = Date.now();
+          startGazeTracking(trial.data);
+        },
+        on_finish: function(data) {
+          // 记录试次结束时间和眼动数据
+          data.trial_end_time = Date.now();
+          data.trial_duration_actual = data.trial_end_time - data.trial_start_time;
+          data.gaze_data = stopGazeTracking(); // 保存眼动数据
+        }
+      };
+      foodTrials.push(foodTrial);
+
+      // 试次间休息（最后一个试次后不休息）
+      if (index < shuffledFoodImages.length - 1) {
+        foodTrials.push({
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: '',
+          choices: "NO_KEYS",
+          trial_duration: 2000,  // 休息2秒
+          data: {
+            task: 'rest',
+            phase: 'food',
+            block: 'food_presentation',
+            trial_index: index + 1,
+            total_trials: shuffledFoodImages.length
+          }
+        });
+      }
+    });
+
+    // 生成身材试次
+    shuffledBodyImages.forEach((img, index) => {
+      // 注视点试次
+      bodyTrials.push({
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: '',
+        choices: "NO_KEYS",
+        trial_duration: jsPsych.randomization.sampleWithoutReplacement([800, 1000, 1200], 1)[0],
+        data: {
+          task: 'fixation',
+          phase: 'body',
+          block: 'body_presentation',
+          trial_index: index + 1,
+          total_trials: shuffledBodyImages.length
+        },
+        on_start: function() {
+          centralFixation.style.display = 'block';
+        },
+        on_finish: function() {
+          centralFixation.style.display = 'none';
+        }
+      });
+
+      // 图片展示试次 - 修改为6秒
+      const bodyTrial = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function() {
+          return `
+            <div class="stimulus-container">
+              <img src="${img.src}" class="stimulus-image" alt="身材对比图片" />
+            </div>
+          `;
+        },
+        trial_duration: 6000,  // 呈现时间改为6秒
+        choices: "NO_KEYS",
+        data: {
+          task: 'view',
+          phase: 'body',
+          block: 'body_presentation',
+          image_type: img.type,
+          image_attribute: img.attribute, // 记录胖/瘦
+          image_position: img.position, // 记录目标属性在左侧
+          original_index: img.index, // 记录原始序号（1-25）
+          image_src: img.src, // 记录图片路径
+          trial_index: index + 1,
+          total_trials: shuffledBodyImages.length,
+          trial_start_time: null, // 将在试次开始时记录
+          gaze_data: null // 将在试次结束时记录
+        },
+        extensions: [
+          {
+            type: jsPsychExtensionWebgazer,
+            params: { targets: ['.stimulus-container'] }
+          }
+        ],
+        on_start: function(trial) {
+          // 记录试次开始时间
+          trial.data.trial_start_time = Date.now();
+          startGazeTracking(trial.data);
+        },
+        on_finish: function(data) {
+          // 记录试次结束时间和眼动数据
+          data.trial_end_time = Date.now();
+          data.trial_duration_actual = data.trial_end_time - data.trial_start_time;
+          data.gaze_data = stopGazeTracking(); // 保存眼动数据
+        }
+      };
+      bodyTrials.push(bodyTrial);
+
+      // 试次间休息（最后一个试次后不休息）
+      if (index < shuffledBodyImages.length - 1) {
+        bodyTrials.push({
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: '',
+          choices: "NO_KEYS",
+          trial_duration: 2000,  // 休息2秒
+          data: {
+            task: 'rest',
+            phase: 'body',
+            block: 'body_presentation',
+            trial_index: index + 1,
+            total_trials: shuffledBodyImages.length
+          }
+        });
+      }
+    });
+
+    // 阶段过渡提示（从食物到身材）
+    const phaseTransition = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>食物图片观看完毕</p>
+          <p>接下来将呈现身材对比图片</p>
+        </div>
+      `,
+      choices: ['继续'],
+      data: {
+        task: 'transition',
+        phase: 'between_blocks'
+      }
+    };
+
+    // 按顺序添加到主时间线：先食物试次，再过渡，再身材试次
+    timeline.push({ timeline: foodTrials });
+    timeline.push(phaseTransition);
+    timeline.push({ timeline: bodyTrials });
+
+    /* ==== 结束页面 ==== */
+    const done = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>实验完成！</p>
+          <p>感谢您参与本实验。</p>
+          <p>如果您需要下载实验数据，请选择格式：</p>
+        </div>
+      `,
+      choices: ['下载 CSV', '下载 JSON'],
+      on_finish: function(data) {
+        // 准备要保存的数据
+        const allData = jsPsych.data.get().filter({task: 'view'}).values();
+
+        if (data.response === 0) {
+          // 对于CSV，我们需要将眼动数据格式化
+          const csvData = allData.map(trial => {
+            // 基础信息
+            const baseData = {
+              trial_id: trial.trial_index,
+              phase: trial.phase,
+              image_type: trial.image_type,
+              image_attribute: trial.image_attribute,
+              image_position: trial.image_position,
+              original_index: trial.original_index,
+              image_src: trial.image_src,
+              start_time: trial.trial_start_time,
+              end_time: trial.trial_end_time,
+              duration: trial.trial_duration_actual
+            };
+
+            // 如果有眼动数据，添加第一条和最后一条作为示例（完整数据在JSON中）
+            if (trial.gaze_data && trial.gaze_data.length > 0) {
+              baseData.first_gaze_x = trial.gaze_data[0].x;
+              baseData.first_gaze_y = trial.gaze_data[0].y;
+              baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
+              baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
+              baseData.gaze_samples = trial.gaze_data.length;
+            }
+
+            return baseData;
+          });
+
+          jsPsych.data.customWrite('csv', csvData, '进食障碍眼动程序数据.csv');
+        }
+
+        if (data.response === 1) {
+          // JSON格式保存完整数据
+          jsPsych.data.customWrite('json', allData, '进食障碍眼动程序数据.json');
+        }
+      }
+    };
+    timeline.push(done);
+
+    /* ==== 运行实验 ==== */
+    jsPsych.run(timeline);
+  </script>
+</body>
+</html>
