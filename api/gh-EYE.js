@@ -1,6 +1,8 @@
 // api/gh-EYE.js
+const { Octokit } = require('@octokit/rest');
+
 module.exports = async (req, res) => {
-  // 动态设置CORS头部 - 根据请求来源设置单个值
+  // 动态设置CORS头部
   const allowedOrigins = [
     'https://enqiliu66.github.io',
     'http://localhost:5500',
@@ -15,7 +17,7 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Max-Age', '86400');
-  res.setHeader('Vary', 'Origin'); // 添加Vary头
+  res.setHeader('Vary', 'Origin');
 
   // 处理预检请求
   if (req.method === 'OPTIONS') {
@@ -35,20 +37,6 @@ module.exports = async (req, res) => {
 
   try {
     const { action } = req.body;
-    let Octokit;
-
-    // 动态导入 @octokit/rest 模块
-    try {
-      const octokitModule = await import('@octokit/rest');
-      Octokit = octokitModule.Octokit;
-    } catch (importError) {
-      console.error('模块导入失败:', importError);
-      return res.status(500).json({
-        error: '服务器模块加载失败',
-        message: `无法加载Octokit模块: ${importError.message}`
-      });
-    }
-
     const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
     switch (action) {
@@ -62,12 +50,12 @@ module.exports = async (req, res) => {
         }
 
         // 搜索现有issue
-        const { data: { items } } = await octokit.search.issuesAndPullRequests({
+        const { data: searchResults } = await octokit.search.issuesAndPullRequests({
           q: `repo:${process.env.GITHUB_REPO_OWNER}/${process.env.GITHUB_REPO_NAME} in:title ${subjectId} type:issue`
         });
 
-        if (items.length > 0) {
-          return res.json({ ...items[0], message: 'Issue已存在' });
+        if (searchResults.items.length > 0) {
+          return res.json({ ...searchResults.items[0], message: 'Issue已存在' });
         }
 
         // 创建新issue
@@ -114,19 +102,13 @@ module.exports = async (req, res) => {
 
         try {
           // 尝试获取文件以检查是否存在
-          await octokit.repos.getContent({
-            owner: process.env.GITHUB_REPO_OWNER,
-            repo: process.env.GITHUB_REPO_NAME,
-            path: fullPath
-          });
-
-          // 文件存在，更新文件
           const { data: existingFile } = await octokit.repos.getContent({
             owner: process.env.GITHUB_REPO_OWNER,
             repo: process.env.GITHUB_REPO_NAME,
             path: fullPath
           });
 
+          // 文件存在，更新文件
           const { data: updatedFile } = await octokit.repos.createOrUpdateFileContents({
             owner: process.env.GITHUB_REPO_OWNER,
             repo: process.env.GITHUB_REPO_NAME,
