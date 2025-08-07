@@ -1,19 +1,9 @@
-// api/gh-EYE.js
+// api/gh-eye.js
 const { Octokit } = require('@octokit/rest');
 
 module.exports = async (req, res) => {
-  // 动态设置CORS头部
-  const allowedOrigins = [
-    'https://enqiliu66.github.io',
-    'http://localhost:5500',
-    'http://localhost:3000'
-  ];
-
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-
+  // 设置CORS头部
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Max-Age', '86400');
@@ -154,10 +144,15 @@ module.exports = async (req, res) => {
   } catch (error) {
     console.error('API错误:', error);
 
-    // 提供更详细的错误信息
-    let errorMessage = error.message || error.toString();
+    // 友好的错误消息
+    let errorMessage = 'GitHub API处理失败';
     if (error.response) {
-      errorMessage += ` | GitHub API响应: ${JSON.stringify(error.response.data)}`;
+      errorMessage += ` | 状态码: ${error.response.status}`;
+      if (error.response.data && error.response.data.message) {
+        errorMessage += ` | 消息: ${error.response.data.message}`;
+      }
+    } else {
+      errorMessage += ` | 详情: ${error.message}`;
     }
 
     return res.status(500).json({
