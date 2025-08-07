@@ -1,165 +1,216 @@
-// api/gh-eye.js
 const { Octokit } = require('@octokit/rest');
+const crypto = require('crypto');
 
-module.exports = async (req, res) => {
-  // 设置CORS头部 - 增强版
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-  res.setHeader('Access-Control-Max-Age', '86400');
-  res.setHeader('Vary', 'Origin');
+// 初始化Octokit客户端
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+  userAgent: 'Eye Tracking Data Proxy',
+  baseUrl: 'https://api.github.com',
+});
+
+// 获取环境变量配置
+const GITHUB_OWNER = process.env.GITHUB_OWNER;
+const GITHUB_REPO = process.env.GITHUB_REPO;
+
+// 处理CORS预检请求
+function handleOptions(req, res) {
+  res.writeHead(204, {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  });
+  res.end();
+}
+
+// 创建或获取Issue
+async function handleCreateIssue(body) {
+  const { subjectId, gender, age } = body;
   
-  // 特殊处理OPTIONS预检请求
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Content-Length', '0');
-    return res.status(204).end();
+  if (!subjectId) {
+    throw new Error('缺少被试ID(subjectId)');
   }
 
-  // 验证环境变量
-  const requiredEnvVars = ['GITHUB_TOKEN', 'GITHUB_REPO_OWNER', 'GITHUB_REPO_NAME'];
-  const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+  // 查找是否已有相同标题的Issue
+  const { data: issues } = await octokit.rest.issues.listForRepo({
+    owner: GITHUB_OWNER,
+    repo: GITHUB_REPO,
+    state: 'all',
+    per_page: 100,
+  });
 
-  if (missingVars.length > 0) {
-    return res.status(500).json({
-      error: '服务器配置不完整',
-      message: `缺少环境变量: ${missingVars.join(', ')}`
+  const existingIssue = issues.find(issue => issue.title === subjectId);
+  
+  if (existingIssue) {
+    return {
+      success: true,
+      issue: {
+        number: existingIssue.number,
+        html_url: existingIssue.html_url,
+        title: existingIssue.title
+      }
+    };
+  }
+
+  // 创建新Issue
+  const issueBody = `
+被试ID: ${subjectId}
+性别: ${gender || '未提供'}
+年龄: ${age || '未提供'}
+实验数据记录:
+`;
+
+  const { data: newIssue } = await octokit.rest.issues.create({
+    owner: GITHUB_OWNER,
+    repo: GITHUB_REPO,
+    title: subjectId,
+    body: issueBody.trim(),
+  });
+
+  return {
+    success: true,
+    issue: {
+      number: newIssue.number,
+      html_url: newIssue.html_url,
+      title: newIssue.title
+    }
+  };
+}
+
+// 添加Issue评论
+async function handleAddComment(body) {
+  const { issueNumber, commentBody } = body;
+  
+  if (!issueNumber || !commentBody) {
+    throw new Error('缺少issueNumber或commentBody参数');
+  }
+
+  const { data: comment } = await octokit.rest.issues.createComment({
+    owner: GITHUB_OWNER,
+    repo: GITHUB_REPO,
+    issue_number: issueNumber,
+    body: commentBody,
+  });
+
+  return {
+    success: true,
+    comment: {
+      id: comment.id,
+      html_url: comment.html_url
+    }
+  };
+}
+
+// 上传文件到GitHub
+async function handleUploadFile(body) {
+  const { fileName, content, directory } = body;
+  
+  if (!fileName || !content) {
+    throw new Error('缺少fileName或content参数');
+  }
+
+  // 构建完整文件路径
+  const fullPath = directory ? `${directory}/${fileName}` : fileName;
+  
+  try {
+    // 尝试获取现有文件信息
+    const { data: existingFile } = await octokit.rest.repos.getContent({
+      owner: GITHUB_OWNER,
+      repo: GITHUB_REPO,
+      path: fullPath,
+    });
+
+    // 如果文件存在，更新它
+    const { data: updatedFile } = await octokit.rest.repos.createOrUpdateFileContents({
+      owner: GITHUB_OWNER,
+      repo: GITHUB_REPO,
+      path: fullPath,
+      message: `Update ${fullPath}`,
+      content: Buffer.from(content).toString('base64'),
+      sha: existingFile.sha,
+    });
+
+    return {
+      success: true,
+      file: {
+        sha: updatedFile.content.sha,
+        html_url: updatedFile.content.html_url,
+        path: updatedFile.content.path
+      }
+    };
+  } catch (error) {
+    // 如果文件不存在，创建新文件
+    if (error.status === 404) {
+      const { data: newFile } = await octokit.rest.repos.createOrUpdateFileContents({
+        owner: GITHUB_OWNER,
+        repo: GITHUB_REPO,
+        path: fullPath,
+        message: `Create ${fullPath}`,
+        content: Buffer.from(content).toString('base64'),
+      });
+
+      return {
+        success: true,
+        file: {
+          sha: newFile.content.sha,
+          html_url: newFile.content.html_url,
+          path: newFile.content.path
+        }
+      };
+    }
+    throw error;
+  }
+}
+
+// 主处理函数
+module.exports = async (req, res) => {
+  // 处理预检请求
+  if (req.method === 'OPTIONS') {
+    return handleOptions(req, res);
+  }
+
+  // 只接受POST请求
+  if (req.method !== 'POST') {
+    return res.status(405).json({
+      success: false,
+      error: '方法不允许，仅支持POST请求'
     });
   }
 
   try {
-    const { action } = req.body;
-    const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+    const body = req.body;
+    
+    if (!body || !body.action) {
+      return res.status(400).json({
+        success: false,
+        error: '缺少action参数'
+      });
+    }
 
-    switch (action) {
-      case 'create_issue': {
-        const { subjectId, gender, age } = req.body;
-        if (!subjectId) {
-          return res.status(400).json({
-            error: '缺少参数',
-            message: '被试ID (subjectId)为必填项'
-          });
-        }
-
-        // 搜索现有issue
-        const { data: searchResults } = await octokit.search.issuesAndPullRequests({
-          q: `repo:${process.env.GITHUB_REPO_OWNER}/${process.env.GITHUB_REPO_NAME} in:title ${subjectId} type:issue`
-        });
-
-        if (searchResults.items.length > 0) {
-          return res.json({ ...searchResults.items[0], message: 'Issue已存在' });
-        }
-
-        // 创建新issue
-        const { data: newIssue } = await octokit.issues.create({
-          owner: process.env.GITHUB_REPO_OWNER,
-          repo: process.env.GITHUB_REPO_NAME,
-          title: subjectId,
-          body: `被试信息:\n- 性别: ${gender || '未知'}\n- 年龄: ${age || '未知'}\n- 实验开始时间: ${new Date().toISOString()}`
-        });
-
-        return res.json(newIssue);
-      }
-
-      case 'add_comment': {
-        const { issueNumber, commentBody } = req.body;
-        if (!issueNumber || !commentBody) {
-          return res.status(400).json({
-            error: '缺少参数',
-            message: 'Issue编号和评论内容均为必填项'
-          });
-        }
-
-        const { data: comment } = await octokit.issues.createComment({
-          owner: process.env.GITHUB_REPO_OWNER,
-          repo: process.env.GITHUB_REPO_NAME,
-          issue_number: issueNumber,
-          body: commentBody
-        });
-
-        return res.json(comment);
-      }
-
-      case 'upload_file': {
-        const { fileName, content, directory } = req.body;
-        if (!fileName || !content || !directory) {
-          return res.status(400).json({
-            error: '缺少参数',
-            message: '文件名、内容和目录均为必填项'
-          });
-        }
-
-        // 构建完整文件路径
-        const fullPath = `${directory}/${fileName}`;
-
-        try {
-          // 尝试获取文件以检查是否存在
-          const { data: existingFile } = await octokit.repos.getContent({
-            owner: process.env.GITHUB_REPO_OWNER,
-            repo: process.env.GITHUB_REPO_NAME,
-            path: fullPath
-          });
-
-          // 文件存在，更新文件
-          const { data: updatedFile } = await octokit.repos.createOrUpdateFileContents({
-            owner: process.env.GITHUB_REPO_OWNER,
-            repo: process.env.GITHUB_REPO_NAME,
-            path: fullPath,
-            message: `更新数据文件: ${fileName}`,
-            content: Buffer.from(content).toString('base64'),
-            sha: existingFile.sha
-          });
-
-          return res.json({
-            ...updatedFile,
-            message: '文件已更新'
-          });
-        } catch (error) {
-          if (error.status === 404) {
-            // 文件不存在，创建新文件
-            const { data: newFile } = await octokit.repos.createOrUpdateFileContents({
-              owner: process.env.GITHUB_REPO_OWNER,
-              repo: process.env.GITHUB_REPO_NAME,
-              path: fullPath,
-              message: `添加数据文件: ${fileName}`,
-              content: Buffer.from(content).toString('base64')
-            });
-
-            return res.json({
-              ...newFile,
-              message: '文件已创建'
-            });
-          }
-
-          // 其他错误
-          throw error;
-        }
-      }
-
+    let result;
+    switch (body.action) {
+      case 'create_issue':
+        result = await handleCreateIssue(body);
+        break;
+      case 'add_comment':
+        result = await handleAddComment(body);
+        break;
+      case 'upload_file':
+        result = await handleUploadFile(body);
+        break;
       default:
         return res.status(400).json({
-          error: '未知操作',
-          message: `不支持的操作类型: ${action}`,
-          availableActions: ['create_issue', 'add_comment', 'upload_file']
+          success: false,
+          error: `不支持的操作: ${body.action}`
         });
     }
+
+    return res.status(200).json(result);
   } catch (error) {
     console.error('API错误:', error);
-
-    // 友好的错误消息
-    let errorMessage = 'GitHub API处理失败';
-    if (error.response) {
-      errorMessage += ` | 状态码: ${error.response.status}`;
-      if (error.response.data && error.response.data.message) {
-        errorMessage += ` | 消息: ${error.response.data.message}`;
-      }
-    } else {
-      errorMessage += ` | 详情: ${error.message}`;
-    }
-
-    return res.status(500).json({
-      error: '服务器处理失败',
-      message: errorMessage,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    return res.status(error.status || 500).json({
+      success: false,
+      error: error.message || '服务器内部错误',
+      status: error.status
     });
   }
 };
