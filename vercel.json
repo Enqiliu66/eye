@@ -1,15 +1,18 @@
 {
+  "version": 2,
+  "builds": [
+    { "src": "gh-eye.js", "use": "@vercel/node" }
+  ],
   "routes": [
     {
       "src": "/api/gh-eye",
-      "dest": "/api/gh-eye.js",
-      "methods": ["POST", "OPTIONS"]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/gh-eye",
-      "destination": "/api/gh-eye.js"
+      "dest": "gh-eye.js",
+      "methods": ["POST", "OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
     }
   ]
 }
