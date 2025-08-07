@@ -1,0 +1,18 @@
+{
+  "name": "eating-disorder-eyetracking",
+  "version": "1.0.0",
+  "description": "进食障碍眼动干预实验程序",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build required - static files'",
+    "vercel-build": "echo 'No build required - static files'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enqiliu66/eyeed.git"
+  },
+  "author": "你的名称/团队名称",
+  "license": "MIT",
+  "dependencies": {"@octokit/rest": "^22.0.0"},
+  "devDependencies": {}
+}
