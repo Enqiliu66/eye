@@ -29,6 +29,20 @@
         "Vary": "Origin"
       }
     },
+    
+    {
+      "src": "/api/gh-EYE",
+      "dest": "/api/gh-eye.js",
+      "methods": ["POST", "OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+        "Access-Control-Max-Age": "86400",
+        "X-Content-Type-Options": "nosniff",
+        "Vary": "Origin"
+      }
+    },
     {
       "src": "/",
       "dest": "docs/index.html",
