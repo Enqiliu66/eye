@@ -21,11 +21,11 @@
       "dest": "/api/gh-EYE.js",
       "methods": ["POST", "OPTIONS"],
       "headers": {
-        "Access-Control-Allow-Origin": "https://enqiliu66.github.io, http://localhost:5500, http://localhost:3000",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
         "Access-Control-Max-Age": "86400",
-        "X-Content-Type-Options": "nosniff"
+        "X-Content-Type-Options": "nosniff",
+        "Vary": "Origin"
       }
     },
     {
