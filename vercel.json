@@ -17,7 +17,6 @@
   ],
   "routes": [
     {
-      // 修复4: 统一使用小写路径
       "src": "/api/gh-eye",
       "dest": "/api/gh-eye.js",
       "methods": ["POST", "OPTIONS"],
@@ -67,3 +66,4 @@
     "NODE_ENV": "production"
   }
 }
+
