@@ -1,18 +1,45 @@
 {
   "version": 2,
+  "public": true,
+  "buildCommand": "echo 'Build completed'",
   "builds": [
-    { "src": "gh-eye.js", "use": "@vercel/node" }
+    {
+      "src": "api/gh-eye.js",
+      "use": "@vercel/node",
+      "config": { "nodejs": "18.x" }
+    },
+    {
+      "src": "docs/**/*",
+      "use": "@vercel/static"
+    }
   ],
   "routes": [
     {
       "src": "/api/gh-eye",
-      "dest": "gh-eye.js",
+      "dest": "api/gh-eye.js",
       "methods": ["POST", "OPTIONS"],
       "headers": {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "https://enqiliu66.github.io, http://localhost:5500, http://localhost:3000",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Max-Age": "86400",
+        "X-Content-Type-Options": "nosniff"
+      }
+    },
+    {
+      "src": "/",
+      "dest": "docs/index.html",
+      "headers": {
+        "X-Content-Type-Options": "nosniff"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "docs/$1",
+      "headers": {
+        "X-Content-Type-Options": "nosniff"
       }
     }
   ]
 }
+
