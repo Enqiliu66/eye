@@ -923,9 +923,7 @@
 
         // 如果文件小于最大限制，直接上传
         if (totalSize <= MAX_FILE_SIZE) {
-          // 即使未分割也要标记part1
-          const newFileName = extension ? `${baseName}_part1.${extension}` : `${baseName}_part1`;
-          return await uploadFilePart(content, `${directory}/${newFileName}`, retries);
+          return await uploadFilePart(content, `${directory}/${fileName}`, retries);
         }
 
         // 分割文件
@@ -981,7 +979,7 @@
     async function uploadFilePart(content, fileName, retries = 1) {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        const timeoutId = setTimeout(() => controller.abort(), 20000); // 延长超时时间到20秒
 
         const response = await fetch(API_BASE_URL, {
           method: 'POST',
@@ -1800,8 +1798,9 @@
           // 生成文件名（新格式：csv_eye-00X_01_part1）
           const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
           const sessionStr = userInfo.session.toString().padStart(2, '0');
-          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_part1.csv`;
-          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_part1.json`;
+          const timestamp = Date.now(); // 添加时间戳确保唯一性
+          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
 
           // 如果摄像头权限被拒绝，跳过GitHub上传
           if (cameraPermissionDenied) {
@@ -1952,11 +1951,12 @@
 
           const jsonContent = JSON.stringify(allData, null, 2);
 
-          // 生成新格式文件名
+          // 生成新格式文件名（添加时间戳确保唯一性）
           const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
           const sessionStr = userInfo.session.toString().padStart(2, '0');
-          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_part1.csv`;
-          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_part1.json`;
+          const timestamp = Date.now();
+          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
 
           // 显示错误恢复选项
           document.querySelector('.jspsych-content').innerHTML += `
