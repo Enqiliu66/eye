@@ -9,10 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Enqiliu66/eyeed.git"
+    "url": "https://github.com/Enqiliu66/eye.git"
   },
   "author": "你的名称/团队名称",
   "license": "MIT",
   "dependencies": {"@octokit/rest": "^22.0.0"},
   "devDependencies": {}
+
 }
