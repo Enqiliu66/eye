@@ -2,16 +2,17 @@
 const { Octokit } = require('@octokit/rest');
 
 module.exports = async (req, res) => {
-  // 设置CORS头部
+  // 设置CORS头部 - 增强版
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
   res.setHeader('Access-Control-Max-Age', '86400');
   res.setHeader('Vary', 'Origin');
-
-  // 处理预检请求
+  
+  // 特殊处理OPTIONS预检请求
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    res.setHeader('Content-Length', '0');
+    return res.status(204).end();
   }
 
   // 验证环境变量
