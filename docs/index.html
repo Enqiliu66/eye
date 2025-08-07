@@ -833,7 +833,14 @@
         if (!response.ok) {
           const errorData = await response.json();
           console.error('GitHub API错误详情:', errorData);
-          throw new Error(`中转API返回错误: ${response.status}`);
+          let errorMsg = `中转API返回错误: ${response.status}`;
+          if (errorData && errorData.error) {
+            errorMsg = errorData.error;
+            if (errorData.message) {
+              errorMsg += `: ${errorData.message}`;
+            }
+          }
+          throw new Error(errorMsg);
         }
 
         return await response.json();
@@ -872,7 +879,14 @@
         if (!response.ok) {
           const errorData = await response.json();
           console.error('添加评论错误详情:', errorData);
-          throw new Error(`中转API返回错误: ${response.status}`);
+          let errorMsg = `中转API返回错误: ${response.status}`;
+          if (errorData && errorData.error) {
+            errorMsg = errorData.error;
+            if (errorData.message) {
+              errorMsg += `: ${errorData.message}`;
+            }
+          }
+          throw new Error(errorMsg);
         }
 
         return await response.json();
@@ -975,7 +989,8 @@
           body: JSON.stringify({
             action: 'upload_file',
             fileName: fileName,
-            content: content
+            content: content,
+            directory: fileName.includes('/') ? fileName.substring(0, fileName.lastIndexOf('/')) : ''
           }),
           signal: controller.signal
         });
@@ -983,7 +998,21 @@
         clearTimeout(timeoutId);
 
         if (!response.ok) {
-          throw new Error(`文件上传失败: ${response.status}`);
+          // 尝试解析错误信息
+          let errorMsg = `文件上传失败: ${response.status}`;
+          try {
+            const errorData = await response.json();
+            if (errorData && errorData.error) {
+              errorMsg = errorData.error;
+              if (errorData.message) {
+                errorMsg += `: ${errorData.message}`;
+              }
+            }
+          } catch (e) {
+            // 如果解析失败，保持原错误信息
+            console.error('解析错误响应失败', e);
+          }
+          throw new Error(errorMsg);
         }
 
         return await response.json();
@@ -1934,6 +1963,7 @@
             <div class="error-panel">
               <h4>数据上传失败处理方案</h4>
               <p>系统无法自动上传数据到服务器，请选择以下操作：</p>
+              <p><strong>错误原因:</strong> ${error.message}</p>
               <ul>
                 <li>检查您的网络连接后重试</li>
                 <li>保存数据到本地并稍后提交给实验负责人</li>
