@@ -48,9 +48,12 @@ module.exports = async (req, res) => {
           });
         }
 
+        // 修复仓库名截断问题
+        const repoFullName = `${process.env.GITHUB_REPO_OWNER}/${process.env.GITHUB_REPO_NAME}`;
+        
         // 搜索现有issue
         const { data: { items } } = await octokit.search.issuesAndPullRequests({
-          q: `repo:${process.env.GITHUB_REPO_OWNER}/${process.env.GITHUB_REPO_NAME} in:title ${subjectId} type:issue`
+          q: `repo:${repoFullName} in:title ${subjectId} type:issue`
         });
 
         if (items.length > 0) {
@@ -87,7 +90,8 @@ module.exports = async (req, res) => {
         return res.json(comment);
       }
 
-      case 'upload_csv': {
+      // 修复action名称不一致问题
+      case 'upload_file': {
         const { fileName, content } = req.body;
         if (!fileName || !content) {
           return res.status(400).json({
@@ -99,7 +103,7 @@ module.exports = async (req, res) => {
         const { data: file } = await octokit.repos.createOrUpdateFileContents({
           owner: process.env.GITHUB_REPO_OWNER,
           repo: process.env.GITHUB_REPO_NAME,
-          path: `data/${fileName}`,
+          path: fileName,
           message: `添加数据文件: ${fileName}`,
           content: Buffer.from(content).toString('base64')
         });
@@ -111,7 +115,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({
           error: '未知操作',
           message: `不支持的操作类型: ${action}`,
-          availableActions: ['create_issue', 'add_comment', 'upload_csv']
+          availableActions: ['create_issue', 'add_comment', 'upload_file']
         });
     }
   } catch (error) {
@@ -122,4 +126,3 @@ module.exports = async (req, res) => {
     });
   }
 };
-
