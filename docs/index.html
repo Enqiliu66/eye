@@ -673,6 +673,66 @@
     .debug-panel .debug-error {
       color: #e74c3c;
     }
+
+    /* ==== 人脸检测提示 ==== */
+    .face-detection-help {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      text-align: center;
+      z-index: 2000;
+      max-width: 90%;
+      width: 500px;
+      display: none;
+    }
+
+    .face-detection-help h3 {
+      color: #2980b9;
+      margin-bottom: 20px;
+    }
+
+    .face-detection-help ul {
+      text-align: left;
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+
+    .face-detection-help li {
+      margin-bottom: 10px;
+    }
+
+    .face-detection-help .camera-feed {
+      width: 100%;
+      height: 200px;
+      background: #eee;
+      border-radius: 8px;
+      margin: 15px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .face-detection-help .camera-feed video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .face-detection-help .retry-button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 15px;
+    }
   </style>
 </head>
 
@@ -704,6 +764,22 @@
   <!-- 摄像头权限提示 -->
   <div id="camera-permission-alert" class="permission-alert" style="display:none;"></div>
 
+  <!-- 人脸检测帮助 -->
+  <div class="face-detection-help" id="face-detection-help">
+    <h3>人脸检测问题</h3>
+    <p>系统无法检测到您的人脸，请尝试以下方法：</p>
+    <ul>
+      <li>确保光线充足，避免背光或过暗环境</li>
+      <li>调整摄像头位置，使您的脸部清晰可见</li>
+      <li>移除可能遮挡脸部的物品（如帽子、墨镜）</li>
+      <li>尝试调整与摄像头的距离（约50-70厘米）</li>
+    </ul>
+    <div class="camera-feed" id="camera-preview">
+      <p>摄像头预览将在这里显示</p>
+    </div>
+    <button class="retry-button" id="retry-face-detection">重试检测</button>
+  </div>
+
   <!-- 初始化状态面板 -->
   <div class="init-status-panel" id="init-status-panel">
     <h4>眼动追踪初始化状态</h4>
@@ -722,6 +798,10 @@
     <div class="status-item">
       <span class="status-label">安全环境:</span>
       <span class="status-value" id="status-security">检测中...</span>
+    </div>
+    <div class="status-item">
+      <span class="status-label">人脸检测:</span>
+      <span class="status-value" id="status-face">未检测</span>
     </div>
     <div class="status-item">
       <span class="status-label">错误信息:</span>
@@ -773,6 +853,7 @@
     let webgazerInitialized = false;   // Webgazer初始化状态
     let gazeData = []; // 存储每个试次的眼动数据
     let gazeUpdateInterval; // 眼动数据更新间隔
+    let faceDetectionAttempts = 0; // 人脸检测尝试次数
 
     /* ==== 眼动数据分析变量 ==== */
     let containerRect = null; // 存储图片容器位置信息
@@ -847,6 +928,86 @@
       document.getElementById('debug-right-gaze').textContent = `${rightDwell}ms`;
       document.getElementById('debug-first-fixation').textContent = firstFixation;
       document.getElementById('debug-regressions').textContent = regressions;
+    }
+
+    /* ==== 人脸检测函数 ==== */
+    async function checkFaceDetection() {
+      updateInitStatus('face', '检测中...');
+      
+      return new Promise((resolve) => {
+        let detected = false;
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        const checkInterval = setInterval(() => {
+          attempts++;
+          
+          if (webgazer && webgazer.getTracker()) {
+            const tracker = webgazer.getTracker();
+            if (tracker.isUserVisible()) {
+              detected = true;
+              clearInterval(checkInterval);
+              updateInitStatus('face', '检测成功');
+              resolve(true);
+            }
+          }
+          
+          if (attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+            updateInitStatus('face', '检测失败', true);
+            resolve(false);
+          }
+        }, 500);
+      });
+    }
+
+    // 显示人脸检测帮助
+    function showFaceDetectionHelp() {
+      const helpEl = document.getElementById('face-detection-help');
+      helpEl.style.display = 'block';
+      
+      // 尝试显示摄像头预览
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => {
+            const previewEl = document.getElementById('camera-preview');
+            previewEl.innerHTML = '';
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.autoplay = true;
+            video.playsInline = true;
+            previewEl.appendChild(video);
+          })
+          .catch(err => {
+            console.error('无法访问摄像头:', err);
+          });
+      }
+      
+      // 重试按钮事件
+      document.getElementById('retry-face-detection').addEventListener('click', async () => {
+        helpEl.style.display = 'none';
+        faceDetectionAttempts++;
+        
+        // 最多尝试3次
+        if (faceDetectionAttempts <= 3) {
+          const detected = await checkFaceDetection();
+          if (detected) {
+            // 继续实验
+            if (window.resumeExperiment) {
+              window.resumeExperiment();
+            }
+          } else {
+            // 再次显示帮助
+            showFaceDetectionHelp();
+          }
+        } else {
+          // 超过最大尝试次数，跳过眼动追踪
+          cameraPermissionDenied = true;
+          if (window.resumeExperiment) {
+            window.resumeExperiment();
+          }
+        }
+      });
     }
 
     /* ==== 摄像头权限检测和错误处理函数 ==== */
@@ -1623,6 +1784,17 @@
         if (!cameraPermissionDenied) {
           updateInitStatus('webgazer', '已初始化');
           webgazerInitialized = true;
+
+          // 添加人脸检测
+          setTimeout(async () => {
+            const faceDetected = await checkFaceDetection();
+            if (!faceDetected) {
+              showFaceDetectionHelp();
+              
+              // 暂停实验直到用户操作
+              return false;
+            }
+          }, 1000);
         }
       }
     };
@@ -1665,6 +1837,12 @@
         <div class="centered-text">
           <p>现在将进行眼动校准，以便软件使用您的眼部图像预测您的注视位置。</p>
           <p>您将看到一系列圆点出现在屏幕上。请注视每个圆点并点击它。</p>
+          <p style="color: red; font-weight: bold;">请确保：</p>
+          <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+            <li>您的脸部在摄像头画面中</li>
+            <li>光线充足，不要过暗或过亮</li>
+            <li>避免晃动头部</li>
+          </ul>
         </div>
       `,
       choices: ['明白了']
