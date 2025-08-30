@@ -1259,7 +1259,7 @@
               <label for="subject-id">被试ID</label>
               <select id="subject-id">
                 <option value="">请选择被试ID</option>
-                ${Array.from({length: 61}, (_, i) => {
+                ${Array.from({length: 101}, (_, i) => {
                   const id = `eye-${(i+1).toString().padStart(3, '0')}`;
                   return `<option value="${id}">${id}</option>`;
                 }).join('')}
