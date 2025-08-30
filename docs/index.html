@@ -98,6 +98,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
     .stimulus-image {
       max-width: 100%;
@@ -662,6 +663,26 @@
     /* ==== GitHub API 中转配置 ==== */
     const API_BASE_URL = 'https://ok.edemi-lab.online/api/gh-eye';
 
+    // 图片区域定义
+    let imageRegions = {
+      left: { x: 0, width: 50 },   // 左侧区域 (0-50%)
+      right: { x: 50, width: 50 }  // 右侧区域 (50-100%)
+    };
+
+    // 分析结果存储
+    let analysisResults = {
+      food: {
+        dwellTime: 0,     // F注视时间 (高热量-低热量)
+        firstFixation: 0, // F首视点 (高热量-低热量)
+        regressionCount: 0 // F回视次数
+      },
+      body: {
+        dwellTime: 0,     // B注视时间 (胖-瘦)
+        firstFixation: 0, // B首视点 (胖-瘦)
+        regressionCount: 0 // B回视次数
+      }
+    };
+
     /* 初始化 jsPsych */
     const jsPsych = initJsPsych({
       display_element: 'jspsych-target',
@@ -1061,6 +1082,129 @@
       document.body.removeChild(a);
     }
 
+    /* ==== 眼动数据分析函数 ==== */
+
+    // 分析单个试次的眼动数据
+    function analyzeTrialData(trialData, gazeData) {
+      const results = {
+        dwellTimeLeft: 0,
+        dwellTimeRight: 0,
+        firstFixation: null, // 'left' 或 'right'
+        regressions: 0
+      };
+
+      // 获取图片容器位置信息
+      const container = document.querySelector('.stimulus-container');
+      const rect = container.getBoundingClientRect();
+      const containerWidth = rect.width;
+      const containerCenter = rect.left + containerWidth / 2;
+
+      // 确定图片属性（左侧是什么）
+      let leftAttribute, rightAttribute;
+      if (trialData.image_type === 'food') {
+        // 食物图片：前8张是低热量在左，后12张是高热量在左
+        leftAttribute = trialData.original_index <= 8 ? 'low_calorie' : 'high_calorie';
+        rightAttribute = trialData.original_index <= 8 ? 'high_calorie' : 'low_calorie';
+      } else {
+        // 身材图片：前11张是胖在左，后14张是瘦在左
+        leftAttribute = trialData.original_index <= 11 ? 'fat' : 'thin';
+        rightAttribute = trialData.original_index <= 11 ? 'thin' : 'fat';
+      }
+
+      // 分析注视数据
+      let prevRegion = null;
+      let prevTime = null;
+      let gazeSequence = [];
+
+      for (let i = 0; i < gazeData.length; i++) {
+        const gaze = gazeData[i];
+
+        // 判断注视点落在哪个区域
+        let region = null;
+        if (gaze.x < containerCenter) {
+          region = 'left';
+          results.dwellTimeLeft += 20; // 每个采样点约20ms
+        } else {
+          region = 'right';
+          results.dwellTimeRight += 20;
+        }
+
+        // 记录第一个注视点
+        if (i === 0) {
+          results.firstFixation = region;
+        }
+
+        // 检测回视
+        if (prevRegion && prevRegion !== region) {
+          gazeSequence.push({
+            region: region,
+            time: gaze.timestamp
+          });
+        }
+
+        prevRegion = region;
+        prevTime = gaze.timestamp;
+      }
+
+      // 分析回视次数
+      if (trialData.image_type === 'food') {
+        // 食物图片：检测从高热量到低热量再回到高热量的回视
+        const highCalorieSide = leftAttribute === 'high_calorie' ? 'left' : 'right';
+        const lowCalorieSide = leftAttribute === 'high_calorie' ? 'right' : 'left';
+
+        for (let i = 2; i < gazeSequence.length; i++) {
+          if (gazeSequence[i-2].region === highCalorieSide &&
+              gazeSequence[i-1].region === lowCalorieSide &&
+              gazeSequence[i].region === highCalorieSide) {
+            results.regressions++;
+          }
+        }
+      } else {
+        // 身材图片：检测从胖到瘦再回到胖的回视
+        const fatSide = leftAttribute === 'fat' ? 'left' : 'right';
+        const thinSide = leftAttribute === 'fat' ? 'right' : 'left';
+
+        for (let i = 2; i < gazeSequence.length; i++) {
+          if (gazeSequence[i-2].region === fatSide &&
+              gazeSequence[i-1].region === thinSide &&
+              gazeSequence[i].region === fatSide) {
+            results.regressions++;
+          }
+        }
+      }
+
+      // 计算注视时间差值
+      if (trialData.image_type === 'food') {
+        // 食物图片：高热量-低热量
+        const highCalorieTime = leftAttribute === 'high_calorie' ? results.dwellTimeLeft : results.dwellTimeRight;
+        const lowCalorieTime = leftAttribute === 'high_calorie' ? results.dwellTimeRight : results.dwellTimeLeft;
+        results.dwellTimeDiff = highCalorieTime - lowCalorieTime;
+
+        // 首视点：高热量区域为+1，低热量区域为-1
+        if ((leftAttribute === 'high_calorie' && results.firstFixation === 'left') ||
+            (leftAttribute !== 'high_calorie' && results.firstFixation === 'right')) {
+          results.firstFixationValue = 1;
+        } else {
+          results.firstFixationValue = -1;
+        }
+      } else {
+        // 身材图片：胖-瘦
+        const fatTime = leftAttribute === 'fat' ? results.dwellTimeLeft : results.dwellTimeRight;
+        const thinTime = leftAttribute === 'fat' ? results.dwellTimeRight : results.dwellTimeLeft;
+        results.dwellTimeDiff = fatTime - thinTime;
+
+        // 首视点：胖区域为+1，瘦区域为-1
+        if ((leftAttribute === 'fat' && results.firstFixation === 'left') ||
+            (leftAttribute !== 'fat' && results.firstFixation === 'right')) {
+          results.firstFixationValue = 1;
+        } else {
+          results.firstFixationValue = -1;
+        }
+      }
+
+      return results;
+    }
+
     /* 生成图片列表 */
     // 食物图片：f文件夹（共20张）
     // 前8张：左侧低热量；后12张：左侧高热量
@@ -1448,12 +1592,10 @@
     timeline.push(instructions);
 
     /* ==== 构建实验试次 ==== */
-    // 1. 食物图片试次（随机呈现所有食物图片）
-    const shuffledFoodImages = jsPsych.randomization.shuffle(foodImages); // 随机排序
+    // 1. 食物图片试次（固定顺序呈现所有食物图片）
     const foodTrials = [];
 
-    // 2. 身材图片试次（随机呈现所有身材图片）
-    const shuffledBodyImages = jsPsych.randomization.shuffle(bodyImages); // 随机排序
+    // 2. 身材图片试次（固定顺序呈现所有身材图片）
     const bodyTrials = [];
 
     const centralFixation = document.getElementById('central-fixation');
@@ -1494,19 +1636,19 @@
     }
 
     // 生成食物试次
-    shuffledFoodImages.forEach((img, index) => {
+    foodImages.forEach((img, index) => {
       // 注视点试次
       foodTrials.push({
         type: jsPsychHtmlKeyboardResponse,
         stimulus: '',
         choices: "NO_KEYS",
-        trial_duration: jsPsych.randomization.sampleWithoutReplacement([800, 1000, 1200], 1)[0],
+        trial_duration: 1000, // 固定1秒注视点
         data: {
           task: 'fixation',
           phase: 'food',
           block: 'food_presentation',
           trial_index: index + 1,
-          total_trials: shuffledFoodImages.length
+          total_trials: foodImages.length
         },
         on_start: function() {
           centralFixation.style.display = 'block';
@@ -1538,9 +1680,10 @@
           original_index: img.index,
           image_src: img.src,
           trial_index: index + 1,
-          total_trials: shuffledFoodImages.length,
+          total_trials: foodImages.length,
           trial_start_time: null, // 将在on_start中设置
-          gaze_data: null
+          gaze_data: null,
+          analysis_results: null // 存储分析结果
         },
         extensions: [
           {
@@ -1549,7 +1692,7 @@
           }
         ],
         on_start: function(trial) {
-          // 记录试次开始时间 - 修复点：直接存储到data对象
+          // 记录试次开始时间
           const startTime = Date.now();
           trial.data.trial_start_time = startTime;
           // 在试次对象上存储开始时间
@@ -1557,35 +1700,37 @@
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
-          // 确保开始时间被记录（使用试次对象上存储的开始时间）
+          // 确保开始时间被记录
           data.trial_start_time = this.trial_start_time;
 
           // 记录试次结束时间和眼动数据
           const endTime = Date.now();
           data.trial_end_time = endTime;
-
-          // 确保有有效的开始时间
-          const startTime = this.trial_start_time;
-          if (startTime) {
-            data.trial_duration_actual = endTime - startTime;
-          } else {
-            // 如果开始时间无效，使用眼动数据的第一条时间戳（如果有）
-            if (gazeData.length > 0) {
-              data.trial_start_time = gazeData[0].timestamp;
-              data.trial_duration_actual = endTime - data.trial_start_time;
-            } else {
-              // 没有眼动数据，使用默认试次时长
-              data.trial_duration_actual = 6000;
-            }
-          }
+          data.trial_duration_actual = endTime - data.trial_start_time;
 
           data.gaze_data = stopGazeTracking(); // 保存眼动数据
+
+          // 分析眼动数据
+          if (data.gaze_data && data.gaze_data.length > 0) {
+            data.analysis_results = analyzeTrialData(data, data.gaze_data);
+
+            // 更新总体分析结果
+            if (data.image_type === 'food') {
+              analysisResults.food.dwellTime += data.analysis_results.dwellTimeDiff;
+              analysisResults.food.firstFixation += data.analysis_results.firstFixationValue;
+              analysisResults.food.regressionCount += data.analysis_results.regressions;
+            } else {
+              analysisResults.body.dwellTime += data.analysis_results.dwellTimeDiff;
+              analysisResults.body.firstFixation += data.analysis_results.firstFixationValue;
+              analysisResults.body.regressionCount += data.analysis_results.regressions;
+            }
+          }
         }
       };
       foodTrials.push(foodTrial);
 
       // 试次间休息（最后一个试次后不休息）
-      if (index < shuffledFoodImages.length - 1) {
+      if (index < foodImages.length - 1) {
         foodTrials.push({
           type: jsPsychHtmlKeyboardResponse,
           stimulus: '',
@@ -1596,26 +1741,52 @@
             phase: 'food',
             block: 'food_presentation',
             trial_index: index + 1,
-            total_trials: shuffledFoodImages.length
+            total_trials: foodImages.length
           }
         });
       }
     });
 
+    // 阶段过渡提示（从食物到身材）
+    const phaseTransition = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>食物图片观看完毕</p>
+          <p>接下来将进行第二次眼动校准</p>
+        </div>
+      `,
+      choices: ['继续'],
+      data: {
+        task: 'transition',
+        phase: 'between_blocks'
+      }
+    };
+    timeline.push({ timeline: foodTrials });
+    timeline.push(phaseTransition);
+
+    // 在食物和身材图片之间加入第二次校准
+    timeline.push(calibration_instructions);
+    timeline.push(calibration);
+    timeline.push(validation_instructions);
+    timeline.push(validation);
+    timeline.push(recalibrate);
+    timeline.push(calibration_done);
+
     // 生成身材试次
-    shuffledBodyImages.forEach((img, index) => {
+    bodyImages.forEach((img, index) => {
       // 注视点试次
       bodyTrials.push({
         type: jsPsychHtmlKeyboardResponse,
         stimulus: '',
         choices: "NO_KEYS",
-        trial_duration: jsPsych.randomization.sampleWithoutReplacement([800, 1000, 1200], 1)[0],
+        trial_duration: 1000, // 固定1秒注视点
         data: {
           task: 'fixation',
           phase: 'body',
           block: 'body_presentation',
           trial_index: index + 1,
-          total_trials: shuffledBodyImages.length
+          total_trials: bodyImages.length
         },
         on_start: function() {
           centralFixation.style.display = 'block';
@@ -1647,9 +1818,10 @@
           original_index: img.index,
           image_src: img.src,
           trial_index: index + 1,
-          total_trials: shuffledBodyImages.length,
+          total_trials: bodyImages.length,
           trial_start_time: null, // 将在on_start中设置
-          gaze_data: null
+          gaze_data: null,
+          analysis_results: null // 存储分析结果
         },
         extensions: [
           {
@@ -1658,7 +1830,7 @@
           }
         ],
         on_start: function(trial) {
-          // 记录试次开始时间 - 修复点：直接存储到data对象
+          // 记录试次开始时间
           const startTime = Date.now();
           trial.data.trial_start_time = startTime;
           // 在试次对象上存储开始时间
@@ -1666,35 +1838,37 @@
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
-          // 确保开始时间被记录（使用试次对象上存储的开始时间）
+          // 确保开始时间被记录
           data.trial_start_time = this.trial_start_time;
 
           // 记录试次结束时间和眼动数据
           const endTime = Date.now();
           data.trial_end_time = endTime;
-
-          // 确保有有效的开始时间
-          const startTime = this.trial_start_time;
-          if (startTime) {
-            data.trial_duration_actual = endTime - startTime;
-          } else {
-            // 如果开始时间无效，使用眼动数据的第一条时间戳（如果有）
-            if (gazeData.length > 0) {
-              data.trial_start_time = gazeData[0].timestamp;
-              data.trial_duration_actual = endTime - data.trial_start_time;
-            } else {
-              // 没有眼动数据，使用默认试次时长
-              data.trial_duration_actual = 6000;
-            }
-          }
+          data.trial_duration_actual = endTime - data.trial_start_time;
 
           data.gaze_data = stopGazeTracking(); // 保存眼动数据
+
+          // 分析眼动数据
+          if (data.gaze_data && data.gaze_data.length > 0) {
+            data.analysis_results = analyzeTrialData(data, data.gaze_data);
+
+            // 更新总体分析结果
+            if (data.image_type === 'food') {
+              analysisResults.food.dwellTime += data.analysis_results.dwellTimeDiff;
+              analysisResults.food.firstFixation += data.analysis_results.firstFixationValue;
+              analysisResults.food.regressionCount += data.analysis_results.regressions;
+            } else {
+              analysisResults.body.dwellTime += data.analysis_results.dwellTimeDiff;
+              analysisResults.body.firstFixation += data.analysis_results.firstFixationValue;
+              analysisResults.body.regressionCount += data.analysis_results.regressions;
+            }
+          }
         }
       };
       bodyTrials.push(bodyTrial);
 
       // 试次间休息（最后一个试次后不休息）
-      if (index < shuffledBodyImages.length - 1) {
+      if (index < bodyImages.length - 1) {
         bodyTrials.push({
           type: jsPsychHtmlKeyboardResponse,
           stimulus: '',
@@ -1705,31 +1879,12 @@
             phase: 'body',
             block: 'body_presentation',
             trial_index: index + 1,
-            total_trials: shuffledBodyImages.length
+            total_trials: bodyImages.length
           }
         });
       }
     });
 
-    // 阶段过渡提示（从食物到身材）
-    const phaseTransition = {
-      type: jsPsychHtmlButtonResponse,
-      stimulus: `
-        <div class="centered-text">
-          <p>食物图片观看完毕</p>
-          <p>接下来将呈现身材对比图片</p>
-        </div>
-      `,
-      choices: ['继续'],
-      data: {
-        task: 'transition',
-        phase: 'between_blocks'
-      }
-    };
-
-    // 按顺序添加到主时间线：先食物试次，再过渡，再身材试次
-    timeline.push({ timeline: foodTrials });
-    timeline.push(phaseTransition);
     timeline.push({ timeline: bodyTrials });
 
     /* ==== 数据处理和GitHub上传 ==== */
@@ -1750,57 +1905,29 @@
         try {
           const statusMessage = document.getElementById('status-message');
 
-          // 收集所有实验数据
-          const allData = jsPsych.data.get().filter({task: 'view'}).values();
+          // 计算平均值
+          analysisResults.food.dwellTime = analysisResults.food.dwellTime / foodImages.length;
+          analysisResults.food.regressionCount = analysisResults.food.regressionCount / foodImages.length;
+          analysisResults.body.dwellTime = analysisResults.body.dwellTime / bodyImages.length;
+          analysisResults.body.regressionCount = analysisResults.body.regressionCount / bodyImages.length;
 
-          // 计算眼动数据点总数
-          const dataPoints = allData.reduce((total, trial) => {
-            return total + (trial.gaze_data ? trial.gaze_data.length : 0);
-          }, 0);
+          // 生成CSV数据表格
+          const csvContent = `被试编号,F注视时间,B注视时间,F首视点,B首视点,F回视次数,B回视次数\n${userInfo.subjectId},${analysisResults.food.dwellTime},${analysisResults.body.dwellTime},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount},${analysisResults.body.regressionCount}`;
 
-          // 生成CSV数据
-          const csvData = allData.map(trial => {
-            // 基础信息
-            const baseData = {
-              trial_id: trial.trial_index,
-              phase: trial.phase,
-              image_type: trial.image_type,
-              image_attribute: trial.image_attribute,
-              image_position: trial.image_position,
-              original_index: trial.original_index,
-              image_src: trial.image_src,
-              start_time: trial.trial_start_time,
-              end_time: trial.trial_end_time,
-              duration: trial.trial_duration_actual
-            };
+          // 生成JSON数据
+          const jsonContent = JSON.stringify({
+            subjectId: userInfo.subjectId,
+            session: userInfo.session,
+            food: analysisResults.food,
+            body: analysisResults.body
+          }, null, 2);
 
-            // 如果有眼动数据，添加第一条和最后一条作为示例
-            if (trial.gaze_data && trial.gaze_data.length > 0) {
-              baseData.first_gaze_x = trial.gaze_data[0].x;
-              baseData.first_gaze_y = trial.gaze_data[0].y;
-              baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
-              baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
-              baseData.gaze_samples = trial.gaze_data.length;
-            }
-
-            return baseData;
-          });
-
-          // 转换为CSV字符串
-          let csvContent = Object.keys(csvData[0]).join(',') + '\n';
-          csvData.forEach(row => {
-            csvContent += Object.values(row).join(',') + '\n';
-          });
-
-          // 转换为JSON字符串
-          const jsonContent = JSON.stringify(allData, null, 2);
-
-          // 生成文件名（新格式：csv_eye-00X_01_part1）
+          // 生成文件名
           const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
           const sessionStr = userInfo.session.toString().padStart(2, '0');
-          const timestamp = Date.now(); // 添加时间戳确保唯一性
-          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
+          const timestamp = Date.now();
+          const csvFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+          const jsonFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
 
           // 如果摄像头权限被拒绝，跳过GitHub上传
           if (cameraPermissionDenied) {
@@ -1817,17 +1944,20 @@
 
             // 2. 生成GitHub评论内容
             statusMessage.textContent = "生成数据报告...";
+            const dataPoints = jsPsych.data.get().filter({task: 'view'}).values().reduce((total, trial) => {
+              return total + (trial.gaze_data ? trial.gaze_data.length : 0);
+            }, 0);
             const commentBody = generateGitHubComment(dataPoints);
 
             // 3. 添加评论到Issue（每次的数据作为一条评论）
             statusMessage.textContent = "上传数据到GitHub Issues...";
             await addIssueComment(issue.number, commentBody);
 
-            // 4. 上传CSV文件到data1目录（使用新文件名格式）
+            // 4. 上传CSV文件到data1目录
             statusMessage.textContent = "上传CSV文件到data1目录...";
             await uploadFileToGitHub(csvContent, csvFileName, 'data1');
 
-            // 5. 上传JSON文件到data2目录（使用新文件名格式）
+            // 5. 上传JSON文件到data2目录
             statusMessage.textContent = "上传JSON文件到data2目录...";
             await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
 
@@ -1843,6 +1973,16 @@
               <div class="centered-text">
                 <h2>第 ${userInfo.session} 次实验完成</h2>
                 <p>详细眼动数据已成功上传至GitHub仓库</p>
+                <div class="data-report">
+                  <h3>分析结果</h3>
+                  <p><strong>被试编号:</strong> ${userInfo.subjectId}</p>
+                  <p><strong>F注视时间:</strong> ${analysisResults.food.dwellTime.toFixed(2)}ms</p>
+                  <p><strong>B注视时间:</strong> ${analysisResults.body.dwellTime.toFixed(2)}ms</p>
+                  <p><strong>F首视点:</strong> ${analysisResults.food.firstFixation}</p>
+                  <p><strong>B首视点:</strong> ${analysisResults.body.firstFixation}</p>
+                  <p><strong>F回视次数:</strong> ${analysisResults.food.regressionCount.toFixed(2)}</p>
+                  <p><strong>B回视次数:</strong> ${analysisResults.body.regressionCount.toFixed(2)}</p>
+                </div>
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
                   <button class="copy-button" id="copy-btn">复制报告摘要</button>
                   <button class="github-button" id="github-btn">查看GitHub记录</button>
@@ -1857,7 +1997,7 @@
 
             // 添加按钮事件
             document.getElementById('copy-btn').addEventListener('click', function() {
-              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
+              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\nF注视时间: ${analysisResults.food.dwellTime.toFixed(2)}ms\nB注视时间: ${analysisResults.body.dwellTime.toFixed(2)}ms\nF首视点: ${analysisResults.food.firstFixation}\nB首视点: ${analysisResults.body.firstFixation}\nF回视次数: ${analysisResults.food.regressionCount.toFixed(2)}\nB回视次数: ${analysisResults.body.regressionCount.toFixed(2)}`;
               navigator.clipboard.writeText(summary)
                 .then(() => alert('报告摘要已复制到剪贴板'))
                 .catch(err => console.error('复制失败:', err));
@@ -1892,12 +2032,12 @@
               };
             });
 
-            // 保存CSV到本地按钮（使用新文件名格式）
+            // 保存CSV到本地按钮
             document.getElementById('save-csv-btn').addEventListener('click', function() {
               saveCSVToLocal(csvContent, csvFileName);
             });
 
-            // 保存JSON到本地按钮（使用新文件名格式）
+            // 保存JSON到本地按钮
             document.getElementById('save-json-btn').addEventListener('click', function() {
               saveJSONToLocal(jsonContent, jsonFileName);
             });
@@ -1916,47 +2056,6 @@
           statusMessage.className = "status-message status-error";
           statusMessage.textContent = `数据处理失败: ${error.message}`;
           console.error('完整错误信息:', error);
-
-          // 获取数据用于本地保存
-          const allData = jsPsych.data.get().filter({task: 'view'}).values();
-
-          // 生成CSV数据
-          const csvData = allData.map(trial => {
-            const baseData = {
-              trial_id: trial.trial_index,
-              phase: trial.phase,
-              image_type: trial.image_type,
-              image_attribute: trial.image_attribute,
-              image_position: trial.image_position,
-              original_index: trial.original_index,
-              image_src: trial.image_src,
-              start_time: trial.trial_start_time,
-              end_time: trial.trial_end_time,
-              duration: trial.trial_duration_actual
-            };
-            if (trial.gaze_data && trial.gaze_data.length > 0) {
-              baseData.first_gaze_x = trial.gaze_data[0].x;
-              baseData.first_gaze_y = trial.gaze_data[0].y;
-              baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
-              baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
-              baseData.gaze_samples = trial.gaze_data.length;
-            }
-            return baseData;
-          });
-
-          let csvContent = Object.keys(csvData[0]).join(',') + '\n';
-          csvData.forEach(row => {
-            csvContent += Object.values(row).join(',') + '\n';
-          });
-
-          const jsonContent = JSON.stringify(allData, null, 2);
-
-          // 生成新格式文件名（添加时间戳确保唯一性）
-          const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
-          const sessionStr = userInfo.session.toString().padStart(2, '0');
-          const timestamp = Date.now();
-          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
 
           // 显示错误恢复选项
           document.querySelector('.jspsych-content').innerHTML += `
@@ -1988,8 +2087,27 @@
             try {
               // 重新执行上传逻辑
               const issue = await getOrCreateIssue();
+              const dataPoints = jsPsych.data.get().filter({task: 'view'}).values().reduce((total, trial) => {
+                return total + (trial.gaze_data ? trial.gaze_data.length : 0);
+              }, 0);
               const commentBody = generateGitHubComment(dataPoints);
               await addIssueComment(issue.number, commentBody);
+
+              // 重新生成CSV和JSON内容
+              const csvContent = `被试编号,F注视时间,B注视时间,F首视点,B首视点,F回视次数,B回视次数\n${userInfo.subjectId},${analysisResults.food.dwellTime},${analysisResults.body.dwellTime},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount},${analysisResults.body.regressionCount}`;
+              const jsonContent = JSON.stringify({
+                subjectId: userInfo.subjectId,
+                session: userInfo.session,
+                food: analysisResults.food,
+                body: analysisResults.body
+              }, null, 2);
+
+              const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
+              const sessionStr = userInfo.session.toString().padStart(2, '0');
+              const timestamp = Date.now();
+              const csvFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+              const jsonFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
+
               await uploadFileToGitHub(csvContent, csvFileName, 'data1');
               await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
 
@@ -2009,15 +2127,33 @@
             }
           });
 
-          // 保存CSV按钮（使用新文件名格式）
+          // 保存CSV按钮
           document.getElementById('save-csv-btn').addEventListener('click', function() {
+            const csvContent = `被试编号,F注视时间,B注视时间,F首视点,B首视点,F回视次数,B回视次数\n${userInfo.subjectId},${analysisResults.food.dwellTime},${analysisResults.body.dwellTime},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount},${analysisResults.body.regressionCount}`;
+            const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
+            const sessionStr = userInfo.session.toString().padStart(2, '0');
+            const timestamp = Date.now();
+            const csvFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+
             saveCSVToLocal(csvContent, csvFileName);
             // 更新实验次数
             localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
           });
 
-          // 保存JSON按钮（使用新文件名格式）
+          // 保存JSON按钮
           document.getElementById('save-json-btn').addEventListener('click', function() {
+            const jsonContent = JSON.stringify({
+              subjectId: userInfo.subjectId,
+              session: userInfo.session,
+              food: analysisResults.food,
+              body: analysisResults.body
+            }, null, 2);
+
+            const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
+            const sessionStr = userInfo.session.toString().padStart(2, '0');
+            const timestamp = Date.now();
+            const jsonFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
+
             saveJSONToLocal(jsonContent, jsonFileName);
             // 更新实验次数
             localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
