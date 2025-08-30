@@ -22,7 +22,6 @@
   <script src="https://unpkg.com/@jspsych/plugin-call-function@1.0.0"></script>
 
   <style>
-    /* ==== 全局样式 ==== */
     * {
       margin: 0;
       padding: 0;
@@ -36,7 +35,6 @@
       overflow: hidden;
     }
 
-    /* ==== 顶部导航栏 ==== */
     .header {
       width: 100%;
       background: linear-gradient(90deg, #2c3e50, #4b6082);
@@ -56,7 +54,6 @@
       letter-spacing: 1px;
     }
 
-    /* ==== 内容容器 ==== */
     #jspsych-target {
       position: absolute;
       top: 70px;
@@ -85,7 +82,6 @@
       max-height: 100%;
     }
 
-    /* ==== 图片展示区 ==== */
     .stimulus-container {
       width: 80%;
       max-width: 1000px;
@@ -108,7 +104,6 @@
       border: 2px solid #eee;
     }
     
-    /* 图片加载错误提示 */
     .image-error {
       color: #e74c3c;
       text-align: center;
@@ -116,7 +111,6 @@
       font-size: 1.2rem;
     }
     
-    /* 图片分区指示器（仅用于调试） */
     .image-half {
       position: absolute;
       top: 0;
@@ -134,7 +128,6 @@
       background-color: rgba(0, 0, 255, 0.1);
     }
 
-    /* ==== 中央固定十字 ==== */
     .central-fixation {
       position: absolute;
       top: 50%;
@@ -148,7 +141,6 @@
       display: none;
     }
 
-    /* ==== 眼动追踪注视点（已禁用） ==== */
     .gaze-point {
       position: absolute;
       width: 10px;
@@ -157,10 +149,9 @@
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
-      display: none !important; /* 确保小红点被隐藏 */
+      display: none !important;
     }
 
-    /* ==== 按钮样式 ==== */
     button {
       background: linear-gradient(90deg, #2980b9, #3498db);
       border: none;
@@ -187,7 +178,6 @@
       margin-top: 20px;
     }
 
-    /* ==== 居中文字模块 ==== */
     .centered-text {
       text-align: center;
       padding: 20px 30px;
@@ -200,7 +190,6 @@
       margin-bottom: 1rem;
     }
 
-    /* ==== 页脚 ==== */
     .footer {
       position: fixed;
       bottom: 10px;
@@ -211,7 +200,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* ==== 登录表单样式 ==== */
     .login-container {
       width: 700px;
       background: #fff;
@@ -260,15 +248,9 @@
       border-radius: 8px;
       transition: all 0.3s ease;
       width: 100%;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    .login-button:hover {
-      background: linear-gradient(90deg, #2572a5, #2c82c2);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+      box-shadow: 极市可视化大屏
     }
 
-    /* 新增：实验次数显示样式 */
     .session-display {
       background: #f0f7ff;
       border-radius: 12px;
@@ -283,7 +265,6 @@
       font-weight: 600;
     }
 
-    /* ==== 数据报告样式 ==== */
     .data-report {
       max-width: 800px;
       background: #fff;
@@ -320,14 +301,7 @@
       font-size: 1rem;
       cursor: pointer;
       border-radius: 8px;
-      transition: all 0.3s ease;
-      margin-top: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    .copy-button:hover {
-      background: linear-gradient(90deg, #219653, #27ad60);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+      transition: all 极市可视化大屏
     }
     .github-button {
       background: linear-gradient(90deg, #24292e, #2d3338);
@@ -340,34 +314,14 @@
       border-radius: 8px;
       transition: all 0.3s ease;
       margin-top: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 极市可视化大屏
     }
-    .github-button:hover {
-      background: linear-gradient(90deg, #1a1e21, #22272b);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    }
-    /* 新增：保存按钮样式 */
     .save-button {
       background: linear-gradient(90deg, #f39c12, #e67e22);
       border: none;
       color: #fff;
-      padding: 12px 28px;
-      text-align: center;
-      font-size: 1rem;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      margin-top: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 极市可视化大屏
     }
-    .save-button:hover {
-      background: linear-gradient(90deg, #d35400, #e67e22);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    }
-
-    /* 退出按钮 */
     .exit-button {
       background: linear-gradient(90deg, #e74c3c, #c0392b);
       border: none;
@@ -381,13 +335,7 @@
       margin-top: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    .exit-button:hover {
-      background: linear-gradient(90deg, #c0392b, #a93226);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    }
 
-    /* ==== 状态消息 ==== */
     .status-message {
       margin-top: 20px;
       padding: 15px;
@@ -416,7 +364,6 @@
       border: 1px solid #ffeeba;
     }
 
-    /* 验证码弹窗 */
     .auth-modal {
       display: none;
       position: fixed;
@@ -448,7 +395,7 @@
       margin-bottom: 20px;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-size: 1rem;
+      font-size: 极市可视化大屏
     }
     .auth-buttons {
       display: flex;
@@ -468,23 +415,11 @@
       background: #27ae60;
       color: white;
     }
-    .auth-confirm:hover {
-      background: #219653;
-    }
     .auth-cancel {
       background: #e74c3c;
       color: white;
     }
-    .auth-cancel:hover {
-      background: #c0392b;
-    }
-    .auth-error {
-      color: #e74c3c;
-      margin-top: 10px;
-      display: none;
-    }
 
-    /* ==== 权限提示和错误提示样式 ==== */
     .permission-alert {
       position: fixed;
       top: 50%;
@@ -501,38 +436,6 @@
       display: none;
     }
 
-    .permission-alert h3 {
-      color: #e74c3c;
-      margin-bottom: 20px;
-    }
-
-    .permission-alert p {
-      margin: 10px 0;
-      line-height: 1.6;
-    }
-
-    .permission-alert .warning {
-      color: #e74c3c;
-      font-weight: bold;
-    }
-
-    .permission-alert .browser-warning {
-      background: #f8d7da;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 15px 0;
-      text-align: left;
-    }
-
-    .permission-alert .protocol-warning {
-      background: #fff3cd;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 15px 0;
-      text-align: left;
-    }
-
-    /* ==== 初始化状态面板 ==== */
     .init-status-panel {
       position: fixed;
       bottom: 20px;
@@ -546,7 +449,6 @@
       font-size: 14px;
       display: none;
     }
-
     .init-status-panel h4 {
       margin-top: 0;
       margin-bottom: 10px;
@@ -554,26 +456,21 @@
       border-bottom: 1px solid #3498db;
       padding-bottom: 5px;
     }
-
     .init-status-panel .status-item {
       margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
     }
-
     .init-status-panel .status-label {
       font-weight: bold;
       margin-right: 10px;
     }
-
     .init-status-panel .status-value {
       color: #2ecc71;
     }
-
     .init-status-panel .status-error {
       color: #e74c3c;
     }
-
     .init-status-panel .status-warning {
       color: #f39c12;
     }
@@ -591,32 +488,10 @@
       z-index: 2001;
     }
 
-    /* ==== 错误处理面板 ==== */
     .error-panel {
-      background: #f8d7da;
-      border-left: 4px solid #e74c3c;
-      padding: 15px;
-      margin: 20px 0;
-      border-radius: 0 8px 8px 0;
-      text-align: left;
+      background: #极市可视化大屏
     }
 
-    .error-panel h4 {
-      color: #721c24;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-
-    .error-panel ul {
-      padding-left: 20px;
-      margin-bottom: 10px;
-    }
-
-    .error-panel li {
-      margin-bottom: 5px;
-    }
-
-    /* 预加载状态 */
     .preload-status {
       text-align: center;
       padding: 20px;
@@ -624,15 +499,12 @@
       background: #f8f9fa;
       border-radius: 10px;
     }
-    
     .preload-progress {
       height: 20px;
       background: #e9ecef;
       border-radius: 10px;
-      margin: 10px 0;
-      overflow: hidden;
+      margin: 极市可视化大屏
     }
-    
     .preload-progress-bar {
       height: 100%;
       background: #3498db;
@@ -677,7 +549,7 @@
       <span class="status-label">摄像头状态:</span>
       <span class="status-value" id="status-camera">检测中...</span>
     </div>
-    <div class="status-item">
+    <div class="极市可视化大屏
       <span class="status-label">Webgazer状态:</span>
       <span class="status-value" id="status-webgazer">未初始化</span>
     </div>
@@ -687,7 +559,7 @@
     </div>
     <div class="status-item">
       <span class="status-label">安全环境:</span>
-      <span class="status-value" id="status-security">检测中...</span>
+      <span class="status-value" id="极市可视化大屏
     </div>
     <div class="status-item">
       <span class="status-label">错误信息:</span>
@@ -706,11 +578,21 @@
   <script>
     /* ==== 用户信息存储 ==== */
     let userInfo = null;
-    let cameraPermissionDenied = false; // 摄像头权限状态
-    let webgazerInitialized = false;   // Webgazer初始化状态
-    let gazeData = []; // 存储每个试次的眼动数据
-    let gazeUpdateInterval; // 眼动数据更新间隔
-    let imageLoadErrors = []; // 记录图片加载错误
+    let cameraPermissionDenied = false;
+    let webgazerInitialized = false;
+    let gazeData = [];
+    let gazeUpdateInterval;
+    let imageLoadErrors = [];
+    
+    // 添加调试标志
+    const DEBUG_MODE = true;
+    
+    // 添加眼动数据记录器
+    function logGazeData(message, data = null) {
+      if (DEBUG_MODE) {
+        console.log(`[GAZE] ${message}`, data || '');
+      }
+    }
 
     /* ==== GitHub API 中转配置 ==== */
     const API_BASE_URL = 'https://ok.edemi-lab.online/api/gh-eye';
@@ -722,19 +604,17 @@
         {
           type: jsPsychExtensionWebgazer,
           params: {
-            capture_events: ['gaze'], // 捕获眼动事件
-            sampling_rate: 50 // 每秒采样50次
+            capture_events: ['gaze'],
+            sampling_rate: 50
           }
         }
       ],
       on_trial_finish: function(data) {
-        // 在每个试次结束时记录额外信息
         if (data.task === 'view') {
-          console.log(`试次 ${data.trial_index} 完成:`, data);
+          logGazeData(`试次 ${data.trial_index} 完成`, data);
         }
       },
       on_finish: function() {
-        // 实验结束时停止音乐
         if (window.globalAudio && !window.globalAudio.paused) {
           window.globalAudio.pause();
         }
@@ -774,7 +654,7 @@
       updateInitStatus('security', isSecure ? '安全' : '不安全', !isSecure);
 
       // 2. 检查浏览器是否支持媒体设备
-      const hasMediaDevices = 'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices;
+      const hasMediaDevices = 'mediaDevices' in navigator && '极市可视化大屏
       updateInitStatus('camera', hasMediaDevices ? '支持' : '不支持', !hasMediaDevices);
 
       // 3. 尝试获取摄像头权限
@@ -805,7 +685,7 @@
 
       let alertHTML = `
         <h3>摄像头权限问题</h3>
-        ${!status.hasMediaDevices ? `
+        ${!status.hasMedia极市可视化大屏
           <div class="browser-warning">
             <p class="warning">您的浏览器不支持摄像头功能</p>
             <p>请使用最新版本的Chrome、Firefox或Edge浏览器参与实验。</p>
@@ -813,7 +693,7 @@
         ` : ''}
 
         ${!status.isSecure ? `
-          <div class="protocol-warning">
+          <极市可视化大屏
             <p class="warning">当前环境不安全</p>
             <p>摄像头功能需要HTTPS安全连接或本地环境(localhost)。</p>
             <p>当前协议: ${location.protocol}</p>
@@ -833,14 +713,14 @@
           </div>
         ` : ''}
 
-        <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+        <div style="margin-top: 20px; display: flex;极市可视化大屏
           <button id="reload-btn" class="auth-confirm auth-button">刷新页面</button>
           <button id="continue-btn" class="auth-cancel auth-button">继续实验(无眼动)</button>
         </div>
       `;
 
       alertEl.innerHTML = alertHTML;
-      alertEl.style.display = 'block';
+      alert极市可视化大屏
 
       // 添加事件处理
       document.getElementById('reload-btn').addEventListener('click', () => {
@@ -900,7 +780,7 @@
       } catch (error) {
         console.error(`GitHub Issue操作失败(剩余重试次数: ${retries-1}):`, error);
 
-        // 如果还有重试次数，等待后重试
+        // 如果还有重试次数，等待后极市可视化大屏
         if (retries > 0) {
           await new Promise(resolve => setTimeout(resolve, 2000));
           return getOrCreateIssue(retries - 1);
@@ -929,7 +809,7 @@
 
         clearTimeout(timeoutId);
 
-        if (!response.ok) {
+        if (!response极市可视化大屏
           const errorData = await response.json();
           console.error('添加评论错误详情:', errorData);
           let errorMsg = `中转API返回错误: ${response.status}`;
@@ -966,7 +846,7 @@
         // 解析文件名和后缀
         const lastDotIndex = fileName.lastIndexOf('.');
         let baseName, extension;
-        if (lastDotIndex === -1) {
+        if (lastDotIndex === -极市可视化大屏
           baseName = fileName;
           extension = '';
         } else {
@@ -999,7 +879,7 @@
           }
 
           // 提取当前部分
-          const partData = fileData.slice(startIndex, endIndex);
+          const partData = fileData.slice(start极市可视化大屏
           const partContent = new TextDecoder().decode(partData);
 
           // 生成文件名（添加分块编号）
@@ -1017,11 +897,11 @@
         // 等待所有上传完成
         return await Promise.all(uploadPromises);
       } catch (error) {
-        console.error(`文件上传失败(剩余重试次数: ${retries-1}):`, error);
+        console.error(`文件上传失败(剩余重试次数: ${retries-1极市可视化大屏
 
         if (retries > 0) {
           await new Promise(resolve => setTimeout(resolve, 2000));
-          return uploadFileToGitHub(content, fileName, directory, retries - 1);
+          return uploadFile极市可视化大屏
         }
 
         throw error;
@@ -1032,7 +912,7 @@
     async function uploadFilePart(content, fileName, retries = 1) {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 20000); // 延长超时时间到20秒
+        const timeout极市可视化大屏
 
         const response = await fetch(API_BASE_URL, {
           method: 'POST',
@@ -1054,7 +934,7 @@
           try {
             const errorData = await response.json();
             if (errorData && errorData.error) {
-              errorMsg = errorData.error;
+              errorMsg = error极市可视化大屏
               if (errorData.message) {
                 errorMsg += `: ${errorData.message}`;
               }
@@ -1085,7 +965,7 @@
       const now = new Date();
       const dateTime = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
 
-      return `## 第 ${userInfo.session} 次实验数据\n\n` +
+      return `## 第 ${userInfo.session} 次极市可视化大屏
              `- **实验日期时间**: ${dateTime}\n` +
              `- **眼动数据点总数**: ${dataPoints}\n`;
     }
@@ -1131,7 +1011,7 @@
       });
     }
 
-    // 身材图片：b文件夹（共25张）
+    // 身材图片：b文件夹（共极市可视化大屏
     // 前11张：左侧胖；后14张：左侧瘦
     const bodyImages = [];
     const totalBody = 25;
@@ -1141,7 +1021,7 @@
       bodyImages.push({
         src: `b/${i}.jpg`, // 图片路径：b文件夹下
         type: 'body',
-        attribute: isFat ? 'fat' : 'thin', // 标记胖/瘦
+        attribute: is极市可视化大屏
         position: 'left', // 左侧为目标属性（胖/瘦）
         index: i // 原始序号
       });
@@ -1149,8 +1029,13 @@
 
     /* ==== 眼动数据分析函数 ==== */
     
-    // 计算注视时间差异
+    // 计算注视时间差异 - 修复版本
     function calculateGazeTimeDifference(gazeData, containerRect, imageType, imageAttribute) {
+      if (!gazeData || gazeData.length === 0 || !containerRect) {
+        logGazeData("无法计算注视时间差异: 缺少眼动数据或容器位置信息");
+        return 0;
+      }
+      
       // 计算图片中间线
       const midX = containerRect.left + containerRect.width / 2;
       
@@ -1159,9 +1044,9 @@
       
       // 计算左右注视时间
       gazeData.forEach(point => {
-        if (point.x < midX) {
+        if (point.x && point.x < midX) {
           leftTime += 20; // 每个采样点20ms
-        } else {
+        } else if (point.x) {
           rightTime += 20;
         }
       });
@@ -1188,15 +1073,22 @@
       }
     }
     
-    // 计算首视点差异
+    // 计算首视点差异 - 修复版本
     function calculateFirstGazeDifference(gazeData, containerRect, imageType, imageAttribute) {
-      if (!gazeData || gazeData.length === 0) return 0;
+      if (!gazeData || gazeData.length === 0 || !containerRect) {
+        logGazeData("无法计算首视点差异: 缺少眼动数据或容器位置信息");
+        return 0;
+      }
       
-      // 计算图片中间线
+      // 计算图片中间极市可视化大屏
       const midX = containerRect.left + containerRect.width / 2;
       
       // 获取第一个有效注视点
-      const firstPoint = gazeData[0];
+      const firstPoint = gazeData.find(point => point.x && point.y);
+      if (!firstPoint) {
+        logGazeData("无法计算首视点差异: 没有有效的眼动数据点");
+        return 0;
+      }
       
       // 判断第一个注视点在左侧还是右侧
       const isLeft = firstPoint.x < midX;
@@ -1223,9 +1115,12 @@
       }
     }
     
-    // 计算回视次数
+    // 计算回视次数 - 修复版本
     function calculateRegressiveSaccades(gazeData, containerRect, imageType, imageAttribute) {
-      if (!gazeData || gazeData.length < 3) return 0;
+      if (!gaze极市可视化大屏
+        logGazeData("无法计算回视次数: 眼动数据不足或缺少容器位置信息");
+        return 0;
+      }
       
       // 计算图片中间线
       const midX = containerRect.left + containerRect.width / 2;
@@ -1234,7 +1129,7 @@
       let targetSide, nonTargetSide;
       
       if (imageType === 'food') {
-        // 对于食物图片：目标区域=高热量，非目标区域=低热量
+        // 对于食物图片：目标区域=高热量，非目标区域=极市可视化大屏
         if (imageAttribute === 'low_calorie') {
           // 左侧是低热量，右侧是高热量
           targetSide = 'right';
@@ -1258,14 +1153,15 @@
       }
       
       let regressiveCount = 0;
-      let lastSide = null;
       let wasInTarget = false;
       let wasInNonTarget = false;
       
       // 遍历眼动数据，检测回视模式
       for (let i = 0; i < gazeData.length; i++) {
         const point = gazeData[i];
-        const currentSide = point.x < midX ? 'left' : 'right';
+        if (!point.x || !point.y) continue; // 跳过无效点
+        
+        const currentSide = point.x < mid极市可视化大屏
         
         // 检测回视模式：目标区域 -> 非目标区域 -> 目标区域
         if (currentSide === targetSide) {
@@ -1273,14 +1169,14 @@
             // 从非目标区域回到目标区域，完成一次回视
             regressiveCount++;
             wasInNonTarget = false;
+            logGazeData(`检测到回视: 从${nonTargetSide}回到${targetSide}`, point);
           }
           wasInTarget = true;
         } else if (currentSide === nonTargetSide && wasInTarget) {
           // 从目标区域移动到非目标区域
           wasInNonTarget = true;
+          wasInTarget = false;
         }
-        
-        lastSide = currentSide;
       }
       
       return regressiveCount;
@@ -1324,10 +1220,10 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="age">年龄</label>
+              <极市可视化大屏
               <input type="number" id="age" min="18" max="60" placeholder="请输入年龄">
             </div>
-            <button class="login-button" id="login-btn">开始实验</button>
+            <button class="login-button"极市可视化大屏
             <div id="login-status" style="margin-top: 15px;"></div>
           </div>
         `;
@@ -1399,7 +1295,7 @@
           localStorage.setItem(`user_${subjectId}`, JSON.stringify({ gender, age }));
 
           // 显示成功信息
-          statusEl.innerHTML = '<p style="color: #27ae60;">验证通过，正在进入实验...</p>';
+          statusEl.innerHTML = '<极市可视化大屏
 
           // 继续实验流程
           setTimeout(() => {
@@ -1436,7 +1332,7 @@
     /* 预加载资源 */
     const allImages = [...foodImages, ...bodyImages].map(img => img.src);
     
-    // 自定义预加载函数，提供更好的反馈
+    // 自定义预加载函数
     const preload = {
       type: jsPsychPreload,
       images: allImages,
@@ -1444,7 +1340,7 @@
         return `
           <div class="centered-text">
             <p>正在加载资源，请稍候…</p>
-            <div class="preload-status">
+            <div class极市可视化大屏
               <p>加载进度: <span id="preload-progress">0</span>%</p>
               <div class="preload-progress">
                 <div class="preload-progress-bar" id="preload-progress-bar" style="width: 0%"></div>
@@ -1469,10 +1365,10 @@
       on_progress: function(progress) {
         // 更新加载进度
         const progressEl = document.getElementById('preload-progress');
-        const progressBarEl = document.getElementById('preload-progress-bar');
+        const progressBar极市可视化大屏
         const statusEl = document.getElementById('preload-status');
         
-        if (progressEl && progressBarEl && statusEl) {
+        if (progressEl && progressBarEl && status极市可视化大屏
           const percent = Math.round(progress * 100);
           progressEl.textContent = percent;
           progressBarEl.style.width = `${percent}%`;
@@ -1504,7 +1400,7 @@
           <p>为了进行眼动追踪，我们需要访问您的摄像头。</p>
           <p>您将在下一屏幕收到权限请求。</p>
           <p class="warning">请务必点击"允许"，否则眼动追踪功能将无法工作。</p>
-          <p>摄像头仅用于分析您的眼部运动，不会保存任何视频数据。</p>
+          <极市可视化大屏
         </div>
       `,
       choices: ['明白了'],
@@ -1583,7 +1479,7 @@
       stimulus: `
         <div class="centered-text">
           <p>现在将进行眼动校准，以便软件使用您的眼部图像预测您的注视位置。</p>
-          <p>您将看到一系列圆点出现在屏幕上。请注视每个圆点并点击它。</p>
+          <p>您将看到一系列圆点出现在屏幕上。请注视每个极市可视化大屏
         </div>
       `,
       choices: ['明白了']
@@ -1591,7 +1487,7 @@
     timeline.push(calibration_instructions);
 
     const calibration = {
-      type: jsPsychWebgazerCalibrate,
+      type: jsPsychWebgazer极市可视化大屏
       calibration_points: [
         [25, 25], [75, 25], [50, 50], [25, 75], [75, 75]
       ],
@@ -1617,7 +1513,7 @@
     const validation = {
       type: jsPsychWebgazerValidate,
       validation_points: [
-        [25, 25], [75, 25], [50, 50], [25, 75], [75, 75]
+        [25, 25], [75, 25], [50, 50], [极市可视化大屏
       ],
       roi_radius: 200,
       time_to_saccade: 1000,
@@ -1647,7 +1543,7 @@
     };
     timeline.push(recalibrate);
 
-    const calibration_done = {
+    const calibration_d极市可视化大屏
       type: jsPsychHtmlButtonResponse,
       stimulus: `
         <div class="centered-text">
@@ -1673,10 +1569,10 @@
     const instructions = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: `
-        <div class="centered-text">
+        <div class="极市可视化大屏
           <p>在实验中，您将先后观看两类对比图片：食物图片和身材图片。</p>
           <p>食物图片展示左侧低热量/高热量食物的对比，身材图片展示左侧胖/瘦身材的对比。</p>
-          <p>每张图片将呈现6秒，图片之间休息2秒。</p>
+          <p>每张极市可视化大屏
           <p>请按任意键开始实验。</p>
         </div>
       `,
@@ -1694,48 +1590,70 @@
     const centralFixation = document.getElementById('central-fixation');
     const gazePoint = document.getElementById('gaze-point');
 
-    // 开始眼动追踪并记录数据
+    // 开始眼动追踪并记录数据 - 修复版本
     function startGazeTracking(trialData) {
       if (gazeUpdateInterval) clearInterval(gazeUpdateInterval);
       gazeData = []; // 重置眼动数据数组
+      
+      logGazeData(`开始眼动追踪，试次: ${trialData.trial_index}`);
 
       // 每20ms记录一次眼动数据（50Hz采样率）
       gazeUpdateInterval = setInterval(() => {
-        if (webgazer) {
+        if (webgazer && webgazer.getCurrentPrediction) {
           webgazer.getCurrentPrediction().then(function(pred) {
-            if (pred) {
-              gazeData.push({
+            if (pred && pred.x && pred.y) {
+              const gazePoint = {
                 timestamp: Date.now(),
                 trial_start_time: trialData.trial_start_time,
                 relative_time: Date.now() - trialData.trial_start_time,
                 x: pred.x,
                 y: pred.y,
                 confidence: pred.confidence || null
-              });
+              };
+              
+              gazeData.push(gazePoint);
+              
+              // 在调试模式下显示注视点
+              if (DEBUG_MODE) {
+                const gazeDot = document.getElementById('gaze-point');
+                if (gazeDot) {
+                  gazeDot.style.display = 'block';
+                  gazeDot.style.left = `${pred.x - 5}px`;
+                  gazeDot.style.top = `${pred.y - 5}px`;
+                }
+              }
             }
+          }).catch(error => {
+            logGazeData("获取眼动预测失败", error);
           });
         }
       }, 20);
     }
 
-    // 停止眼动追踪并保存数据
+    // 停止眼动追踪并保存数据 - 修复版本
     function stopGazeTracking() {
       if (gazeUpdateInterval) {
         clearInterval(gazeUpdateInterval);
         gazeUpdateInterval = null;
       }
-      gazePoint.style.display = 'none';
-      return gazeData; // 返回收集的眼动数据
+      
+      const gazeDot = document.getElementById('gaze-point');
+      if (gazeDot) {
+        gazeDot.style.display = 'none';
+      }
+      
+      logGazeData(`停止眼动追踪，收集到 ${gazeData.length极市可视化大屏
+      return gazeData;
     }
 
-    // 生成食物试次
+    // 生成食物试次 - 修复版本
     foodImages.forEach((img, index) => {
       // 注视点试次
       foodTrials.push({
         type: jsPsychHtmlKeyboardResponse,
         stimulus: '',
         choices: "NO_KEYS",
-        trial_duration: 1000, // 固定1秒注视点
+        trial_duration: 1000,
         data: {
           task: 'fixation',
           phase: 'food',
@@ -1759,7 +1677,7 @@
           const imageFailed = imageLoadErrors.includes(img.src);
           
           return `
-            <div class="stimulus-container">
+            <div class="stimulus-container" id="stimulus-container-${index}">
               <div class="image-half image-left"></div>
               <div class="image-half image-right"></div>
               ${imageFailed ? 
@@ -1775,7 +1693,7 @@
                 <p>图片加载失败: ${img.src}</p>
                 <p>图片类型: ${img.type}</p>
                 <p>属性: ${img.attribute}</p>
-                <p>位置: ${img.position}</p>
+                <极市可视化大屏
               </div>
             </div>
           `;
@@ -1790,12 +1708,12 @@
           image_attribute: img.attribute,
           image_position: img.position,
           original_index: img.index,
-          image_src: img.src,
+          image_s极市可视化大屏
           trial_index: index + 1,
           total_trials: foodImages.length,
-          trial_start_time: null, // 将在on_start中设置
+          trial_start_time: null,
           gaze_data: null,
-          container_rect: null // 将在on_start中设置
+          container_rect: null
         },
         extensions: [
           {
@@ -1809,19 +1727,25 @@
           trial.data.trial_start_time = startTime;
           this.trial_start_time = startTime;
           
-          // 记录图片容器位置信息
-          const container = document.querySelector('.stimulus-container');
-          if (container) {
-            const rect = container.getBoundingClientRect();
-            trial.data.container_rect = {
-              left: rect.left,
-              right: rect.right,
-              top: rect.top,
-              bottom: rect.bottom,
-              width: rect.width,
-              height: rect.height
-            };
-          }
+          // 使用setTimeout确保DOM已渲染
+          setTimeout(() => {
+            // 记录图片容器位置信息
+            const container = document.getElementById(`stimulus-container-${index}`);
+            if (container) {
+              const rect = container.getBoundingClientRect();
+              trial.data.container_rect = {
+                left: rect.left,
+                right: rect.right,
+                top: rect.top,
+                bottom: rect.bottom,
+                width: rect.width,
+                height: rect.height
+              };
+              logGazeData(`容器位置信息记录完成`, trial.data.container_rect);
+            } else {
+              logGazeData("无法找到容器元素");
+            }
+          }, 100);
           
           startGazeTracking(trial.data);
         },
@@ -1843,24 +1767,28 @@
               data.trial_start_time = gazeData[0].timestamp;
               data.trial_duration_actual = endTime - data.trial_start_time;
             } else {
-              // 没有眼动数据，使用默认试次时长
+              // 没有眼动数据，极市可视化大屏
               data.trial_duration_actual = 6000;
             }
           }
 
-          data.gaze_data = stopGazeTracking(); // 保存眼动数据
+          data.gaze_data = stopGazeTracking();
+          logGazeData(`试次完成，收集到 ${data.gaze_data.length} 个眼动数据点`, {
+            gaze_data_length: data.gaze_data.length,
+            container_rect: data.container_rect
+          });
         }
       };
       foodTrials.push(foodTrial);
 
-      // 试次间休息（最后一个试次后不休息）
+      // 试次间休息
       if (index < foodImages.length - 1) {
         foodTrials.push({
           type: jsPsychHtmlKeyboardResponse,
           stimulus: '',
           choices: "NO_KEYS",
           trial_duration: 2000,
-          data: {
+          data极市可视化大屏
             task: 'rest',
             phase: 'food',
             block: 'food_presentation',
@@ -1871,7 +1799,7 @@
       }
     });
 
-    // 阶段过渡提示（从食物到身材）
+    // 阶段过渡提示
     const phaseTransition = {
       type: jsPsychHtmlButtonResponse,
       stimulus: `
@@ -1919,14 +1847,14 @@
       choices: ['继续']
     };
 
-    // 生成身材试次
+    // 生成身材试次 - 修复版本
     bodyImages.forEach((img, index) => {
       // 注视点试次
       bodyTrials.push({
         type: jsPsychHtmlKeyboardResponse,
         stimulus: '',
         choices: "NO_KEYS",
-        trial_duration: 1000, // 固定1秒注视点
+        trial_duration: 1000,
         data: {
           task: 'fixation',
           phase: 'body',
@@ -1938,7 +1866,7 @@
           centralFixation.style.display = 'block';
         },
         on_finish: function() {
-          centralFixation.style.display = 'none';
+          centralFixation.style.display = '极市可视化大屏
         }
       });
 
@@ -1950,17 +1878,17 @@
           const imageFailed = imageLoadErrors.includes(img.src);
           
           return `
-            <div class="stimulus-container">
-              <div class="image-half image-left"></div>
+            <div class="stimulus-container" id="stimulus-container-body-${index}">
+              <div class极市可视化大屏
               <div class="image-half image-right"></div>
               ${imageFailed ? 
                 `<div class="image-error">
-                  <p>图片加载失败: ${img.src}</p>
+                  <p>图片加载失败: ${img.src}</极市可视化大屏
                   <p>图片类型: ${img.type}</p>
                   <p>属性: ${img.attribute}</p>
                   <p>位置: ${img.position}</p>
                 </div>` : 
-                `<img src="${img.src}" class="stimulus-image" alt="身材对比图片" onerror="this.style.display='none'; this.parentNode.querySelector('.image-error').style.display='block';" />`
+                `<img src="${img.src}" class="stimulus-image" alt="身材对比图片" onerror="this.style.display='极市可视化大屏
               }
               <div class="image-error" style="display: none;">
                 <p>图片加载失败: ${img.src}</p>
@@ -1984,9 +1912,9 @@
           image_src: img.src,
           trial_index: index + 1,
           total_trials: bodyImages.length,
-          trial_start_time: null, // 将在on_start中设置
+          trial_start_time: null,
           gaze_data: null,
-          container_rect: null // 将在on_start中设置
+          container_rect: null
         },
         extensions: [
           {
@@ -1997,22 +1925,28 @@
         on_start: function(trial) {
           // 记录试次开始时间
           const startTime = Date.now();
-          trial.data.trial_start_time = startTime;
+          trial.data.trial_start_time极市可视化大屏
           this.trial_start_time = startTime;
           
-          // 记录图片容器位置信息
-          const container = document.querySelector('.stimulus-container');
-          if (container) {
-            const rect = container.getBoundingClientRect();
-            trial.data.container_rect = {
-              left: rect.left,
-              right: rect.right,
-              top: rect.top,
-              bottom: rect.bottom,
-              width: rect.width,
-              height: rect.height
-            };
-          }
+          // 使用setTimeout确保DOM已渲染
+          setTimeout(() => {
+            // 记录图片容器位置信息
+            const container = document.getElementById(`stimulus-container-body-${index}`);
+            if (container) {
+              const rect = container.getBoundingClientRect();
+              trial.data.container_rect = {
+                left: rect.left,
+                right: rect.right,
+                top: rect.top,
+                bottom: rect.bottom,
+                width: rect.width,
+                height: rect.height
+              };
+              logGazeData(`容器位置信息记录完成`, trial.data.container_rect);
+            } else {
+              logGazeData("无法找到容器元素");
+            }
+          }, 100);
           
           startGazeTracking(trial.data);
         },
@@ -2031,7 +1965,7 @@
           } else {
             // 如果开始时间无效，使用眼动数据的第一条时间戳（如果有）
             if (gazeData.length > 0) {
-              data.trial_start_time = gazeData[0].timestamp;
+              data.trial_start_time = gazeData[极市可视化大屏
               data.trial_duration_actual = endTime - data.trial_start_time;
             } else {
               // 没有眼动数据，使用默认试次时长
@@ -2039,12 +1973,16 @@
             }
           }
 
-          data.gaze_data = stopGazeTracking(); // 保存眼动数据
+          data.gaze_data = stopGazeTracking();
+          logGazeData(`试次完成，收集到 ${data.gaze_data.length} 个眼动数据点`, {
+            gaze_data_length: data.gaze_data.length,
+            container_rect: data.container_rect
+          });
         }
       };
       bodyTrials.push(bodyTrial);
 
-      // 试次间休息（最后一个试次后不休息）
+      // 试次间休息
       if (index < bodyImages.length - 1) {
         bodyTrials.push({
           type: jsPsychHtmlKeyboardResponse,
@@ -2062,7 +2000,7 @@
       }
     });
 
-    // 按顺序添加到主时间线：先食物试次，再过渡，再校准，再身材试次
+    // 按顺序添加到主时间线
     timeline.push({ timeline: foodTrials });
     timeline.push(phaseTransition);
     timeline.push(mid_calibration_instructions);
@@ -2076,7 +2014,7 @@
       stimulus: function() {
         return `
           <div class="centered-text">
-            <p>实验完成！正在处理数据...</p>
+            <p极市可视化大屏
             <div class="status-message status-loading" id="status-message">
               数据计算中，请稍候...
             </div>
@@ -2090,6 +2028,7 @@
 
           // 收集所有实验数据
           const allData = jsPsych.data.get().filter({task: 'view'}).values();
+          logGazeData("所有试次数据", allData);
 
           // 计算眼动数据点总数
           const dataPoints = allData.reduce((total, trial) => {
@@ -2099,18 +2038,26 @@
           // 分离食物和身材数据
           const foodData = allData.filter(trial => trial.phase === 'food');
           const bodyData = allData.filter(trial => trial.phase === 'body');
+          
+          logGazeData("食物数据", foodData);
+          logGazeData("身材数据", bodyData);
 
           // 计算眼动指标
-          let fGazeTimeSum = 0;     // F注视时间总和
-          let fFirstGazeSum = 0;    // F首视点总和
-          let fRegressiveSum = 0;   // F回视次数总和
+          let fGazeTimeSum = 0;
+          let fFirstGazeSum = 0;
+          let fRegressiveSum = 0;
           
-          let bGazeTimeSum = 0;     // B注视时间总和
-          let bFirstGazeSum = 0;    // B首视点总和
-          let bRegressiveSum = 0;   // B回视次数总和
+          let bGazeTimeSum = 0;
+          let bFirst极市可视化大屏
+          let bRegressiveSum = 0;
 
           // 处理食物数据
           foodData.forEach(trial => {
+            logGazeData(`处理食物试次 ${trial.trial_index}`, {
+              gaze_data_length: trial.gaze_data ? trial.gaze_data.length : 0,
+              container_rect: trial.container_rect
+            });
+            
             if (trial.gaze_data && trial.gaze_data.length > 0 && trial.container_rect) {
               // 计算注视时间差异
               const gazeTimeDiff = calculateGazeTimeDifference(
@@ -2138,11 +2085,22 @@
                 trial.image_attribute
               );
               fRegressiveSum += regressiveCount;
+              
+              logGazeData(`食物试次 ${trial.trial_index} 计算结果`, {
+                gazeTimeDiff,
+                firstGazeDiff,
+                regressiveCount
+              });
             }
           });
 
           // 处理身材数据
           bodyData.forEach(trial => {
+            logGazeData(`处理身材试次 ${trial.trial_index}`, {
+              gaze_data_length: trial.gaze_data ? trial.gaze_data.length : 0,
+              container_rect: trial.container_rect
+            });
+            
             if (trial.gaze_data && trial.gaze_data.length > 0 && trial.container_rect) {
               // 计算注视时间差异
               const gazeTimeDiff = calculateGazeTimeDifference(
@@ -2170,17 +2128,32 @@
                 trial.image_attribute
               );
               bRegressiveSum += regressiveCount;
+              
+              logGazeData(`身材试次 ${trial.trial_index} 计算结果`, {
+                gazeTimeDiff,
+                firstGazeDiff,
+                regressiveCount
+              });
             }
           });
 
           // 计算平均值
-          const fGazeTimeAvg = foodData.length > 0 ? fGazeTimeSum / foodData.length : 0;
+          const fGazeTimeAvg = foodData.length > 0 ? fGaze极市可视化大屏
           const fFirstGazeAvg = foodData.length > 0 ? fFirstGazeSum / foodData.length : 0;
           const fRegressiveAvg = foodData.length > 0 ? fRegressiveSum / foodData.length : 0;
           
           const bGazeTimeAvg = bodyData.length > 0 ? bGazeTimeSum / bodyData.length : 0;
           const bFirstGazeAvg = bodyData.length > 0 ? bFirstGazeSum / bodyData.length : 0;
           const bRegressiveAvg = bodyData.length > 0 ? bRegressiveSum / bodyData.length : 0;
+          
+          logGazeData("最终计算结果", {
+            fGazeTimeAvg,
+            fFirstGazeAvg,
+            fRegressiveAvg,
+            bGazeTimeAvg,
+            bFirstGazeAvg,
+            bRegressiveAvg
+          });
 
           // 生成CSV数据
           const csvData = allData.map(trial => {
@@ -2203,11 +2176,11 @@
               baseData.first_gaze_x = trial.gaze_data[0].x;
               baseData.first_gaze_y = trial.gaze_data[0].y;
               baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
-              baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
+              baseData.last_gaze_y = trial.gaze_data[trial极市可视化大屏
               baseData.gaze_samples = trial.gaze_data.length;
             }
 
-            return baseData;
+            return base极市可视化大屏
           });
 
           // 添加眼动指标到CSV数据
@@ -2260,7 +2233,7 @@
                   <p>F注视时间: ${fGazeTimeAvg.toFixed(2)}ms</p>
                   <p>F首视点: ${fFirstGazeAvg.toFixed(2)}</p>
                   <p>F回视次数: ${fRegressiveAvg.toFixed(2)}</p>
-                  <p>B注视时间: ${bGazeTimeAvg.toFixed(2)}ms</p>
+                  <p>B注视时间: ${bGazeTimeAvg极市可视化大屏
                   <p>B首视点: ${bFirstGazeAvg.toFixed(2)}</p>
                   <p>B回视次数: ${bRegressiveAvg.toFixed(2)}</p>
                 </div>
@@ -2280,7 +2253,7 @@
             });
 
             // 保存JSON到本地按钮（使用新文件名格式）
-            document.getElementById('save-json-btn').addEventListener('click', function() {
+            document.getElementById('save-json-btn').addEventListener('极市可视化大屏
               saveJSONToLocal(jsonContent, jsonFileName);
             });
 
@@ -2305,15 +2278,15 @@
               `- **F首视点**: ${fFirstGazeAvg.toFixed(2)}\n` +
               `- **F回视次数**: ${fRegressiveAvg.toFixed(2)}\n` +
               `- **B注视时间**: ${bGazeTimeAvg.toFixed(2)}ms\n` +
-              `- **B首视点**: ${bFirstGazeAvg.toFixed(2)}\n` +
-              `- **B回视次数**: ${bRegressiveAvg.toFixed(2)}\n`;
+              `- **B首视点**: ${bFirstGazeAvg.toFixed(2)}\极市可视化大屏
+              `- **B回视次数**: ${极市可视化大屏
 
-            // 3. 添加评论到Issue（每次的数据作为一条评论）
+            // 3. 添加评论极市可视化大屏
             statusMessage.textContent = "上传数据到GitHub Issues...";
             await addIssueComment(issue.number, commentBody);
 
             // 4. 上传CSV文件到data1目录（使用新文件名格式）
-            statusMessage.textContent = "上传CSV文件到data1目录...";
+            statusMessage.textContent = "上传CS极市可视化大屏
             await uploadFileToGitHub(csvContent, csvFileName, 'data1');
 
             // 5. 上传JSON文件到data2目录（使用新文件名格式）
@@ -2344,7 +2317,7 @@
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
                   <button class="copy-button" id="copy-btn">复制报告摘要</button>
                   <button class="github-button" id="github-btn">查看GitHub记录</button>
-                  <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
+                  <button class="save-button极市可视化大屏
                   <button class="save-button" id="save-json-btn">保存JSON到本地</button>
                   <button class="exit-button" id="exit-btn">退出实验</button>
                 </div>
@@ -2355,7 +2328,7 @@
 
             // 添加按钮事件
             document.getElementById('copy-btn').addEventListener('click', function() {
-              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}\nF注视时间: ${fGazeTimeAvg.toFixed(2)}ms\nF首视点: ${fFirstGazeAvg.toFixed(2)}\nF回视次数: ${fRegressiveAvg.toFixed(2)}\nB注视时间: ${bGazeTimeAvg.toFixed(2)}ms\nB首视点: ${bFirstGazeAvg.toFixed(2)}\nB回视次数: ${bRegressiveAvg.toFixed(2)}\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
+              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}\nF注视时间: ${fGazeTimeAvg.toFixed(2)}ms\nF首视点: ${fFirstGazeAvg极市可视化大屏
               navigator.clipboard.writeText(summary)
                 .then(() => alert('报告摘要已复制到剪贴板'))
                 .catch(err => console.error('复制失败:', err));
@@ -2375,7 +2348,7 @@
               authModal.style.display = 'flex';
 
               // 确认按钮事件
-              document.getElementById('auth-confirm').onclick = function() {
+              document.getElementById('auth-confirm').on极市可视化大屏
                 if (authCode.value.toLowerCase() === 'eye') {
                   window.open(issue.html_url, '_blank');
                   authModal.style.display = 'none';
@@ -2395,7 +2368,7 @@
               saveCSVToLocal(csvContent, csvFileName);
             });
 
-            // 保存JSON到本地按钮（使用新文件名格式）
+            // 保存JSON到本地按钮（使用新文件名极市可视化大屏
             document.getElementById('save-json-btn').addEventListener('click', function() {
               saveJSONToLocal(jsonContent, jsonFileName);
             });
@@ -2451,7 +2424,7 @@
 
           // 生成新格式文件名（添加时间戳确保唯一性）
           const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
-          const sessionStr = userInfo.session.toString().padStart(2, '0');
+          const sessionStr = user极市可视化大屏
           const timestamp = Date.now();
           const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
           const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
@@ -2460,7 +2433,7 @@
           document.querySelector('.jspsych-content').innerHTML += `
             <div class="error-panel">
               <h4>数据上传失败处理方案</h4>
-              <p>系统无法自动上传数据到服务器，请选择以下操作：</p>
+              <p>系统无法自动上传数据到服务器，请极市可视化大屏
               <p><strong>错误原因:</strong> ${error.message}</p>
               <ul>
                 <li>检查您的网络连接后重试</li>
@@ -2478,7 +2451,7 @@
           `;
 
           // 重试上传按钮
-          document.getElementById('retry-btn').addEventListener('click', async () => {
+          document.getElementById('retry-btn').addEventListener('click', async ()极市可视化大屏
             const statusMessage = document.getElementById('status-message');
             statusMessage.className = "status-message status-loading";
             statusMessage.textContent = "正在重试上传数据...";
@@ -2502,14 +2475,14 @@
 
             } catch (retryError) {
               statusMessage.className = "status-message status-error";
-              statusMessage.textContent = `重试失败: ${retryError.message}`;
+              statusMessage.text极市可视化大屏
               console.error('重试错误信息:', retryError);
             }
           });
 
           // 保存CSV按钮（使用新文件名格式）
           document.getElementById('save-csv-btn').addEventListener('click', function() {
-            saveCSVToLocal(csvContent, csvFileName);
+            saveCSV极市可视化大屏
             // 更新实验次数
             localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
           });
