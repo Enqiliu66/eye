@@ -22,8 +22,589 @@
   <script src="https://unpkg.com/@jspsych/plugin-call-function@1.0.0"></script>
 
   <style>
-    /* 所有样式保持不变，为了节省空间这里省略 */
-    /* 请保留原有的所有样式 */
+    /* ==== 全局样式 ==== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Roboto', 'Microsoft YaHei', sans-serif;
+      background: #f5f6f8;
+      color: #333;
+      overflow: hidden;
+    }
+
+    /* ==== 顶部导航栏 ==== */
+    .header {
+      width: 100%;
+      background: linear-gradient(90deg, #2c3e50, #4b6082);
+      padding: 15px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+    }
+    .header h1 {
+      color: #fff;
+      font-weight: 500;
+      font-size: 1.6rem;
+      letter-spacing: 1px;
+    }
+
+    /* ==== 内容容器 ==== */
+    #jspsych-target {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 70px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f6f8;
+    }
+    #jspsych-target .jspsych-display-element {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f6f8;
+    }
+    #jspsych-target .jspsych-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-height: 100%;
+    }
+
+    /* ==== 图片展示区 ==== */
+    .stimulus-container {
+      width: 80%;
+      max-width: 1000px;
+      height: 70vh;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .stimulus-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+    
+    /* 图片分区指示器（仅用于调试） */
+    .image-half {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .image-left {
+      left: 0;
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+    .image-right {
+      right: 0;
+      background-color: rgba(0, 0, 255, 0.1);
+    }
+
+    /* ==== 中央固定十字 ==== */
+    .central-fixation {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 80px;
+      color: #555;
+      -webkit-user-select: none;
+      user-select: none;
+      z-index: 999;
+      display: none;
+    }
+
+    /* ==== 眼动追踪注视点（已禁用） ==== */
+    .gaze-point {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      display: none !important; /* 确保小红点被隐藏 */
+    }
+
+    /* ==== 按钮样式 ==== */
+    button {
+      background: linear-gradient(90deg, #2980b9, #3498db);
+      border: none;
+      color: #fff;
+      padding: 14px 36px;
+      text-align: center;
+      font-size: 1rem;
+      margin: 6px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    button:hover {
+      background: linear-gradient(90deg, #2572a5, #2c82c2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .jspsych-html-button-response .jspsych-button-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    /* ==== 居中文字模块 ==== */
+    .centered-text {
+      text-align: center;
+      padding: 20px 30px;
+      color: #444;
+      line-height: 1.6;
+      max-width: 800px;
+    }
+    .centered-text p {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ==== 页脚 ==== */
+    .footer {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #888;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* ==== 登录表单样式 ==== */
+    .login-container {
+      width: 700px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin: 0 auto;
+    }
+    .login-container h2 {
+      color: #2c3e50;
+      margin-bottom: 25px;
+      font-weight: 500;
+    }
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #3498db;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    .login-button {
+      background: linear-gradient(90deg, #2980b9, #3498db);
+      border: none;
+      color: #fff;
+      padding: 14px 36px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .login-button:hover {
+      background: linear-gradient(90deg, #2572a5, #2c82c2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    /* 新增：实验次数显示样式 */
+    .session-display {
+      background: #f0f7ff;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 20px 0;
+      border: 2px solid #d0e4ff;
+      font-size: 1.3rem;
+      font-weight: 500;
+    }
+    .session-display span {
+      color: #2980b9;
+      font-weight: 600;
+    }
+
+    /* ==== 数据报告样式 ==== */
+    .data-report {
+      max-width: 800px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .data-report h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+    .data-report pre {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .copy-button {
+      background: linear-gradient(90deg, #27ae60, #2ecc71);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .copy-button:hover {
+      background: linear-gradient(90deg, #219653, #27ad60);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+    .github-button {
+      background: linear-gradient(90deg, #24292e, #2d3338);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .github-button:hover {
+      background: linear-gradient(90deg, #1a1e21, #22272b);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+    /* 新增：保存按钮样式 */
+    .save-button {
+      background: linear-gradient(90deg, #f39c12, #e67e22);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .save-button:hover {
+      background: linear-gradient(90deg, #d35400, #e67e22);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    /* 退出按钮 */
+    .exit-button {
+      background: linear-gradient(90deg, #e74c3c, #c0392b);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .exit-button:hover {
+      background: linear-gradient(90deg, #c0392b, #a93226);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ==== 状态消息 ==== */
+    .status-message {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 500;
+    }
+    .status-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .status-loading {
+      background: #cce5ff;
+      color: #004085;
+      border: 1px solid #b8daff;
+    }
+    .status-warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+    }
+
+    /* 验证码弹窗 */
+    .auth-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 3000;
+      justify-content: center;
+      align-items: center;
+    }
+    .auth-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+    .auth-content h3 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    .auth-input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .auth-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .auth-button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .auth-confirm {
+      background: #27ae60;
+      color: white;
+    }
+    .auth-confirm:hover {
+      background: #219653;
+    }
+    .auth-cancel {
+      background: #e74c3c;
+      color: white;
+    }
+    .auth-cancel:hover {
+      background: #c0392b;
+    }
+    .auth-error {
+      color: #e74c3c;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* ==== 权限提示和错误提示样式 ==== */
+    .permission-alert {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      text-align: center;
+      z-index: 2000;
+      max-width: 90%;
+      width: 500px;
+      display: none;
+    }
+
+    .permission-alert h3 {
+      color: #e74c3c;
+      margin-bottom: 20px;
+    }
+
+    .permission-alert p {
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    .permission-alert .warning {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .permission-alert .browser-warning {
+      background: #f8d7da;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    .permission-alert .protocol-warning {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    /* ==== 初始化状态面板 ==== */
+    .init-status-panel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      max-width: 400px;
+      z-index: 2000;
+      font-size: 14px;
+      display: none;
+    }
+
+    .init-status-panel h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #3498db;
+      border-bottom: 1px solid #3498db;
+      padding-bottom: 5px;
+    }
+
+    .init-status-panel .status-item {
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .init-status-panel .status-label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .init-status-panel .status-value {
+      color: #2ecc71;
+    }
+
+    .init-status-panel .status-error {
+      color: #e74c3c;
+    }
+
+    .init-status-panel .status-warning {
+      color: #f39c12;
+    }
+
+    .debug-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 2001;
+    }
+
+    /* ==== 错误处理面板 ==== */
+    .error-panel {
+      background: #f8d7da;
+      border-left: 4px solid #e74c3c;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+      text-align: left;
+    }
+
+    .error-panel h4 {
+      color: #721c24;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .error-panel ul {
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    .error-panel li {
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 
@@ -98,26 +679,6 @@
 
     /* ==== GitHub API 中转配置 ==== */
     const API_BASE_URL = 'https://ok.edemi-lab.online/api/gh-eye';
-
-    // 图片区域定义
-    let imageRegions = {
-      left: { x: 0, width: 50 },   // 左侧区域 (0-50%)
-      right: { x: 50, width: 50 }  // 右侧区域 (50-100%)
-    };
-
-    // 分析结果存储
-    let analysisResults = {
-      food: {
-        dwellTime: 0,     // F注视时间 (高热量-低热量)
-        firstFixation: 0, // F首视点 (高热量-低热量)
-        regressionCount: 0 // F回视次数
-      },
-      body: {
-        dwellTime: 0,     // B注视时间 (胖-瘦)
-        firstFixation: 0, // B首视点 (胖-瘦)
-        regressionCount: 0 // B回视次数
-      }
-    };
 
     /* 初始化 jsPsych */
     const jsPsych = initJsPsych({
@@ -518,132 +1079,6 @@
       document.body.removeChild(a);
     }
 
-    /* ==== 眼动数据分析函数 ==== */
-    
-    // 分析单个试次的眼动数据
-    function analyzeTrialData(trialData, gazeData) {
-      const results = {
-        dwellTimeLeft: 0,
-        dwellTimeRight: 0,
-        firstFixation: null, // 'left' 或 'right'
-        regressions: 0
-      };
-      
-      // 获取图片容器位置信息
-      const container = document.querySelector('.stimulus-container');
-      if (!container) {
-        console.error('无法找到图片容器');
-        return results;
-      }
-      
-      const rect = container.getBoundingClientRect();
-      const containerWidth = rect.width;
-      const containerCenter = rect.left + containerWidth / 2;
-      
-      // 确定图片属性（左侧是什么）
-      let leftAttribute, rightAttribute;
-      if (trialData.image_type === 'food') {
-        // 食物图片：前8张是低热量在左，后12张是高热量在左
-        leftAttribute = trialData.original_index <= 8 ? 'low_calorie' : 'high_calorie';
-        rightAttribute = trialData.original_index <= 8 ? 'high_calorie' : 'low_calorie';
-      } else {
-        // 身材图片：前11张是胖在左，后14张是瘦在左
-        leftAttribute = trialData.original_index <= 11 ? 'fat' : 'thin';
-        rightAttribute = trialData.original_index <= 11 ? 'thin' : 'fat';
-      }
-      
-      // 分析注视数据
-      let prevRegion = null;
-      let gazeSequence = [];
-      
-      for (let i = 0; i < gazeData.length; i++) {
-        const gaze = gazeData[i];
-        
-        // 判断注视点落在哪个区域
-        let region = null;
-        if (gaze.x < containerCenter) {
-          region = 'left';
-          results.dwellTimeLeft += 20; // 每个采样点约20ms
-        } else {
-          region = 'right';
-          results.dwellTimeRight += 20;
-        }
-        
-        // 记录第一个注视点
-        if (i === 0) {
-          results.firstFixation = region;
-        }
-        
-        // 检测回视
-        if (prevRegion && prevRegion !== region) {
-          gazeSequence.push({
-            region: region,
-            time: gaze.timestamp
-          });
-        }
-        
-        prevRegion = region;
-      }
-      
-      // 分析回视次数
-      if (trialData.image_type === 'food') {
-        // 食物图片：检测从高热量到低热量再回到高热量的回视
-        const highCalorieSide = leftAttribute === 'high_calorie' ? 'left' : 'right';
-        const lowCalorieSide = leftAttribute === 'high_calorie' ? 'right' : 'left';
-        
-        for (let i = 2; i < gazeSequence.length; i++) {
-          if (gazeSequence[i-2].region === highCalorieSide && 
-              gazeSequence[i-1].region === lowCalorieSide && 
-              gazeSequence[i].region === highCalorieSide) {
-            results.regressions++;
-          }
-        }
-      } else {
-        // 身材图片：检测从胖到瘦再回到胖的回视
-        const fatSide = leftAttribute === 'fat' ? 'left' : 'right';
-        const thinSide = leftAttribute === 'fat' ? 'right' : 'left';
-        
-        for (let i = 2; i < gazeSequence.length; i++) {
-          if (gazeSequence[i-2].region === fatSide && 
-              gazeSequence[i-1].region === thinSide && 
-              gazeSequence[i].region === fatSide) {
-            results.regressions++;
-          }
-        }
-      }
-      
-      // 计算注视时间差值
-      if (trialData.image_type === 'food') {
-        // 食物图片：高热量-低热量
-        const highCalorieTime = leftAttribute === 'high_calorie' ? results.dwellTimeLeft : results.dwellTimeRight;
-        const lowCalorieTime = leftAttribute === 'high_calorie' ? results.dwellTimeRight : results.dwellTimeLeft;
-        results.dwellTimeDiff = highCalorieTime - lowCalorieTime;
-        
-        // 首视点：高热量区域为+1，低热量区域为-1
-        if ((leftAttribute === 'high_calorie' && results.firstFixation === 'left') || 
-            (leftAttribute !== 'high_calorie' && results.firstFixation === 'right')) {
-          results.firstFixationValue = 1;
-        } else {
-          results.firstFixationValue = -1;
-        }
-      } else {
-        // 身材图片：胖-瘦
-        const fatTime = leftAttribute === 'fat' ? results.dwellTimeLeft : results.dwellTimeRight;
-        const thinTime = leftAttribute === 'fat' ? results.dwellTimeRight : results.dwellTimeLeft;
-        results.dwellTimeDiff = fatTime - thinTime;
-        
-        // 首视点：胖区域为+1，瘦区域为-1
-        if ((leftAttribute === 'fat' && results.firstFixation === 'left') || 
-            (leftAttribute !== 'fat' && results.firstFixation === 'right')) {
-          results.firstFixationValue = 1;
-        } else {
-          results.firstFixationValue = -1;
-        }
-      }
-      
-      return results;
-    }
-
     /* 生成图片列表 */
     // 食物图片：f文件夹（共20张）
     // 前8张：左侧低热量；后12张：左侧高热量
@@ -675,6 +1110,145 @@
         position: 'left', // 左侧为目标属性（胖/瘦）
         index: i // 原始序号
       });
+    }
+
+    /* ==== 眼动数据分析函数 ==== */
+    
+    // 计算注视时间差异
+    function calculateGazeTimeDifference(gazeData, containerRect, imageType, imageAttribute) {
+      // 计算图片中间线
+      const midX = containerRect.left + containerRect.width / 2;
+      
+      let leftTime = 0;  // 注视左侧时间
+      let rightTime = 0; // 注视右侧时间
+      
+      // 计算左右注视时间
+      gazeData.forEach(point => {
+        if (point.x < midX) {
+          leftTime += 20; // 每个采样点20ms
+        } else {
+          rightTime += 20;
+        }
+      });
+      
+      // 根据图片类型和属性确定注视时间差异
+      if (imageType === 'food') {
+        // 对于食物图片：高热量-低热量
+        if (imageAttribute === 'low_calorie') {
+          // 左侧是低热量，右侧是高热量
+          return rightTime - leftTime;
+        } else {
+          // 左侧是高热量，右侧是低热量
+          return leftTime - rightTime;
+        }
+      } else {
+        // 对于身材图片：胖-瘦
+        if (imageAttribute === 'fat') {
+          // 左侧是胖，右侧是瘦
+          return leftTime - rightTime;
+        } else {
+          // 左侧是瘦，右侧是胖
+          return rightTime - leftTime;
+        }
+      }
+    }
+    
+    // 计算首视点差异
+    function calculateFirstGazeDifference(gazeData, containerRect, imageType, imageAttribute) {
+      if (!gazeData || gazeData.length === 0) return 0;
+      
+      // 计算图片中间线
+      const midX = containerRect.left + containerRect.width / 2;
+      
+      // 获取第一个有效注视点
+      const firstPoint = gazeData[0];
+      
+      // 判断第一个注视点在左侧还是右侧
+      const isLeft = firstPoint.x < midX;
+      
+      // 根据图片类型和属性确定首视点差异
+      if (imageType === 'food') {
+        // 对于食物图片：高热量区域=1，低热量区域=-1
+        if (imageAttribute === 'low_calorie') {
+          // 左侧是低热量，右侧是高热量
+          return isLeft ? -1 : 1;
+        } else {
+          // 左侧是高热量，右侧是低热量
+          return isLeft ? 1 : -1;
+        }
+      } else {
+        // 对于身材图片：胖区域=1，瘦区域=-1
+        if (imageAttribute === 'fat') {
+          // 左侧是胖，右侧是瘦
+          return isLeft ? 1 : -1;
+        } else {
+          // 左侧是瘦，右侧是胖
+          return isLeft ? -1 : 1;
+        }
+      }
+    }
+    
+    // 计算回视次数
+    function calculateRegressiveSaccades(gazeData, containerRect, imageType, imageAttribute) {
+      if (!gazeData || gazeData.length < 3) return 0;
+      
+      // 计算图片中间线
+      const midX = containerRect.left + containerRect.width / 2;
+      
+      // 确定目标区域和非目标区域
+      let targetSide, nonTargetSide;
+      
+      if (imageType === 'food') {
+        // 对于食物图片：目标区域=高热量，非目标区域=低热量
+        if (imageAttribute === 'low_calorie') {
+          // 左侧是低热量，右侧是高热量
+          targetSide = 'right';
+          nonTargetSide = 'left';
+        } else {
+          // 左侧是高热量，右侧是低热量
+          targetSide = 'left';
+          nonTargetSide = 'right';
+        }
+      } else {
+        // 对于身材图片：目标区域=胖，非目标区域=瘦
+        if (imageAttribute === 'fat') {
+          // 左侧是胖，右侧是瘦
+          targetSide = 'left';
+          nonTargetSide = 'right';
+        } else {
+          // 左侧是瘦，右侧是胖
+          targetSide = 'right';
+          nonTargetSide = 'left';
+        }
+      }
+      
+      let regressiveCount = 0;
+      let lastSide = null;
+      let wasInTarget = false;
+      let wasInNonTarget = false;
+      
+      // 遍历眼动数据，检测回视模式
+      for (let i = 0; i < gazeData.length; i++) {
+        const point = gazeData[i];
+        const currentSide = point.x < midX ? 'left' : 'right';
+        
+        // 检测回视模式：目标区域 -> 非目标区域 -> 目标区域
+        if (currentSide === targetSide) {
+          if (wasInNonTarget) {
+            // 从非目标区域回到目标区域，完成一次回视
+            regressiveCount++;
+            wasInNonTarget = false;
+          }
+          wasInTarget = true;
+        } else if (currentSide === nonTargetSide && wasInTarget) {
+          // 从目标区域移动到非目标区域
+          wasInNonTarget = true;
+        }
+        
+        lastSide = currentSide;
+      }
+      
+      return regressiveCount;
     }
 
     /* ==== 用户登录页面 ==== */
@@ -1103,6 +1677,8 @@
         stimulus: function() {
           return `
             <div class="stimulus-container">
+              <div class="image-half image-left"></div>
+              <div class="image-half image-right"></div>
               <img src="${img.src}" class="stimulus-image" alt="食物对比图片" />
             </div>
           `;
@@ -1122,7 +1698,7 @@
           total_trials: foodImages.length,
           trial_start_time: null, // 将在on_start中设置
           gaze_data: null,
-          analysis_results: null // 存储分析结果
+          container_rect: null // 将在on_start中设置
         },
         extensions: [
           {
@@ -1134,8 +1710,20 @@
           // 记录试次开始时间
           const startTime = Date.now();
           trial.data.trial_start_time = startTime;
-          // 在试次对象上存储开始时间
           this.trial_start_time = startTime;
+          
+          // 记录图片容器位置信息
+          const container = document.querySelector('.stimulus-container');
+          const rect = container.getBoundingClientRect();
+          trial.data.container_rect = {
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+            bottom: rect.bottom,
+            width: rect.width,
+            height: rect.height
+          };
+          
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
@@ -1145,25 +1733,23 @@
           // 记录试次结束时间和眼动数据
           const endTime = Date.now();
           data.trial_end_time = endTime;
-          data.trial_duration_actual = endTime - data.trial_start_time;
 
-          data.gaze_data = stopGazeTracking(); // 保存眼动数据
-          
-          // 分析眼动数据
-          if (data.gaze_data && data.gaze_data.length > 0) {
-            data.analysis_results = analyzeTrialData(data, data.gaze_data);
-            
-            // 更新总体分析结果
-            if (data.image_type === 'food') {
-              analysisResults.food.dwellTime += data.analysis_results.dwellTimeDiff;
-              analysisResults.food.firstFixation += data.analysis_results.firstFixationValue;
-              analysisResults.food.regressionCount += data.analysis_results.regressions;
+          // 确保有有效的开始时间
+          const startTime = this.trial_start_time;
+          if (startTime) {
+            data.trial_duration_actual = endTime - startTime;
+          } else {
+            // 如果开始时间无效，使用眼动数据的第一条时间戳（如果有）
+            if (gazeData.length > 0) {
+              data.trial_start_time = gazeData[0].timestamp;
+              data.trial_duration_actual = endTime - data.trial_start_time;
             } else {
-              analysisResults.body.dwellTime += data.analysis_results.dwellTimeDiff;
-              analysisResults.body.firstFixation += data.analysis_results.firstFixationValue;
-              analysisResults.body.regressionCount += data.analysis_results.regressions;
+              // 没有眼动数据，使用默认试次时长
+              data.trial_duration_actual = 6000;
             }
           }
+
+          data.gaze_data = stopGazeTracking(); // 保存眼动数据
         }
       };
       foodTrials.push(foodTrial);
@@ -1192,7 +1778,7 @@
       stimulus: `
         <div class="centered-text">
           <p>食物图片观看完毕</p>
-          <p>接下来将进行第二次眼动校准</p>
+          <p>接下来将呈现身材对比图片</p>
         </div>
       `,
       choices: ['继续'],
@@ -1202,15 +1788,37 @@
       }
     };
 
-    // 在食物和身材图片之间加入第二次校准
-    const secondCalibrationTimeline = [
-      calibration_instructions,
-      calibration,
-      validation_instructions,
-      validation,
-      recalibrate,
-      calibration_done
-    ];
+    // 在食物和身材图片之间添加重新校准环节
+    const mid_calibration_instructions = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>接下来将进行第二次眼动校准</p>
+          <p>请注视屏幕上出现的圆点并点击它们</p>
+        </div>
+      `,
+      choices: ['明白了']
+    };
+    
+    const mid_calibration = {
+      type: jsPsychWebgazerCalibrate,
+      calibration_points: [
+        [25, 25], [75, 25], [50, 50], [25, 75], [75, 75]
+      ],
+      repetitions_per_point: 1,
+      randomize_calibration_order: true
+    };
+    
+    const mid_calibration_done = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="centered-text">
+          <p>校准已完成！</p>
+          <p>接下来将呈现身材对比图片</p>
+        </div>
+      `,
+      choices: ['继续']
+    };
 
     // 生成身材试次
     bodyImages.forEach((img, index) => {
@@ -1241,6 +1849,8 @@
         stimulus: function() {
           return `
             <div class="stimulus-container">
+              <div class="image-half image-left"></div>
+              <div class="image-half image-right"></div>
               <img src="${img.src}" class="stimulus-image" alt="身材对比图片" />
             </div>
           `;
@@ -1260,7 +1870,7 @@
           total_trials: bodyImages.length,
           trial_start_time: null, // 将在on_start中设置
           gaze_data: null,
-          analysis_results: null // 存储分析结果
+          container_rect: null // 将在on_start中设置
         },
         extensions: [
           {
@@ -1272,8 +1882,20 @@
           // 记录试次开始时间
           const startTime = Date.now();
           trial.data.trial_start_time = startTime;
-          // 在试次对象上存储开始时间
           this.trial_start_time = startTime;
+          
+          // 记录图片容器位置信息
+          const container = document.querySelector('.stimulus-container');
+          const rect = container.getBoundingClientRect();
+          trial.data.container_rect = {
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+            bottom: rect.bottom,
+            width: rect.width,
+            height: rect.height
+          };
+          
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
@@ -1283,25 +1905,23 @@
           // 记录试次结束时间和眼动数据
           const endTime = Date.now();
           data.trial_end_time = endTime;
-          data.trial_duration_actual = endTime - data.trial_start_time;
 
-          data.gaze_data = stopGazeTracking(); // 保存眼动数据
-          
-          // 分析眼动数据
-          if (data.gaze_data && data.gaze_data.length > 0) {
-            data.analysis_results = analyzeTrialData(data, data.gaze_data);
-            
-            // 更新总体分析结果
-            if (data.image_type === 'food') {
-              analysisResults.food.dwellTime += data.analysis_results.dwellTimeDiff;
-              analysisResults.food.firstFixation += data.analysis_results.firstFixationValue;
-              analysisResults.food.regressionCount += data.analysis_results.regressions;
+          // 确保有有效的开始时间
+          const startTime = this.trial_start_time;
+          if (startTime) {
+            data.trial_duration_actual = endTime - startTime;
+          } else {
+            // 如果开始时间无效，使用眼动数据的第一条时间戳（如果有）
+            if (gazeData.length > 0) {
+              data.trial_start_time = gazeData[0].timestamp;
+              data.trial_duration_actual = endTime - data.trial_start_time;
             } else {
-              analysisResults.body.dwellTime += data.analysis_results.dwellTimeDiff;
-              analysisResults.body.firstFixation += data.analysis_results.firstFixationValue;
-              analysisResults.body.regressionCount += data.analysis_results.regressions;
+              // 没有眼动数据，使用默认试次时长
+              data.trial_duration_actual = 6000;
             }
           }
+
+          data.gaze_data = stopGazeTracking(); // 保存眼动数据
         }
       };
       bodyTrials.push(bodyTrial);
@@ -1324,10 +1944,12 @@
       }
     });
 
-    // 按顺序添加到主时间线：先食物试次，再过渡，再第二次校准，再身材试次
+    // 按顺序添加到主时间线：先食物试次，再过渡，再校准，再身材试次
     timeline.push({ timeline: foodTrials });
     timeline.push(phaseTransition);
-    timeline.push({ timeline: secondCalibrationTimeline });
+    timeline.push(mid_calibration_instructions);
+    timeline.push(mid_calibration);
+    timeline.push(mid_calibration_done);
     timeline.push({ timeline: bodyTrials });
 
     /* ==== 数据处理和GitHub上传 ==== */
@@ -1348,34 +1970,207 @@
         try {
           const statusMessage = document.getElementById('status-message');
 
+          // 收集所有实验数据
+          const allData = jsPsych.data.get().filter({task: 'view'}).values();
+
+          // 计算眼动数据点总数
+          const dataPoints = allData.reduce((total, trial) => {
+            return total + (trial.gaze_data ? trial.gaze_data.length : 0);
+          }, 0);
+
+          // 分离食物和身材数据
+          const foodData = allData.filter(trial => trial.phase === 'food');
+          const bodyData = allData.filter(trial => trial.phase === 'body');
+
+          // 计算眼动指标
+          let fGazeTimeSum = 0;     // F注视时间总和
+          let fFirstGazeSum = 0;    // F首视点总和
+          let fRegressiveSum = 0;   // F回视次数总和
+          
+          let bGazeTimeSum = 0;     // B注视时间总和
+          let bFirstGazeSum = 0;    // B首视点总和
+          let bRegressiveSum = 0;   // B回视次数总和
+
+          // 处理食物数据
+          foodData.forEach(trial => {
+            if (trial.gaze_data && trial.gaze_data.length > 0 && trial.container_rect) {
+              // 计算注视时间差异
+              const gazeTimeDiff = calculateGazeTimeDifference(
+                trial.gaze_data, 
+                trial.container_rect, 
+                trial.image_type, 
+                trial.image_attribute
+              );
+              fGazeTimeSum += gazeTimeDiff;
+              
+              // 计算首视点差异
+              const firstGazeDiff = calculateFirstGazeDifference(
+                trial.gaze_data, 
+                trial.container_rect, 
+                trial.image_type, 
+                trial.image_attribute
+              );
+              fFirstGazeSum += firstGazeDiff;
+              
+              // 计算回视次数
+              const regressiveCount = calculateRegressiveSaccades(
+                trial.gaze_data, 
+                trial.container_rect, 
+                trial.image_type, 
+                trial.image_attribute
+              );
+              fRegressiveSum += regressiveCount;
+            }
+          });
+
+          // 处理身材数据
+          bodyData.forEach(trial => {
+            if (trial.gaze_data && trial.gaze_data.length > 0 && trial.container_rect) {
+              // 计算注视时间差异
+              const gazeTimeDiff = calculateGazeTimeDifference(
+                trial.gaze_data, 
+                trial.container_rect, 
+                trial.image_type, 
+                trial.image_attribute
+              );
+              bGazeTimeSum += gazeTimeDiff;
+              
+              // 计算首视点差异
+              const firstGazeDiff = calculateFirstGazeDifference(
+                trial.gaze_data, 
+                trial.container_rect, 
+                trial.image_type, 
+                trial.image_attribute
+              );
+              bFirstGazeSum += firstGazeDiff;
+              
+              // 计算回视次数
+              const regressiveCount = calculateRegressiveSaccades(
+                trial.gaze_data, 
+                trial.container_rect, 
+                trial.image_type, 
+                trial.image_attribute
+              );
+              bRegressiveSum += regressiveCount;
+            }
+          });
+
           // 计算平均值
-          analysisResults.food.dwellTime = analysisResults.food.dwellTime / foodImages.length;
-          analysisResults.food.regressionCount = analysisResults.food.regressionCount / foodImages.length;
-          analysisResults.body.dwellTime = analysisResults.body.dwellTime / bodyImages.length;
-          analysisResults.body.regressionCount = analysisResults.body.regressionCount / bodyImages.length;
+          const fGazeTimeAvg = foodData.length > 0 ? fGazeTimeSum / foodData.length : 0;
+          const fFirstGazeAvg = foodData.length > 0 ? fFirstGazeSum / foodData.length : 0;
+          const fRegressiveAvg = foodData.length > 0 ? fRegressiveSum / foodData.length : 0;
+          
+          const bGazeTimeAvg = bodyData.length > 0 ? bGazeTimeSum / bodyData.length : 0;
+          const bFirstGazeAvg = bodyData.length > 0 ? bFirstGazeSum / bodyData.length : 0;
+          const bRegressiveAvg = bodyData.length > 0 ? bRegressiveSum / bodyData.length : 0;
 
-          // 生成CSV数据表格
-          const csvContent = `被试编号,F注视时间,B注视时间,F首视点,B首视点,F回视次数,B回视次数\n${userInfo.subjectId},${analysisResults.food.dwellTime},${analysisResults.body.dwellTime},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount},${analysisResults.body.regressionCount}`;
+          // 生成CSV数据
+          const csvData = allData.map(trial => {
+            // 基础信息
+            const baseData = {
+              trial_id: trial.trial_index,
+              phase: trial.phase,
+              image_type: trial.image_type,
+              image_attribute: trial.image_attribute,
+              image_position: trial.image_position,
+              original_index: trial.original_index,
+              image_src: trial.image_src,
+              start_time: trial.trial_start_time,
+              end_time: trial.trial_end_time,
+              duration: trial.trial_duration_actual
+            };
 
-          // 生成JSON数据
+            // 如果有眼动数据，添加第一条和最后一条作为示例
+            if (trial.gaze_data && trial.gaze_data.length > 0) {
+              baseData.first_gaze_x = trial.gaze_data[0].x;
+              baseData.first_gaze_y = trial.gaze_data[0].y;
+              baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
+              baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
+              baseData.gaze_samples = trial.gaze_data.length;
+            }
+
+            return baseData;
+          });
+
+          // 添加眼动指标到CSV数据
+          const metricsData = [{
+            subject_id: userInfo.subjectId,
+            f_gaze_time: fGazeTimeAvg,
+            f_first_gaze: fFirstGazeAvg,
+            f_regressive: fRegressiveAvg,
+            b_gaze_time: bGazeTimeAvg,
+            b_first_gaze: bFirstGazeAvg,
+            b_regressive: bRegressiveAvg
+          }];
+
+          // 转换为CSV字符串
+          let csvContent = Object.keys(csvData[0]).join(',') + '\n';
+          csvData.forEach(row => {
+            csvContent += Object.values(row).join(',') + '\n';
+          });
+
+          // 添加指标数据
+          csvContent += '\n\n# 眼动指标汇总\n';
+          csvContent += Object.keys(metricsData[0]).join(',') + '\n';
+          csvContent += Object.values(metricsData[0]).join(',') + '\n';
+
+          // 转换为JSON字符串
           const jsonContent = JSON.stringify({
-            subjectId: userInfo.subjectId,
-            session: userInfo.session,
-            food: analysisResults.food,
-            body: analysisResults.body
+            trial_data: allData,
+            metrics: metricsData[0]
           }, null, 2);
 
-          // 生成文件名
+          // 生成文件名（新格式：csv_eye-00X_01_part1）
           const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
           const sessionStr = userInfo.session.toString().padStart(2, '0');
-          const timestamp = Date.now();
-          const csvFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-          const jsonFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
+          const timestamp = Date.now(); // 添加时间戳确保唯一性
+          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
 
           // 如果摄像头权限被拒绝，跳过GitHub上传
           if (cameraPermissionDenied) {
             statusMessage.className = "status-message status-error";
             statusMessage.textContent = "眼动数据未记录（摄像头权限被拒绝）";
+            
+            // 显示眼动指标结果
+            const content = `
+              <div class="centered-text">
+                <h2>第 ${userInfo.session} 次实验完成</h2>
+                <p>眼动数据未记录（摄像头权限被拒绝），但已计算眼动指标：</p>
+                <div class="data-report">
+                  <h3>眼动指标结果</h3>
+                  <p>F注视时间: ${fGazeTimeAvg.toFixed(2)}ms</p>
+                  <p>F首视点: ${fFirstGazeAvg.toFixed(2)}</p>
+                  <p>F回视次数: ${fRegressiveAvg.toFixed(2)}</p>
+                  <p>B注视时间: ${bGazeTimeAvg.toFixed(2)}ms</p>
+                  <p>B首视点: ${bFirstGazeAvg.toFixed(2)}</p>
+                  <p>B回视次数: ${bRegressiveAvg.toFixed(2)}</p>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+                  <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
+                  <button class="save-button" id="save-json-btn">保存JSON到本地</button>
+                  <button class="exit-button" id="exit-btn">退出实验</button>
+                </div>
+              </div>
+            `;
+
+            document.querySelector('.jspsych-content').innerHTML = content;
+
+            // 保存CSV到本地按钮（使用新文件名格式）
+            document.getElementById('save-csv-btn').addEventListener('click', function() {
+              saveCSVToLocal(csvContent, csvFileName);
+            });
+
+            // 保存JSON到本地按钮（使用新文件名格式）
+            document.getElementById('save-json-btn').addEventListener('click', function() {
+              saveJSONToLocal(jsonContent, jsonFileName);
+            });
+
+            // 退出实验按钮 - 改为刷新页面
+            document.getElementById('exit-btn').addEventListener('click', function() {
+              location.reload(); // 刷新页面回到登录界面
+            });
+            
             return;
           }
 
@@ -1385,22 +2180,25 @@
             statusMessage.textContent = "连接GitHub仓库...";
             const issue = await getOrCreateIssue();
 
-            // 2. 生成GitHub评论内容
+            // 2. 生成GitHub评论内容（包含眼动指标）
             statusMessage.textContent = "生成数据报告...";
-            const dataPoints = jsPsych.data.get().filter({task: 'view'}).values().reduce((total, trial) => {
-              return total + (trial.gaze_data ? trial.gaze_data.length : 0);
-            }, 0);
-            const commentBody = generateGitHubComment(dataPoints);
+            const commentBody = generateGitHubComment(dataPoints) + 
+              `- **F注视时间**: ${fGazeTimeAvg.toFixed(2)}ms\n` +
+              `- **F首视点**: ${fFirstGazeAvg.toFixed(2)}\n` +
+              `- **F回视次数**: ${fRegressiveAvg.toFixed(2)}\n` +
+              `- **B注视时间**: ${bGazeTimeAvg.toFixed(2)}ms\n` +
+              `- **B首视点**: ${bFirstGazeAvg.toFixed(2)}\n` +
+              `- **B回视次数**: ${bRegressiveAvg.toFixed(2)}\n`;
 
             // 3. 添加评论到Issue（每次的数据作为一条评论）
             statusMessage.textContent = "上传数据到GitHub Issues...";
             await addIssueComment(issue.number, commentBody);
 
-            // 4. 上传CSV文件到data1目录
+            // 4. 上传CSV文件到data1目录（使用新文件名格式）
             statusMessage.textContent = "上传CSV文件到data1目录...";
             await uploadFileToGitHub(csvContent, csvFileName, 'data1');
 
-            // 5. 上传JSON文件到data2目录
+            // 5. 上传JSON文件到data2目录（使用新文件名格式）
             statusMessage.textContent = "上传JSON文件到data2目录...";
             await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
 
@@ -1417,14 +2215,13 @@
                 <h2>第 ${userInfo.session} 次实验完成</h2>
                 <p>详细眼动数据已成功上传至GitHub仓库</p>
                 <div class="data-report">
-                  <h3>分析结果</h3>
-                  <p><strong>被试编号:</strong> ${userInfo.subjectId}</p>
-                  <p><strong>F注视时间:</strong> ${analysisResults.food.dwellTime.toFixed(2)}ms</p>
-                  <p><strong>B注视时间:</strong> ${analysisResults.body.dwellTime.toFixed(2)}ms</p>
-                  <p><strong>F首视点:</strong> ${analysisResults.food.firstFixation}</p>
-                  <p><strong>B首视点:</strong> ${analysisResults.body.firstFixation}</p>
-                  <p><strong>F回视次数:</strong> ${analysisResults.food.regressionCount.toFixed(2)}</p>
-                  <p><strong>B回视次数:</strong> ${analysisResults.body.regressionCount.toFixed(2)}</p>
+                  <h3>眼动指标结果</h3>
+                  <p>F注视时间: ${fGazeTimeAvg.toFixed(2)}ms</p>
+                  <p>F首视点: ${fFirstGazeAvg.toFixed(2)}</p>
+                  <p>F回视次数: ${fRegressiveAvg.toFixed(2)}</p>
+                  <p>B注视时间: ${bGazeTimeAvg.toFixed(2)}ms</p>
+                  <p>B首视点: ${bFirstGazeAvg.toFixed(2)}</p>
+                  <p>B回视次数: ${bRegressiveAvg.toFixed(2)}</p>
                 </div>
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
                   <button class="copy-button" id="copy-btn">复制报告摘要</button>
@@ -1440,7 +2237,7 @@
 
             // 添加按钮事件
             document.getElementById('copy-btn').addEventListener('click', function() {
-              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\nF注视时间: ${analysisResults.food.dwellTime.toFixed(2)}ms\nB注视时间: ${analysisResults.body.dwellTime.toFixed(2)}ms\nF首视点: ${analysisResults.food.firstFixation}\nB首视点: ${analysisResults.body.firstFixation}\nF回视次数: ${analysisResults.food.regressionCount.toFixed(2)}\nB回视次数: ${analysisResults.body.regressionCount.toFixed(2)}`;
+              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}\nF注视时间: ${fGazeTimeAvg.toFixed(2)}ms\nF首视点: ${fFirstGazeAvg.toFixed(2)}\nF回视次数: ${fRegressiveAvg.toFixed(2)}\nB注视时间: ${bGazeTimeAvg.toFixed(2)}ms\nB首视点: ${bFirstGazeAvg.toFixed(2)}\nB回视次数: ${bRegressiveAvg.toFixed(2)}\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
               navigator.clipboard.writeText(summary)
                 .then(() => alert('报告摘要已复制到剪贴板'))
                 .catch(err => console.error('复制失败:', err));
@@ -1475,12 +2272,12 @@
               };
             });
 
-            // 保存CSV到本地按钮
+            // 保存CSV到本地按钮（使用新文件名格式）
             document.getElementById('save-csv-btn').addEventListener('click', function() {
               saveCSVToLocal(csvContent, csvFileName);
             });
 
-            // 保存JSON到本地按钮
+            // 保存JSON到本地按钮（使用新文件名格式）
             document.getElementById('save-json-btn').addEventListener('click', function() {
               saveJSONToLocal(jsonContent, jsonFileName);
             });
@@ -1499,6 +2296,47 @@
           statusMessage.className = "status-message status-error";
           statusMessage.textContent = `数据处理失败: ${error.message}`;
           console.error('完整错误信息:', error);
+
+          // 获取数据用于本地保存
+          const allData = jsPsych.data.get().filter({task: 'view'}).values();
+
+          // 生成CSV数据
+          const csvData = allData.map(trial => {
+            const baseData = {
+              trial_id: trial.trial_index,
+              phase: trial.phase,
+              image_type: trial.image_type,
+              image_attribute: trial.image_attribute,
+              image_position: trial.image_position,
+              original_index: trial.original_index,
+              image_src: trial.image_src,
+              start_time: trial.trial_start_time,
+              end_time: trial.trial_end_time,
+              duration: trial.trial_duration_actual
+            };
+            if (trial.gaze_data && trial.gaze_data.length > 0) {
+              baseData.first_gaze_x = trial.gaze_data[0].x;
+              baseData.first_gaze_y = trial.gaze_data[0].y;
+              baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
+              baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
+              baseData.gaze_samples = trial.gaze_data.length;
+            }
+            return baseData;
+          });
+
+          let csvContent = Object.keys(csvData[0]).join(',') + '\n';
+          csvData.forEach(row => {
+            csvContent += Object.values(row).join(',') + '\n';
+          });
+
+          const jsonContent = JSON.stringify(allData, null, 2);
+
+          // 生成新格式文件名（添加时间戳确保唯一性）
+          const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
+          const sessionStr = userInfo.session.toString().padStart(2, '0');
+          const timestamp = Date.now();
+          const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
 
           // 显示错误恢复选项
           document.querySelector('.jspsych-content').innerHTML += `
@@ -1530,27 +2368,8 @@
             try {
               // 重新执行上传逻辑
               const issue = await getOrCreateIssue();
-              const dataPoints = jsPsych.data.get().filter({task: 'view'}).values().reduce((total, trial) => {
-                return total + (trial.gaze_data ? trial.gaze_data.length : 0);
-              }, 0);
               const commentBody = generateGitHubComment(dataPoints);
               await addIssueComment(issue.number, commentBody);
-              
-              // 重新生成CSV和JSON内容
-              const csvContent = `被试编号,F注视时间,B注视时间,F首视点,B首视点,F回视次数,B回视次数\n${userInfo.subjectId},${analysisResults.food.dwellTime},${analysisResults.body.dwellTime},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount},${analysisResults.body.regressionCount}`;
-              const jsonContent = JSON.stringify({
-                subjectId: userInfo.subjectId,
-                session: userInfo.session,
-                food: analysisResults.food,
-                body: analysisResults.body
-              }, null, 2);
-              
-              const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
-              const sessionStr = userInfo.session.toString().padStart(2, '0');
-              const timestamp = Date.now();
-              const csvFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-              const jsonFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
-              
               await uploadFileToGitHub(csvContent, csvFileName, 'data1');
               await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
 
@@ -1570,33 +2389,15 @@
             }
           });
 
-          // 保存CSV按钮
+          // 保存CSV按钮（使用新文件名格式）
           document.getElementById('save-csv-btn').addEventListener('click', function() {
-            const csvContent = `被试编号,F注视时间,B注视时间,F首视点,B首视点,F回视次数,B回视次数\n${userInfo.subjectId},${analysisResults.food.dwellTime},${analysisResults.body.dwellTime},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount},${analysisResults.body.regressionCount}`;
-            const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
-            const sessionStr = userInfo.session.toString().padStart(2, '0');
-            const timestamp = Date.now();
-            const csvFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-            
             saveCSVToLocal(csvContent, csvFileName);
             // 更新实验次数
             localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
           });
 
-          // 保存JSON按钮
+          // 保存JSON按钮（使用新文件名格式）
           document.getElementById('save-json-btn').addEventListener('click', function() {
-            const jsonContent = JSON.stringify({
-              subjectId: userInfo.subjectId,
-              session: userInfo.session,
-              food: analysisResults.food,
-              body: analysisResults.body
-            }, null, 2);
-            
-            const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
-            const sessionStr = userInfo.session.toString().padStart(2, '0');
-            const timestamp = Date.now();
-            const jsonFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
-            
             saveJSONToLocal(jsonContent, jsonFileName);
             // 更新实验次数
             localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
