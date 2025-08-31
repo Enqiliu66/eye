@@ -210,6 +210,8 @@
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
       text-align: center;
       margin: 0 auto;
+      z-index: 1001; /* 确保在其它元素之上 */
+      position: relative; /* 确保z-index生效 */
     }
     .login-container h2 {
       color: #2c3e50;
