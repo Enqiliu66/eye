@@ -1437,9 +1437,9 @@
 
       // 应用预处理（标准化）
       let processedFeatures = features;
-      if (preprocessingConfig && preprocessingConfig.mean && preprocessingConfig.std) {
+      if (preprocessingConfig && preprocessingConfig.mean && preprocessingConfig.scale) {
         processedFeatures = features.map((value, index) => {
-          return (value - preprocessingConfig.mean[index]) / preprocessingConfig.std[index];
+          return (value - preprocessingConfig.mean[index]) / preprocessingConfig.scale[index];
         });
       }
 
@@ -1461,15 +1461,15 @@
         const inputTensor = prepareModelInput();
 
         // 运行预测
-        const feeds = { input: inputTensor }; // 注意：这里的"input"需要与模型实际输入名称匹配
+        const feeds = { float_input: inputTensor }; // 注意：这里的"input"需要与模型实际输入名称匹配
         const results = await predictionModel.run(feeds);
 
         // 获取输出 - 假设模型输出名为"output"
-        const output = results.output;
-        const predictionScore = output.data[0];
+        const output = results.probabilities;
+        const probabilities = Array.from(output.data);
 
-        console.log('预测结果:', predictionScore);
-        return predictionScore;
+        console.log('预测概率:', probabilities);
+        return probabilities;
       } catch (error) {
         console.error('预测失败:', error);
         throw error;
@@ -1477,17 +1477,22 @@
     }
 
     // 解释预测结果
-    function interpretPrediction(score) {
-      // 确保score在0-1范围内
-      score = Math.max(0, Math.min(1, score));
+    function interpretPrediction(probabilities) {
+      // 获取概率最大的类别
+      const maxProbability = Math.max(...probabilities);
+      const predictedClassIndex = probabilities.indexOf(maxProbability);
+      const predictedClass = preprocessingConfig.classes[predictedClassIndex];
+
+      // 计算风险分数（0-1范围
+      const score = probabilities[0] * 1.0 + probabilities[1] * 0.5; // 严重权重1.0，中度权重0.5
 
       let riskLevel, interpretation, detailedExplanation;
 
-      if (score < 0.3) {
+      if (predictedClass === "轻度") {
         riskLevel = '低风险';
         interpretation = '根据眼动数据分析，您的进食障碍风险较低。';
         detailedExplanation = '您的注视模式与健康人群相似，对食物和身材图片的注意力分配较为平衡，没有表现出明显的异常关注模式。';
-      } else if (score < 0.7) {
+      } else if (predictedClass === "中度") {
         riskLevel = '中等风险';
         interpretation = '根据眼动数据分析，您存在一定的进食障碍风险。';
         detailedExplanation = '您的注视模式显示出对一些特定类型图片的偏好或回避，这可能与饮食态度有关。建议关注饮食健康，必要时可咨询专业人士进行进一步评估。';
@@ -1501,7 +1506,9 @@
          score: (score * 100).toFixed(1),
          riskLevel,
          interpretation,
-         detailedExplanation
+         detailedExplanation,
+         predictedClass,
+         probabilities
        };
       }
 
@@ -1526,6 +1533,15 @@
               <div class="prediction-interpretation">
                 <h4>详细说明</h4>
                 <p>${predictionResult.detailedExplanation}</p>
+              </div>
+
+              <div class="prediction-features">
+                <h4>分析依据</h4>
+                <ul>
+                  <li>严重: ${(predictionResult.probabilities[0] * 100).toFixed(1)}%</li>
+                  <li>中度: ${(predictionResult.probabilities[1] * 100).toFixed(1)}%</li>
+                  <li>轻度: ${(predictionResult.probabilities[2] * 100).toFixed(1)}%</li>
+                </ul>
               </div>
 
               <div class="prediction-features">
