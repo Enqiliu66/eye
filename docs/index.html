@@ -773,7 +773,6 @@
       margin: 20px 0;
       text-align: left;
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px); /* 添加Webkit前缀以支持Safari */
     }
 
     .prediction-result {
@@ -1251,18 +1250,6 @@
 
     // 分析眼动数据
     function analyzeGazeData(gazeData, imageType, imageAttribute) {
-      // 如果眼动数据为空，返回默认值
-      if (!gazeData || gazeData.length === 0) {
-        console.warn('眼动数据为空，返回默认分析结果');
-        return {
-          dwellTime: 0,
-          firstFixation: 0,
-          regressionCount: 0,
-          leftDwellTime: 0,
-          rightDwellTime: 0
-        };
-      }
-
       let leftDwellTime = 0;
       let rightDwellTime = 0;
       let firstFixation = null;
@@ -1356,24 +1343,18 @@
       const foodTrials = trialData.filter(trial => trial.image_type === 'food');
       const bodyTrials = trialData.filter(trial => trial.image_type === 'body');
 
-      // 计算食物图片的平均值 - 修复：只处理有analysisResult的试次
+      // 计算食物图片的平均值
       if (foodTrials.length > 0) {
-        const validFoodTrials = foodTrials.filter(trial => trial.analysisResult);
-        if (validFoodTrials.length > 0) {
-          analysisResults.food.dwellTime = validFoodTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / validFoodTrials.length;
-          analysisResults.food.firstFixation = validFoodTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
-          analysisResults.food.regressionCount = validFoodTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / validFoodTrials.length;
-        }
+        analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / foodTrials.length;
+        analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
+        analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / foodTrials.length;
       }
 
-      // 计算身材图片的平均值 - 修复：只处理有analysisResult的试次
+      // 计算身材图片的平均值
       if (bodyTrials.length > 0) {
-        const validBodyTrials = bodyTrials.filter(trial => trial.analysisResult);
-        if (validBodyTrials.length > 0) {
-          analysisResults.body.dwellTime = validBodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / validBodyTrials.length;
-          analysisResults.body.firstFixation = validBodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
-          analysisResults.body.regressionCount = validBodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / validBodyTrials.length;
-        }
+        analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / bodyTrials.length;
+        analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
+        analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / bodyTrials.length;
       }
     }
 
@@ -2181,7 +2162,14 @@
     const calibration_done = {
       type: jsPsychHtmlButtonResponse,
       stimulus: `
-        <div class timeline.push(calibration_done);
+        <div class="centered-text">
+          <p>太好了，校准已完成！</p>
+          <p>接下来将开始实验，请注视屏幕中央的十字，然后观看图片。</p>
+        </div>
+      `,
+      choices: ['继续']
+    };
+    timeline.push(calibration_done);
 
     /* ==== 欢迎页 和 实验说明 ==== */
     const welcome = {
