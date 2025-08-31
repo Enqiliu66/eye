@@ -309,7 +309,7 @@
       text-align: center;
       font-size: 1rem;
       cursor: pointer;
-      border-radius: 极速8px;
+      border-radius: 8px;
       transition: all 0.3s ease;
       margin-top: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -317,7 +317,7 @@
     .copy-button:hover {
       background: linear-gradient(90deg, #219653, #27ad60);
       transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 极速0.15);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
     }
     .github-button {
       background: linear-gradient(90deg, #24292e, #2d3338);
@@ -351,7 +351,7 @@
       margin-top: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-   极速 .save-button:hover {
+    .save-button:hover {
       background: linear-gradient(90deg, #d35400, #e67e22);
       transform: translateY(-2px);
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
@@ -359,7 +359,7 @@
 
     /* 退出按钮 */
     .exit-button {
-      background: linear-gradient(90极速deg, #e74c3极速c, #c0392b);
+      background: linear-gradient(90deg, #e74c3c, #c0392b);
       border: none;
       color: #fff;
       padding: 12px 28px;
@@ -391,7 +391,7 @@
       border: 1px solid #c3e6cb;
     }
     .status-error {
-      background: #极速f8d7da;
+      background: #f8d7da;
       color: #721c24;
       border: 1px solid #f5c6cb;
     }
@@ -447,7 +447,7 @@
     }
     .auth-button {
       flex: 1;
-      padding: 10极速px;
+      padding: 10px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
@@ -483,7 +483,7 @@
       background: white;
       padding: 30px;
       border-radius: 15px;
-      box-shadow: 0 15极速px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
       text-align: center;
       z-index: 2000;
       max-width: 90%;
@@ -553,7 +553,7 @@
 
     .init-status-panel .status-label {
       font-weight: bold;
-      margin-right: 10极速px;
+      margin-right: 10px;
     }
 
     .init-status-panel .status-value {
@@ -578,7 +578,7 @@
       padding: 8px 15px;
       border-radius: 5px;
       cursor: pointer;
-     极速 z-index: 2001;
+      z-index: 2001;
     }
 
     /* ==== 错误处理面板 ==== */
@@ -684,7 +684,7 @@
       background: white;
       padding: 30px;
       border-radius: 15px;
-      box-shadow极速: 0 15px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
       text-align: center;
       z-index: 2000;
       max-width: 90%;
@@ -712,7 +712,7 @@
       height: 200px;
       background: #eee;
       border-radius: 8px;
-      margin极速: 15px 0;
+      margin: 15px 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -724,7 +724,7 @@
       max-height: 100%;
     }
 
-    .极速face-detection-help .retry-button {
+    .face-detection-help .retry-button {
       background: #3498db;
       color: white;
       border: none;
@@ -795,7 +795,7 @@
     .prediction-score {
       font-size: 2.5rem;
       font-weight: bold;
-      color: #298极速0b9;
+      color: #2980b9;
       text-align: center;
       margin: 15px 0;
     }
@@ -903,7 +903,7 @@
     </div>
     <div class="status-item">
       <span class="status-label">Webgazer状态:</span>
-      <span class="status-value" id="status-web极速gazer">未初始化</span>
+      <span class="status-value" id="status-webgazer">未初始化</span>
     </div>
     <div class="status-item">
       <span class="status-label">权限状态:</span>
@@ -925,7 +925,7 @@
 
   <!-- 调试信息面板 -->
   <div class="debug-panel" id="debug-panel">
-    <h极速4>眼动数据调试信息</h4>
+    <h4>眼动数据调试信息</h4>
     <div class="debug-item">
       <span class="debug-label">当前试次:</span>
       <span class="debug-value" id="debug-trial">-</span>
@@ -1053,7 +1053,7 @@
       return new Promise((resolve) => {
         let detected = false;
         let attempts = 0;
-        const maxAttempt极速s = 10;
+        const maxAttempts = 10;
 
         const checkInterval = setInterval(() => {
           attempts++;
@@ -1139,7 +1139,7 @@
 
       // 2. 检查浏览器是否支持媒体设备
       const hasMediaDevices = 'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices;
-      updateInitStatus('camera', hasMediaDevices ? '支持' : '不支持', !hasMedia极速Devices);
+      updateInitStatus('camera', hasMediaDevices ? '支持' : '不支持', !hasMediaDevices);
 
       // 3. 尝试获取摄像头权限
       let hasPermission = false;
@@ -1178,7 +1178,7 @@
 
         ${!status.isSecure ? `
           <div class="protocol-warning">
-            <极速p class="warning">当前环境不安全</p>
+            <p class="warning">当前环境不安全</p>
             <p>摄像头功能需要HTTPS安全连接或本地环境(localhost)。</p>
             <p>当前协议: ${location.protocol}</p>
           </div>
@@ -1192,7 +1192,7 @@
             <ol>
               <li>点击浏览器地址栏左侧的摄像头图标</li>
               <li>选择"始终允许此网站使用摄像头"</li>
-              <li>刷新页面</极速li>
+              <li>刷新页面</li>
             </ol>
           </div>
         ` : ''}
@@ -1212,7 +1212,7 @@
       });
 
       document.getElementById('continue-btn').addEventListener('click', function() {
-        alert极速El.style.display = 'none';
+        alertEl.style.display = 'none';
         // 设置标志允许实验继续（无眼动功能）
         cameraPermissionDenied = true;
         // 继续执行实验流程
@@ -1267,7 +1267,7 @@
 
       // 计算首视点
       if (gazeData.length > 0) {
-        const firstRegion = getGazeRegion(gazeData[0].x, gazeData[极速0].y);
+        const firstRegion = getGazeRegion(gazeData[0].x, gazeData[0].y);
         firstFixation = firstRegion;
       }
 
@@ -1370,7 +1370,7 @@
               <th>F首视点</th>
               <th>B首视点</th>
               <th>F回视次数</th>
-              <极速th>B回视次数</th>
+              <th>B回视次数</th>
             </tr>
           </thead>
           <tbody>
@@ -1413,10 +1413,6 @@
         console.log('开始加载预处理配置...');
         const response = await fetch('preprocessing.json');
         preprocessingConfig = await response.json();
-        // 添加兼容性处理
-        if (preprocessingConfig.scale && !preprocessingConfig.std) {
-          preprocessingConfig.std = preprocessingConfig.scale;
-        }
         console.log('预处理配置加载成功:', preprocessingConfig);
         return true;
       } catch (error) {
@@ -1439,17 +1435,12 @@
 
       console.log('原始特征:', features);
 
-      // 应用预处理（标准化）- 兼容scale和std字段
+      // 应用预处理（标准化）
       let processedFeatures = features;
-      if (preprocessingConfig && preprocessingConfig.mean) {
-        // 使用scale字段，如果不存在则使用std字段
-        const scale = preprocessingConfig.scale || preprocessingConfig.std;
-
-        if (scale) {
-          processedFeatures = features.map((value, index) => {
-            return (value - preprocessingConfig.mean[index]) / scale[index];
-          });
-        }
+      if (preprocessingConfig && preprocessingConfig.mean && preprocessingConfig.std) {
+        processedFeatures = features.map((value, index) => {
+          return (value - preprocessingConfig.mean[index]) / preprocessingConfig.std[index];
+        });
       }
 
       console.log('预处理后特征:', processedFeatures);
@@ -1459,7 +1450,7 @@
       return tensor;
     }
 
-    // 运行模型极速预测
+    // 运行模型预测
     async function runPrediction() {
       try {
         if (!predictionModel) {
@@ -1469,44 +1460,13 @@
         // 准备输入数据
         const inputTensor = prepareModelInput();
 
-        // 运行预测 - 尝试不同的输入名称
-        let results;
-        try {
-          results = await predictionModel.run({ float_input: inputTensor });
-        } catch (e) {
-          // 如果上面的输入名称失败，尝试使用默认名称
-          try {
-            results = await predictionModel.run({ input: inputTensor });
-          } catch (e2) {
-            // 如果都失败，抛出错误
-            throw new Error(`模型预测失败: ${e2.message}`);
-          }
-        }
+        // 运行预测
+        const feeds = { input: inputTensor }; // 注意：这里的"input"需要与模型实际输入名称匹配
+        const results = await predictionModel.run(feeds);
 
-        // 获取输出 - 尝试不同的输出名称
-        let output = results.output_probability || results.output ||
-                    results.probabilities || results.prediction;
-
-        if (!output) {
-          // 如果没有找到标准输出，尝试获取第一个输出
-          const outputNames = Object.keys(results);
-          if (outputNames.length > 0) {
-            output = results[outputNames[0]];
-          } else {
-            throw new Error('无法获取模型输出');
-          }
-        }
-
-        // 处理多输出情况
-        let predictionScore;
-        if (output && output.dims && output.dims.length === 2 && output.dims[1] > 1) {
-          // 多分类输出，取第二个类别的概率（中度风险）
-          const probabilities = Array.from(output.data);
-          predictionScore = probabilities[1]; // 取第二个值作为风险分数
-        } else {
-          // 单输出
-          predictionScore = output.data[0];
-        }
+        // 获取输出 - 假设模型输出名为"output"
+        const output = results.output;
+        const predictionScore = output.data[0];
 
         console.log('预测结果:', predictionScore);
         return predictionScore;
@@ -1520,13 +1480,10 @@
     function interpretPrediction(score) {
       let riskLevel, interpretation;
 
-      // 确保score是数值类型
-      const numericScore = typeof score === 'number' ? score : parseFloat(score);
-
-      if (numericScore < 0.3) {
+      if (score < 0.3) {
         riskLevel = '低风险';
         interpretation = '根据眼动数据分析，您的进食障碍风险较低。您的注视模式与健康人群相似。';
-      } else if (numericScore < 0.7) {
+      } else if (score < 0.7) {
         riskLevel = '中等风险';
         interpretation = '根据眼动数据分析，您存在一定的进食障碍风险。建议关注饮食健康，必要时可咨询专业人士。';
       } else {
@@ -1535,7 +1492,7 @@
       }
 
       return {
-        score: (numericScore * 100).toFixed(1),
+        score: (score * 100).toFixed(1),
         riskLevel,
         interpretation
       };
@@ -1547,7 +1504,7 @@
                        predictionResult.riskLevel === '中等风险' ? 'risk-medium' : 'risk-high';
 
       const riskColor = predictionResult.riskLevel === '低风险' ? '#27ae60' :
-                       predictionResult.riskLevel === '中等风险' ? '#f39c12极速' : '#e74c3c';
+                       predictionResult.riskLevel === '中等风险' ? '#f39c12' : '#e74c3c';
 
       return `
         <div class="prediction-highlight" style="background: linear-gradient(135deg, ${riskColor}33 0%, ${riskColor}66 100%);">
@@ -1672,7 +1629,7 @@
         // 解析文件名和后缀
         const lastDotIndex = fileName.lastIndexOf('.');
         let baseName, extension;
-        if (lastDotIndex === -极速1) {
+        if (lastDotIndex === -1) {
           baseName = fileName;
           extension = '';
         } else {
@@ -1723,7 +1680,7 @@
         // 等待所有上传完成
         return await Promise.all(uploadPromises);
       } catch (error) {
-        console.error(`文件上传失败(剩余极速重试次数: ${retries-1}):`, error);
+        console.error(`文件上传失败(剩余重试次数: ${retries-1}):`, error);
 
         if (retries > 0) {
           await new Promise(resolve => setTimeout(resolve, 2000));
@@ -1744,7 +1701,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            action极速: 'upload_file',
+            action: 'upload_file',
             fileName: fileName,
             content: content,
             directory: fileName.includes('/') ? fileName.substring(0, fileName.lastIndexOf('/')) : ''
@@ -1756,7 +1713,7 @@
 
         if (!response.ok) {
           // 尝试解析错误信息
-          let errorMsg = `文件上传失败: ${极速response.status}`;
+          let errorMsg = `文件上传失败: ${response.status}`;
           try {
             const errorData = await response.json();
             if (errorData && errorData.error) {
@@ -1790,13 +1747,13 @@
     function generateGitHubComment(dataPoints, predictionResult = null) {
       // 获取当前日期时间
       const now = new Date();
-      const dateTime = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '极速0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+      const dateTime = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
 
       let comment = `## 第 ${userInfo.session} 次实验数据\n\n` +
              `- **实验日期时间**: ${dateTime}\n` +
              `- **眼动数据点总数**: ${dataPoints}\n` +
              `- **F注视时间**: ${analysisResults.food.dwellTime.toFixed(2)}ms\n` +
-             `- **B注视时间**: ${analysisResults.body.dwellTime.to极速Fixed(2)}ms\n` +
+             `- **B注视时间**: ${analysisResults.body.dwellTime.toFixed(2)}ms\n` +
              `- **F首视点**: ${analysisResults.food.firstFixation}\n` +
              `- **B首视点**: ${analysisResults.body.firstFixation}\n` +
              `- **F回视次数**: ${analysisResults.food.regressionCount.toFixed(2)}\n` +
@@ -1863,7 +1820,7 @@
       bodyImages.push({
         src: `b/${i}.jpg`, // 图片路径：b文件夹下
         type: 'body',
-        attribute: `${i}_${isFat ? 'fat' : 'thin'}`, // 标记胖/瘦极速和序号
+        attribute: `${i}_${isFat ? 'fat' : 'thin'}`, // 标记胖/瘦和序号
         position: 'left', // 左侧为目标属性（胖/瘦）
         index: i // 原始序号
       });
@@ -1877,7 +1834,7 @@
         let sessionInfo = "";
         const subjectIdEl = document.getElementById('subject-id');
         if (subjectIdEl && subjectIdEl.value) {
-          const subject极速Id = subjectIdEl.value;
+          const subjectId = subjectIdEl.value;
           const storedSession = localStorage.getItem(`session_${subjectId}`);
           const currentSession = storedSession ? parseInt(storedSession) + 1 : 1;
           sessionInfo = `<div class="session-display">这是您的第 <span>${currentSession}</span> 次实验</div>`;
@@ -1931,11 +1888,11 @@
               sessionDisplay.className = 'session-display';
               document.querySelector('.login-container').insertBefore(sessionDisplay, document.querySelector('.form-group:last-child'));
             }
-            sessionDisplay.innerHTML = `这是您的第 <span>${currentSession}</span> 极速次实验`;
+            sessionDisplay.innerHTML = `这是您的第 <span>${currentSession}</span> 次实验`;
 
             // 尝试获取存储的用户信息并自动填充
             const userData = localStorage.getItem(`user_${subjectId}`);
-            if (user极速Data) {
+            if (userData) {
               try {
                 const { gender, age } = JSON.parse(userData);
                 document.getElementById('gender').value = gender;
@@ -2040,9 +1997,9 @@
       stimulus: `
         <div class="centered-text">
           <p>为了进行眼动追踪，我们需要访问您的摄像头。</p>
-          <p>您将在下一屏幕收到权限请求。</极速p>
+          <p>您将在下一屏幕收到权限请求。</p>
           <p class="warning">请务必点击"允许"，否则眼动追踪功能将无法工作。</p>
-          <极速p>摄像头仅用于分析您的眼部运动，不会保存任何视频数据。</p>
+          <p>摄像头仅用于分析您的眼部运动，不会保存任何视频数据。</p>
         </div>
       `,
       choices: ['明白了'],
@@ -2073,7 +2030,7 @@
         cameraPermissionDenied = true;
         updateInitStatus('webgazer', '初始化失败', true);
       },
-      on_load极速: function() {
+      on_load: function() {
         updateInitStatus('webgazer', '初始化中...');
       },
       on_finish: function() {
@@ -2207,7 +2164,7 @@
       stimulus: `
         <div class="centered-text">
           <p>太好了，校准已完成！</p>
-          <p极速>接下来将开始实验，请注视屏幕中央的十字，然后观看图片。</p>
+          <p>接下来将开始实验，请注视屏幕中央的十字，然后观看图片。</p>
         </div>
       `,
       choices: ['继续']
@@ -2259,7 +2216,7 @@
       // 每20ms记录一次眼动数据（50Hz采样率）
       gazeUpdateInterval = setInterval(() => {
         if (webgazer) {
-          web极速gazer.getCurrentPrediction().then(function(pred) {
+          webgazer.getCurrentPrediction().then(function(pred) {
             if (pred) {
               gazeData.push({
                 timestamp: Date.now(),
@@ -2347,7 +2304,7 @@
           // 记录试次开始时间 - 修复点：直接存储到data对象
           const startTime = Date.now();
           trial.data.trial_start_time = startTime;
-          // 在试次对象上存储开始极速时间
+          // 在试次对象上存储开始时间
           this.trial_start_time = startTime;
 
           // 在图片加载完成后获取容器位置
@@ -2397,13 +2354,13 @@
             data.analysisResult = analyzeGazeData(data.gaze_data, data.image_type, data.image_attribute);
             console.log(`试次 ${data.trial_index} 分析结果:`, data.analysisResult);
           } else {
-            console.warn(`试次 ${data.trial_index极速} 无眼动数据`);
+            console.warn(`试次 ${data.trial_index} 无眼动数据`);
           }
         }
       };
       foodTrials.push(foodTrial);
 
-      // 试次间休息（最后一个试极速次后不休息）
+      // 试次间休息（最后一个试次后不休息）
       if (index < shuffledFoodImages.length - 1) {
         foodTrials.push({
           type: jsPsychHtmlKeyboardResponse,
@@ -2479,7 +2436,7 @@
       roi_radius: 200,
       time_to_saccade: 1000,
       validation_duration: 2000,
-      data极速: { task: 'validate_second' }
+      data: { task: 'validate_second' }
     };
 
     const second_recalibrate = {
@@ -2513,7 +2470,7 @@
         data: {
           task: 'fixation',
           phase: 'body',
-          block极速: 'body_presentation',
+          block: 'body_presentation',
           trial_index: index + 1,
           total_trials: shuffledBodyImages.length
         },
@@ -2603,7 +2560,7 @@
               data.trial_duration_actual = endTime - data.trial_start_time;
             } else {
               // 没有眼动数据，使用默认试次时长
-              data.trial_duration_actual = 600极速0;
+              data.trial_duration_actual = 6000;
             }
           }
 
@@ -2693,7 +2650,7 @@
               image_position: trial.image_position,
               original_index: trial.original_index,
               image_src: trial.image_src,
-              start_time极速: trial.trial_start_time,
+              start_time: trial.trial_start_time,
               end_time: trial.trial_end_time,
               duration: trial.trial_duration_actual
             };
@@ -2701,7 +2658,7 @@
             // 如果有眼动数据，添加第一条和最后一条作为示例
             if (trial.gaze_data && trial.gaze_data.length > 0) {
               baseData.first_gaze_x = trial.gaze_data[0].x;
-              baseData.first_gaze_y = trial.gaze_data[0].极速y;
+              baseData.first_gaze_y = trial.gaze_data[0].y;
               baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
               baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
               baseData.gaze_samples = trial.gaze_data.length;
@@ -2793,12 +2750,6 @@
             }
           }
 
-          // 生成预测结果HTML（如果有）
-          let predictionHTML = "";
-          if (predictionResult) {
-            predictionHTML = generatePredictionHTML(predictionResult);
-          }
-
           // 上传数据的核心函数
           const uploadData = async () => {
             // 1. 创建或获取GitHub Issue（每个被试只创建一个）
@@ -2813,7 +2764,7 @@
             statusMessage.textContent = "上传数据到GitHub Issues...";
             await addIssueComment(issue.number, commentBody);
 
-            // 4极速. 上传CSV文件到data1目录（使用新文件名格式）
+            // 4. 上传CSV文件到data1目录（使用新文件名格式）
             statusMessage.textContent = "上传CSV文件到data1目录...";
             await uploadFileToGitHub(csvContent, csvFileName, 'data1');
 
@@ -2835,13 +2786,20 @@
             // 9. 显示数据报告和操作按钮
             let content = `
               <div class="centered-text">
-                <h2>第 ${userInfo.session极速} 次实验完成</h2>
-                <p>详细眼动数据极速已成功上传至GitHub仓库</p>
-                ${predictionHTML}
+                <h2>第 ${userInfo.session} 次实验完成</h2>
+                <p>详细眼动数据已成功上传至GitHub仓库</p>
+            `;
+
+            // 如果有预测结果，显示预测结果（放在最前面）
+            if (predictionResult) {
+              content += generatePredictionHTML(predictionResult);
+            }
+
+            content += `
                 ${resultsTable}
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
                   <button class="copy-button" id="copy-btn">复制报告摘要</button>
-                  <button class="github-button"极速 id="github-btn">查看GitHub记录</button>
+                  <button class="github-button" id="github-btn">查看GitHub记录</button>
                   <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
                   <button class="save-button" id="save-json-btn">保存JSON到本地</button>
                   <button class="save-button" id="save-results-btn">保存结果表格</button>
@@ -2975,39 +2933,28 @@
           const sessionStr = userInfo.session.toString().padStart(2, '0');
           const timestamp = Date.now();
           const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-          const jsonFileName = `json_eye-${subjectIdNum}_${session极速Str}_${timestamp}.json`;
+          const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
           const resultsFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
 
-          // 生成预测结果HTML（如果有）
-          let predictionHTML = "";
-          if (predictionResult) {
-            predictionHTML = generatePredictionHTML(predictionResult);
-          }
-
-          // 显示错误恢复选项和预测结果
-          document.querySelector('.jspsych-content').innerHTML = `
-            <div class="centered-text">
-              <h2>第 ${userInfo.session} 次实验完成</h2>
-              <p class="warning">数据上传失败，请尝试其他方式保存极速数据</p>
-              ${predictionHTML}
-              <div class="error-panel">
-                <h4>数据上传失败处理方案</h4>
-                <p>系统无法自动上传数据到服务器，请选择以下操作:</p>
-                <p><strong>错误原因:</strong> ${error.message}</p>
-                <ul>
-                  <li>检查您的网络连接后重试</li>
-                  <li>保存数据到本地并稍后提交给实验负责人</li>
-                  <li>退出实验并重新开始</li>
-                </ul>
-              </div>
-              ${resultsTable}
-              <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
-                <button class="login-button" id="retry-btn">重试上传</button>
-                <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
-                <button class="save-button" id="save-json-btn">保存JSON到本地</button>
-                <button class极速="save-button" id="save-results-btn">保存结果表格</button>
-                <button class="exit-button" id="exit-btn">退出实验</button>
-              </div>
+          // 显示错误恢复选项
+          document.querySelector('.jspsych-content').innerHTML += `
+            <div class="error-panel">
+              <h4>数据上传失败处理方案</h4>
+              <p>系统无法自动上传数据到服务器，请选择以下操作:</p>
+              <p><strong>错误原因:</strong> ${error.message}</p>
+              <ul>
+                <li>检查您的网络连接后重试</li>
+                <li>保存数据到本地并稍后提交给实验负责人</li>
+                <li>退出实验并重新开始</li>
+              </ul>
+            </div>
+            ${resultsTable}
+            <div style="margin-top: 20px; text-align: center;">
+              <button class="login-button" id="retry-btn">重试上传</button>
+              <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
+              <button class="save-button" id="save-json-btn">保存JSON到本地</button>
+              <button class="save-button" id="save-results-btn">保存结果表格</button>
+              <button class="exit-button" id="exit-btn">退出实验</button>
             </div>
           `;
 
@@ -3019,10 +2966,10 @@
 
             try {
               // 重新执行上传逻辑
-              const issue = await get极速OrCreateIssue();
-              const commentBody = generateGitHubComment(dataPoints, predictionResult);
+              const issue = await getOrCreateIssue();
+              const commentBody = generateGitHubComment(dataPoints);
               await addIssueComment(issue.number, commentBody);
-              await uploadFileToGitHub(csvContent, csvFileName, '极速data1');
+              await uploadFileToGitHub(csvContent, csvFileName, 'data1');
               await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
               await uploadFileToGitHub(resultsCSV, resultsFileName, 'results');
 
