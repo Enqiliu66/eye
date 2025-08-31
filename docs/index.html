@@ -1478,49 +1478,77 @@
 
     // 解释预测结果
     function interpretPrediction(score) {
-      let riskLevel, interpretation;
+      // 确保score在0-1范围内
+      score = Math.max(0, Math.min(1, score));
+
+      let riskLevel, interpretation, detailedExplanation;
 
       if (score < 0.3) {
         riskLevel = '低风险';
-        interpretation = '根据眼动数据分析，您的进食障碍风险较低。您的注视模式与健康人群相似。';
+        interpretation = '根据眼动数据分析，您的进食障碍风险较低。';
+        detailedExplanation = '您的注视模式与健康人群相似，对食物和身材图片的注意力分配较为平衡，没有表现出明显的异常关注模式。';
       } else if (score < 0.7) {
         riskLevel = '中等风险';
-        interpretation = '根据眼动数据分析，您存在一定的进食障碍风险。建议关注饮食健康，必要时可咨询专业人士。';
+        interpretation = '根据眼动数据分析，您存在一定的进食障碍风险。';
+        detailedExplanation = '您的注视模式显示出对一些特定类型图片的偏好或回避，这可能与饮食态度有关。建议关注饮食健康，必要时可咨询专业人士进行进一步评估。';
       } else {
         riskLevel = '高风险';
-        interpretation = '根据眼动数据分析，您的进食障碍风险较高。强烈建议寻求专业医疗或心理咨询师的帮助。';
+        interpretation = '根据眼动数据分析，您的进食障碍风险较高。';
+        detailedExplanation = '您的注视模式显示出明显的异常特征，包括对特定类型图片的过度关注或回避，这与进食障碍患者的典型眼动模式相似。强烈建议寻求专业医疗或心理咨询师的帮助进行详细评估。';
+       }
+
+       return {
+         score: (score * 100).toFixed(1),
+         riskLevel,
+         interpretation,
+         detailedExplanation
+       };
       }
 
-      return {
-        score: (score * 100).toFixed(1),
-        riskLevel,
-        interpretation
-      };
-    }
+      // 同时需要更新生成预测结果HTML的函数
+      function generatePredictionHTML(predictionResult) {
+        const riskClass = predictionResult.riskLevel === '低风险' ? 'risk-low' :
+                         predictionResult.riskLevel === '中等风险' ? 'risk-medium' : 'risk-high';
 
-    // 生成预测结果HTML
-    function generatePredictionHTML(predictionResult) {
-      const riskClass = predictionResult.riskLevel === '低风险' ? 'risk-low' :
-                       predictionResult.riskLevel === '中等风险' ? 'risk-medium' : 'risk-high';
+        const riskColor = predictionResult.riskLevel === '低风险' ? '#27ae60' :
+                         predictionResult.riskLevel === '中等风险' ? '#f39c12' : '#e74c3c';
 
-      const riskColor = predictionResult.riskLevel === '低风险' ? '#27ae60' :
-                       predictionResult.riskLevel === '中等风险' ? '#f39c12' : '#e74c3c';
+        return `
+          <div class="prediction-highlight" style="background: linear-gradient(135deg, ${riskColor}33 0%, ${riskColor}66 100%);">
+            <h2 style="color: white; margin-bottom: 20px;">进食障碍风险预测结果</h2>
+            <div class="prediction-score-large">${predictionResult.score}%</div>
+            <div class="risk-indicator ${riskClass}" style="background: ${riskColor}; color: white;">${predictionResult.riskLevel}</div>
 
-      return `
-        <div class="prediction-highlight" style="background: linear-gradient(135deg, ${riskColor}33 0%, ${riskColor}66 100%);">
-          <h2 style="color: white; margin-bottom: 20px;">进食障碍风险预测结果</h2>
-          <div class="prediction-score-large">${predictionResult.score}%</div>
-          <div class="risk-indicator ${riskClass}" style="background: ${riskColor}; color: white;">${predictionResult.riskLevel}</div>
-          <div class="prediction-explanation">
-            <p style="font-size: 1.2rem; margin-bottom: 15px;">${predictionResult.interpretation}</p>
-            <p style="font-style: italic; font-size: 0.9rem;">
-              注意: 此预测基于机器学习模型分析，仅供参考，不能替代专业医疗诊断。
-            </p>
+            <div class="prediction-result">
+              <h3>结果解读</h3>
+              <p>${predictionResult.interpretation}</p>
+
+              <div class="prediction-interpretation">
+                <h4>详细说明</h4>
+                <p>${predictionResult.detailedExplanation}</p>
+              </div>
+
+              <div class="prediction-features">
+                <h4>分析依据</h4>
+                <ul>
+                  <li>食物图片注视时间差异: ${analysisResults.food.dwellTime.toFixed(2)}ms</li>
+                  <li>身材图片注视时间差异: ${analysisResults.body.dwellTime.toFixed(2)}ms</li>
+                  <li>食物图片首视点偏好: ${analysisResults.food.firstFixation > 0 ? '高热量' : (analysisResults.food.firstFixation < 0 ? '低热量' : '无明确偏好')}</li>
+                  <li>身材图片首视点偏好: ${analysisResults.body.firstFixation > 0 ? '偏胖体型' : (analysisResults.body.firstFixation < 0 ? '偏瘦体型' : '无明确偏好')}</li>
+                  <li>平均回视次数: 食物 ${analysisResults.food.regressionCount.toFixed(2)}次, 身材 ${analysisResults.body.regressionCount.toFixed(2)}次</li>
+                </ul>
+              </div>
+
+              <div class="prediction-disclaimer">
+                <p style="font-style: italic; font-size: 0.9rem; color: #666;">
+                  注意: 此预测基于机器学习模型对眼动数据的分析，仅供参考，不能替代专业医疗诊断。
+                  如果您对自己的饮食行为有任何担忧，请咨询专业医疗人员。
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      `;
-    }
-
+        `;
+       }
     /* ==== GitHub API 功能 ==== */
 
     // 创建或获取Issue（带错误处理和重试机制） - 总共尝试2次
@@ -2744,10 +2772,23 @@
             try {
               const predictionScore = await runPrediction();
               predictionResult = interpretPrediction(predictionScore);
+
+              // 生成预测结果HTML（提前生成，确保在所有情况下都能使用）
+              const predictionHTML = generatePredictionHTML(predictionResult);
+
+              // 保存预测结果到变量，供后续使用
+              window.predictionHTML = predictionHTML;
+              window.predictionResult = predictionResult;
             } catch (error) {
               console.error('预测失败:', error);
               statusMessage.textContent = "预测失败，继续数据处理...";
+              // 即使预测失败，也创建空的预测结果显示
+              window.predictionHTML = '';
+              window.predictionResult = null;
             }
+          }else {
+           window.predictionHTML = '';
+           window.predictionResult = null;
           }
 
           // 上传数据的核心函数
@@ -2790,16 +2831,32 @@
                 <p>详细眼动数据已成功上传至GitHub仓库</p>
             `;
 
-            // 如果有预测结果，显示预测结果（放在最前面）
-            if (predictionResult) {
-              content += generatePredictionHTML(predictionResult);
+            // 显示错误恢复选项 - 修改此处确保包含预测结果
+            let errorContent = `
+              <div class="centered-text">
+               <h2>第 ${userInfo.session}次实验完成</h2>
+               <p class="warning">数据上传失败，但预测结果已生成</p>
+            `;
+
+            // 显示预测结果（无论成功与否都会显示）
+            if (window.predictionHTML) {
+              errorContent += window.predictionHTML;
             }
 
-            content += `
+            errorContent += `
+                <div class="error-panel">
+                  <h4>数据上传失败处理方案</h4>
+                  <p>系统无法自动上传数据到服务器，请选择以下操作:</p>
+                  <p><strong>错误原因:</strong> ${error.message}</p>
+                  <ul>
+                    <li>检查您的网络连接后重试</li>
+                    <li>保存数据到本地并稍后提交给实验负责人</li>
+                    <li>退出实验并重新开始</li>
+                  </ul>
+                </div>
                 ${resultsTable}
-                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
-                  <button class="copy-button" id="copy-btn">复制报告摘要</button>
-                  <button class="github-button" id="github-btn">查看GitHub记录</button>
+                <div style="margin-top: 20px; text-align: center;">
+                  <button class="login-button" id="retry-btn">重试上传</button>
                   <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
                   <button class="save-button" id="save-json-btn">保存JSON到本地</button>
                   <button class="save-button" id="save-results-btn">保存结果表格</button>
@@ -2808,7 +2865,7 @@
               </div>
             `;
 
-            document.querySelector('.jspsych-content').innerHTML = content;
+            document.querySelector('.jspsych-content').innerHTML = errorContent;
 
             // 添加按钮事件
             document.getElementById('copy-btn').addEventListener('click', function() {
