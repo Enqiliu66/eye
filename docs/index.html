@@ -1250,6 +1250,17 @@
 
     // 分析眼动数据
     function analyzeGazeData(gazeData, imageType, imageAttribute) {
+      // 如果gazeData为空或无效，返回默认值对象
+      if (!gazeData || gazeData.length === 0) {
+        console.warn('无有效眼动数据，返回默认分析结果');
+        return {
+          dwellTime: 0,
+          firstFixation: 0,
+          regressionCount: 0,
+          leftDwellTime: 0,
+          rightDwellTime: 0
+        };
+      }
       let leftDwellTime = 0;
       let rightDwellTime = 0;
       let firstFixation = null;
@@ -1343,20 +1354,44 @@
       const foodTrials = trialData.filter(trial => trial.image_type === 'food');
       const bodyTrials = trialData.filter(trial => trial.image_type === 'body');
 
-      // 计算食物图片的平均值
+      // 计算食物图片的平均值 - 添加空值检查
       if (foodTrials.length > 0) {
-        analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / foodTrials.length;
-        analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
-        analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / foodTrials.length;
+        // 过滤掉analysisResult为null或undefined的试次
+        const validFoodTrials = foodTrials.filter(trial => trial.analysisResult);
+
+        // 计算食物图片的平均值
+        if (validFoodTrials.length > 0) {
+          analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / foodTrials.length;
+          analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
+          analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / foodTrials.length;
+        } else {
+          // 如果没有有效试次，设置默认值
+          analysisResults.food.dwellTime = 0;
+          analysisResults.food.firstFixation = 0;
+          analysisResults.food.regressionCount = 0;
+        }
       }
 
-      // 计算身材图片的平均值
+      // 计算身材图片的平均值 - 添加空值检查
       if (bodyTrials.length > 0) {
-        analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / bodyTrials.length;
-        analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
-        analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / bodyTrials.length;
+      // 过滤掉analysisResult为null或undefined的试次
+      const validBodyTrials = bodyTrials.filter(trial => trial.analysisResult);
+
+        // 计算身材图片的平均值
+        if (validBodyTrials.length > 0) {
+          analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / bodyTrials.length;
+          analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
+          analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / bodyTrials.length;
+        }
+      } else {
+        // 如果没有有效试次，设置默认值
+        analysisResults.body.dwellTime = 0;
+        analysisResults.body.firstFixation = 0;
+        analysisResults.body.regressionCount = 0;
       }
     }
+  }
+
 
     // 生成结果表格
     function generateResultsTable() {
@@ -2399,6 +2434,13 @@
             console.log(`试次 ${data.trial_index} 分析结果:`, data.analysisResult);
           } else {
             console.warn(`试次 ${data.trial_index} 无眼动数据`);
+            // 设置默认分析结果
+            data.analysisResult = {
+              dwellTime: 0,
+              firstFixation: 0,
+              regressionCount: 0,
+              leftDwellTime: 0,
+              rightDwellTime: 0
           }
         }
       };
