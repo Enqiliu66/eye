@@ -1413,6 +1413,11 @@
         console.log('开始加载预处理配置...');
         const response = await fetch('preprocessing.json');
         preprocessingConfig = await response.json();
+        // 添加兼容性处理
+    if (preprocessingConfig.scale && !preprocessingConfig.std) {
+      preprocessingConfig
+.std = preprocessingConfig.scale;
+    }
         console.log('预处理配置加载成功:', preprocessingConfig);
         return true;
       } catch (error) {
@@ -1435,13 +1440,19 @@
 
       console.log('原始特征:', features);
 
-      // 应用预处理（标准化）
-      let processedFeatures = features;
-      if (preprocessingConfig && preprocessingConfig.mean && preprocessingConfig.std) {
-        processedFeatures = features.map((value, index) => {
-          return (value - preprocessingConfig.mean[index]) / preprocessingConfig.std[index];
-        });
-      }
+// 应用预处理（标准化）- 兼容scale和std字段
+  let processedFeatures = features;
+  if (preprocessingConfig && preprocessingConfig.mean) {
+    // 使用scale字段，如果不存在则使用std字段
+    const scale = preprocessingConfig.scale || preprocessingConfig.std;
+
+    if (scale) {
+      processedFeatures
+= features.map((value, index) => {
+        return (value - preprocessingConfig.mean[index]) / scale[index];
+      });
+    }
+  }
 
       console.log('预处理后特征:', processedFeatures);
 
@@ -1461,12 +1472,22 @@
         const inputTensor = prepareModelInput();
 
         // 运行预测
-        const feeds = { input: inputTensor }; // 注意：这里的"input"需要与模型实际输入名称匹配
+        const feeds = { float_input: inputTensor }; // 注意：这里的"input"需要与模型实际输入名称匹配
         const results = await predictionModel.run(feeds);
 
         // 获取输出 - 假设模型输出名为"output"
-        const output = results.output;
-        const predictionScore = output.data[0];
+        const output = results.output_probability || results.output;
+
+        // 处理多输出情况
+        let predictionScore;
+        if (output && output.dims && output.dims[1] === 3) {
+          // 多分类输出，取第二个类别的概率（中度风险）
+          const probabilities = Array.from(output.data);
+          predictionScore = probabilities[1]; // 取第二个值作为风险分数
+        } else {
+          // 单输出
+          predictionScore = output.data[0];
+        }
 
         console.log('预测结果:', predictionScore);
         return predictionScore;
@@ -1474,7 +1495,7 @@
         console.error('预测失败:', error);
         throw error;
       }
-    }
+     }
 
     // 解释预测结果
     function interpretPrediction(score) {
