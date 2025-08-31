@@ -7,7 +7,8 @@
 
   <!-- 引入 Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
-
+  <!-- 在head部分添加 -->
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
   <!-- jsPsych 相关脚本 -->
   <script src="https://unpkg.com/jspsych@8.0.0"></script>
   <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
@@ -733,6 +734,80 @@
       font-size: 1rem;
       margin-top: 15px;
     }
+
+    /* ==== 预测结果样式 ==== */
+    .prediction-result {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 25px;
+      margin: 20px 0;
+      border-left: 5px solid #3498db;
+      text-align: left;
+      max-width: 800px;
+    }
+
+    .prediction-result h3 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #e9ecef;
+      padding-bottom: 10px;
+    }
+
+    .prediction-score {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #2980b9;
+      text-align: center;
+      margin: 15px 0;
+    }
+
+    .prediction-interpretation {
+      background: #e8f4fc;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      border-left: 3px solid #2980b9;
+    }
+
+    .prediction-features {
+      margin: 15px 0;
+    }
+
+    .prediction-features h4 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .prediction-features ul {
+      padding-left: 20px;
+    }
+
+    .prediction-features li {
+      margin-bottom: 8px;
+    }
+
+    .risk-level {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .risk-low {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .risk-medium {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .risk-high {
+      background: #f8d7da;
+      color: #721c24;
+    }
   </style>
 </head>
 
@@ -854,6 +929,8 @@
     let gazeData = []; // 存储每个试次的眼动数据
     let gazeUpdateInterval; // 眼动数据更新间隔
     let faceDetectionAttempts = 0; // 人脸检测尝试次数
+    let predictionModel = null; // ONNX模型
+    let preprocessingConfig = null; // 预处理配置
 
     /* ==== 眼动数据分析变量 ==== */
     let containerRect = null; // 存储图片容器位置信息
@@ -1277,6 +1354,142 @@
       return `被试编号,F注视时间(ms),B注视时间(ms),F首视点,B首视点,F回视次数,B回视次数\n${userInfo.subjectId},${analysisResults.food.dwellTime.toFixed(2)},${analysisResults.body.dwellTime.toFixed(2)},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount.toFixed(2)},${analysisResults.body.regressionCount.toFixed(2)}`;
     }
 
+    /* ==== ONNX模型预测功能 ==== */
+    // 加载ONNX模型
+    async function loadPredictionModel() {
+      try {
+        console.log('开始加载预测模型...');
+        predictionModel = await ort.InferenceSession.create('model.onnx');
+        console.log('模型加载成功');
+        return true;
+      } catch (error) {
+        console.error('模型加载失败:', error);
+        return false;
+      }
+    }
+
+    // 加载预处理配置
+    async function loadPreprocessingConfig() {
+      try {
+        console.log('开始加载预处理配置...');
+        const response = await fetch('preprocessing.json');
+        preprocessingConfig = await response.json();
+        console.log('预处理配置加载成功:', preprocessingConfig);
+        return true;
+      } catch (error) {
+        console.error('预处理配置加载失败:', error);
+        return false;
+      }
+    }
+
+    // 准备模型输入特征
+    function prepareModelInput() {
+      // 从分析结果中提取特征
+      const features = [
+        analysisResults.food.dwellTime,
+        analysisResults.body.dwellTime,
+        analysisResults.food.firstFixation,
+        analysisResults.body.firstFixation,
+        analysisResults.food.regressionCount,
+        analysisResults.body.regressionCount
+      ];
+      
+      console.log('原始特征:', features);
+      
+      // 应用预处理（标准化）
+      let processedFeatures = features;
+      if (preprocessingConfig && preprocessingConfig.mean && preprocessingConfig.std) {
+        processedFeatures = features.map((value, index) => {
+          return (value - preprocessingConfig.mean[index]) / preprocessingConfig.std[index];
+        });
+      }
+      
+      console.log('预处理后特征:', processedFeatures);
+      
+      // 转换为模型需要的张量格式
+      const tensor = new ort.Tensor('float32', new Float32Array(processedFeatures), [1, processedFeatures.length]);
+      return tensor;
+    }
+
+    // 运行模型预测
+    async function runPrediction() {
+      try {
+        if (!predictionModel) {
+          throw new Error('预测模型未加载');
+        }
+        
+        // 准备输入数据
+        const inputTensor = prepareModelInput();
+        
+        // 运行预测
+        const feeds = { input: inputTensor }; // 注意：这里的"input"需要与模型实际输入名称匹配
+        const results = await predictionModel.run(feeds);
+        
+        // 获取输出 - 假设模型输出名为"output"
+        const output = results.output;
+        const predictionScore = output.data[0];
+        
+        console.log('预测结果:', predictionScore);
+        return predictionScore;
+      } catch (error) {
+        console.error('预测失败:', error);
+        throw error;
+      }
+    }
+
+    // 解释预测结果
+    function interpretPrediction(score) {
+      let riskLevel, interpretation;
+      
+      if (score < 0.3) {
+        riskLevel = '低风险';
+        interpretation = '根据眼动数据分析，您的进食障碍风险较低。您的注视模式与健康人群相似。';
+      } else if (score < 0.7) {
+        riskLevel = '中等风险';
+        interpretation = '根据眼动数据分析，您存在一定的进食障碍风险。建议关注饮食健康，必要时可咨询专业人士。';
+      } else {
+        riskLevel = '高风险';
+        interpretation = '根据眼动数据分析，您的进食障碍风险较高。强烈建议寻求专业医疗或心理咨询师的帮助。';
+      }
+      
+      return {
+        score: (score * 100).toFixed(1),
+        riskLevel,
+        interpretation
+      };
+    }
+
+    // 生成预测结果HTML
+    function generatePredictionHTML(predictionResult) {
+      const riskClass = predictionResult.riskLevel === '低风险' ? 'risk-low' : 
+                       predictionResult.riskLevel === '中等风险' ? 'risk-medium' : 'risk-high';
+      
+      return `
+        <div class="prediction-result">
+          <h3>进食障碍风险预测结果</h3>
+          <div class="prediction-score">${predictionResult.score}%</div>
+          <div class="risk-level ${riskClass}">${predictionResult.riskLevel}</div>
+          <div class="prediction-interpretation">
+            <p>${predictionResult.interpretation}</p>
+          </div>
+          <div class="prediction-features">
+            <h4>使用的眼动特征:</h4>
+            <ul>
+              <li>食物图片注视时间差异: ${analysisResults.food.dwellTime.toFixed(2)}ms</li>
+              <li>身材图片注视时间差异: ${analysisResults.body.dwellTime.toFixed(2)}ms</li>
+              <li>食物图片首视点偏好: ${analysisResults.food.firstFixation}</li>
+              <li>身材图片首视点偏好: ${analysisResults.body.firstFixation}</li>
+              <li>食物图片回视次数: ${analysisResults.food.regressionCount.toFixed(2)}</li>
+              <li>身材图片回视次数: ${analysisResults.body.regressionCount.toFixed(2)}</li>
+            </ul>
+          </div>
+          <p style="margin-top: 15px; font-style: italic;">
+            注意: 此预测基于机器学习模型分析，仅供参考，不能替代专业医疗诊断。
+          </p>
+        </div>
+      `;
+    }
+
     /* ==== GitHub API 功能 ==== */
 
     // 创建或获取Issue（带错误处理和重试机制） - 总共尝试2次
@@ -1499,13 +1712,13 @@
       }
     }
 
-    // 生成GitHub评论内容（包含分析结果）
-    function generateGitHubComment(dataPoints) {
+    // 生成GitHub评论内容（包含分析结果和预测）
+    function generateGitHubComment(dataPoints, predictionResult = null) {
       // 获取当前日期时间
       const now = new Date();
       const dateTime = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
 
-      return `## 第 ${userInfo.session} 次实验数据\n\n` +
+      let comment = `## 第 ${userInfo.session} 次实验数据\n\n` +
              `- **实验日期时间**: ${dateTime}\n` +
              `- **眼动数据点总数**: ${dataPoints}\n` +
              `- **F注视时间**: ${analysisResults.food.dwellTime.toFixed(2)}ms\n` +
@@ -1514,6 +1727,15 @@
              `- **B首视点**: ${analysisResults.body.firstFixation}\n` +
              `- **F回视次数**: ${analysisResults.food.regressionCount.toFixed(2)}\n` +
              `- **B回视次数**: ${analysisResults.body.regressionCount.toFixed(2)}\n`;
+      
+      // 如果有预测结果，添加到评论中
+      if (predictionResult) {
+        comment += `\n## 进食障碍风险预测\n` +
+                   `- **预测分数**: ${predictionResult.score}%\n` +
+                   `- **风险等级**: ${predictionResult.riskLevel}\n`;
+      }
+      
+      return comment;
     }
 
     // 保存CSV到本地
@@ -2478,15 +2700,34 @@
             return;
           }
 
+          // 加载模型和预处理配置
+          statusMessage.textContent = "加载预测模型...";
+          const modelLoaded = await loadPredictionModel();
+          const configLoaded = await loadPreprocessingConfig();
+          
+          let predictionResult = null;
+          
+          // 运行预测
+          if (modelLoaded) {
+            statusMessage.textContent = "运行进食障碍风险预测...";
+            try {
+              const predictionScore = await runPrediction();
+              predictionResult = interpretPrediction(predictionScore);
+            } catch (error) {
+              console.error('预测失败:', error);
+              statusMessage.textContent = "预测失败，继续数据处理...";
+            }
+          }
+
           // 上传数据的核心函数
           const uploadData = async () => {
             // 1. 创建或获取GitHub Issue（每个被试只创建一个）
             statusMessage.textContent = "连接GitHub仓库...";
             const issue = await getOrCreateIssue();
 
-            // 2. 生成GitHub评论内容
+            // 2. 生成GitHub评论内容（包含预测结果）
             statusMessage.textContent = "生成数据报告...";
-            const commentBody = generateGitHubComment(dataPoints);
+            const commentBody = generateGitHubComment(dataPoints, predictionResult);
 
             // 3. 添加评论到Issue（每次的数据作为一条评论）
             statusMessage.textContent = "上传数据到GitHub Issues...";
@@ -2512,11 +2753,19 @@
             statusMessage.textContent = "数据上传成功！";
 
             // 9. 显示数据报告和操作按钮
-            const content = `
+            let content = `
               <div class="centered-text">
                 <h2>第 ${userInfo.session} 次实验完成</h2>
                 <p>详细眼动数据已成功上传至GitHub仓库</p>
                 ${resultsTable}
+            `;
+            
+            // 如果有预测结果，显示预测结果
+            if (predictionResult) {
+              content += generatePredictionHTML(predictionResult);
+            }
+            
+            content += `
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
                   <button class="copy-button" id="copy-btn">复制报告摘要</button>
                   <button class="github-button" id="github-btn">查看GitHub记录</button>
@@ -2532,7 +2781,12 @@
 
             // 添加按钮事件
             document.getElementById('copy-btn').addEventListener('click', function() {
-              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
+              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}`;
+              if (predictionResult) {
+                summary += `\n进食障碍风险: ${predictionResult.score}% (${predictionResult.riskLevel})`;
+              }
+              summary += `\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
+              
               navigator.clipboard.writeText(summary)
                 .then(() => alert('报告摘要已复制到剪贴板'))
                 .catch(err => console.error('复制失败:', err));
