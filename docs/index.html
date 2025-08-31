@@ -2645,98 +2645,353 @@ function generatePredictionHTML(predictionResult) {
       },
       choices: [],
       on_load: async function() {
-// 在函数开头添加预测结果变量
-let predictionResult = null;
+  // 在函数开头添加预测结果变量 - 修改点1
+  let predictionResult = null;
 
-try {
-  const statusMessage = document.getElementById('status-message');
+  try {
+    const statusMessage = document.getElementById('status-message');
 
-  // 收集所有实验数据
-  const allData = jsPsych.data.get().filter({task: 'view'}).values();
+    // 收集所有实验数据
+    const allData = jsPsych.data.get().filter({task: 'view'}).values();
 
-  // 计算眼动数据点总数
-  const dataPoints = allData.reduce((total, trial) => {
-    return total + (trial.gaze_data ? trial.gaze_data.length : 0);
-  }, 0);
+    // 计算眼动数据点总数
+    const dataPoints = allData.reduce((total, trial) => {
+      return total + (trial.gaze_data ? trial.gaze_data.length : 0);
+    }, 0);
 
-  // 汇总分析结果
-  aggregateResults(allData);
+    // 汇总分析结果
+    aggregateResults(allData);
 
-  // 生成结果表格
-  const resultsTable = generateResultsTable();
-  const resultsCSV = generateResultsCSV();
+    // 生成结果表格
+    const resultsTable = generateResultsTable();
+    const resultsCSV = generateResultsCSV();
 
-  // 生成CSV数据（原始数据）
-  const csvData = allData.map(trial => {
-    // 基础信息
-    const baseData = {
-      trial_id: trial.trial_index,
-      phase: trial.phase,
-      image_type: trial.image_type,
-      image_attribute: trial.image_attribute,
-      image_position: trial.image_position,
-      original_index: trial.original_index,
-      image_src: trial.image_src,
-      start_time: trial.trial_start_time,
-      end_time: trial.trial_end_time,
-      duration: trial.trial_duration_actual
-    };
+    // 生成CSV数据（原始数据）
+    const csvData = allData.map(trial => {
+      // 基础信息
+      const baseData = {
+        trial_id: trial.trial_index,
+        phase: trial.phase,
+        image_type: trial.image_type,
+        image_attribute: trial.image_attribute,
+        image_position: trial.image_position,
+        original_index: trial.original_index,
+        image_src: trial.image_src,
+        start_time: trial.trial_start_time,
+        end_time: trial.trial_end_time,
+        duration: trial.trial_duration_actual
+      };
 
-    // 如果有眼动数据，添加第一条和最后一条作为示例
-    if (trial.gaze_data && trial.gaze_data.length > 0) {
-      baseData.first_gaze_x = trial.gaze_data[0].x;
-      baseData.first_gaze_y = trial.gaze_data[0].y;
-      baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
-      baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
-      baseData.gaze_samples = trial.gaze_data.length;
+      // 如果有眼动数据，添加第一条和最后一条作为示例
+      if (trial.gaze_data && trial.gaze_data.length > 0) {
+        baseData.first_gaze_x = trial.gaze_data[0].x;
+        baseData.first_gaze_y = trial.gaze_data[0].y;
+        baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
+        baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
+        baseData.gaze_samples = trial.gaze_data.length;
+      }
+
+      // 添加分析结果
+      if (trial.analysisResult) {
+        baseData.dwell_time = trial.analysisResult.dwellTime;
+        baseData.first_fixation = trial.analysisResult.firstFixation;
+        baseData.regression_count = trial.analysisResult.regressionCount;
+      }
+
+      return baseData;
+    });
+
+    // 转换为CSV字符串
+    let csvContent = Object.keys(csvData[0]).join(',') + '\n';
+    csvData.forEach(row => {
+      csvContent += Object.values(row).join(',') + '\n';
+    });
+
+    // 转换为JSON字符串
+    const jsonContent = JSON.stringify(allData, null, 2);
+
+    // 生成文件名（新格式：csv_eye-00X_01_part1）
+    const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
+    const sessionStr = userInfo.session.toString().padStart(2, '0');
+    const timestamp = Date.now(); // 添加时间戳确保唯一性
+    const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+    const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
+    const resultsFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+
+    // 如果摄像头权限被拒绝，跳过GitHub上传
+    if (cameraPermissionDenied) {
+      statusMessage.className = "status-message status-error";
+      statusMessage.textContent = "眼动数据未记录（摄像头权限被拒绝）";
+
+      // 生成预测结果HTML（如果有） - 修改点2：无论上传是否成功都显示预测结果
+      let predictionHTML = "";
+      if (predictionResult) {
+        predictionHTML = generatePredictionHTML(predictionResult);
+      }
+
+      // 显示结果表格
+      document.querySelector('.jspsych-content').innerHTML = `
+        <div class="centered-text">
+          <h2>第 ${userInfo.session} 次实验完成</h2>
+          <p class="warning">眼动数据未记录（摄像头权限被拒绝）</p>
+          ${predictionHTML}
+          ${resultsTable}
+          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+            <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
+            <button class="save-button" id="save-json-btn">保存JSON到本地</button>
+            <button class="save-button" id="save-results-btn">保存结果表格</button>
+            <button class="exit-button" id="exit-btn">退出实验</button>
+          </div>
+        </div>
+      `;
+
+      // 添加按钮事件
+      document.getElementById('save-csv-btn').addEventListener('click', function() {
+        saveCSVToLocal(csvContent, csvFileName);
+      });
+
+      document.getElementById('save-json-btn').addEventListener('click', function() {
+        saveJSONToLocal(jsonContent, jsonFileName);
+      });
+
+      document.getElementById('save-results-btn').addEventListener('click', function() {
+        saveCSVToLocal(resultsCSV, resultsFileName);
+      });
+
+      document.getElementById('exit-btn').addEventListener('click', function() {
+        location.reload();
+      });
+
+      return;
     }
 
-    // 添加分析结果
-    if (trial.analysisResult) {
-      baseData.dwell_time = trial.analysisResult.dwellTime;
-      baseData.first_fixation = trial.analysisResult.firstFixation;
-      baseData.regression_count = trial.analysisResult.regressionCount;
+    // 加载模型和预处理配置 - 修改点3：提前加载模型
+    statusMessage.textContent = "加载预测模型...";
+    const modelLoaded = await loadPredictionModel();
+    const configLoaded = await loadPreprocessingConfig();
+
+    // 运行预测 - 修改点4：提前运行预测
+    if (modelLoaded) {
+      statusMessage.textContent = "运行进食障碍风险预测...";
+      try {
+        const predictionScore = await runPrediction();
+        predictionResult = interpretPrediction(predictionScore);
+      } catch (error) {
+        console.error('预测失败:', error);
+        statusMessage.textContent = "预测失败，继续数据处理...";
+      }
     }
 
-    return baseData;
-  });
-
-  // 转换为CSV字符串
-  let csvContent = Object.keys(csvData[0]).join(',') + '\n';
-  csvData.forEach(row => {
-    csvContent += Object.values(row).join(',') + '\n';
-  });
-
-  // 转换为JSON字符串
-  const jsonContent = JSON.stringify(allData, null, 2);
-
-  // 生成文件名（新格式：csv_eye-00X_01_part1）
-  const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
-  const sessionStr = userInfo.session.toString().padStart(2, '0');
-  const timestamp = Date.now(); // 添加时间戳确保唯一性
-  const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-  const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
-  const resultsFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-
-  // 如果摄像头权限被拒绝，跳过GitHub上传
-  if (cameraPermissionDenied) {
-    statusMessage.className = "status-message status-error";
-    statusMessage.textContent = "眼动数据未记录（摄像头权限被拒绝）";
-
-    // 生成预测结果HTML（如果有）
+    // 生成预测结果HTML（如果有） - 修改点5：提前生成预测HTML
     let predictionHTML = "";
     if (predictionResult) {
       predictionHTML = generatePredictionHTML(predictionResult);
     }
 
-    // 显示结果表格
+    // 上传数据的核心函数
+    const uploadData = async () => {
+      // 1. 创建或获取GitHub Issue（每个被试只创建一个）
+      statusMessage.textContent = "连接GitHub仓库...";
+      const issue = await getOrCreateIssue();
+
+      // 2. 生成GitHub评论内容（包含预测结果）
+      statusMessage.textContent = "生成数据报告...";
+      const commentBody = generateGitHubComment(dataPoints, predictionResult);
+
+      // 3. 添加评论到Issue（每次的数据作为一条评论）
+      statusMessage.textContent = "上传数据到GitHub Issues...";
+      await addIssueComment(issue.number, commentBody);
+
+      // 4. 上传CSV文件到data1目录（使用新文件名格式）
+      statusMessage.textContent = "上传CSV文件到data1目录...";
+      await uploadFileToGitHub(csvContent, csvFileName, 'data1');
+
+      // 5. 上传JSON文件到data2目录（使用新文件名格式）
+      statusMessage.textContent = "上传JSON文件到data2目录...";
+      await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
+
+      // 6. 上传结果文件到results目录
+      statusMessage.textContent = "上传结果文件到results目录...";
+      await uploadFileToGitHub(resultsCSV, resultsFileName, 'results');
+
+      // 7. 更新次数记录
+      localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
+
+      // 8. 更新状态显示
+      statusMessage.className = "status-message status-success";
+      statusMessage.textContent = "数据上传成功！";
+
+      // 9. 显示数据报告和操作按钮 - 修改点6：使用提前生成的predictionHTML
+      let content = `
+        <div class="centered-text">
+          <h2>第 ${userInfo.session} 次实验完成</h2>
+          <p>详细眼动数据已成功上传至GitHub仓库</p>
+          ${predictionHTML}
+          ${resultsTable}
+          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+            <button class="copy-button" id="copy-btn">复制报告摘要</button>
+            <button class="github-button" id="github-btn">查看GitHub记录</button>
+            <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
+            <button class="save-button" id="save-json-btn">保存JSON到本地</button>
+            <button class="save-button" id="save-results-btn">保存结果表格</button>
+            <button class="exit-button" id="exit-btn">退出实验</button>
+          </div>
+        </div>
+      `;
+
+      document.querySelector('.jspsych-content').innerHTML = content;
+
+      // 添加按钮事件
+      document.getElementById('copy-btn').addEventListener('click', function() {
+        const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}`;
+        if (predictionResult) {
+          summary += `\n进食障碍风险: ${predictionResult.score}% (${predictionResult.riskLevel})`;
+        }
+        summary += `\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
+
+        navigator.clipboard.writeText(summary)
+          .then(() => alert('报告摘要已复制到剪贴板'))
+          .catch(err => console.error('复制失败:', err));
+      });
+
+      // GitHub查看权限验证
+      document.getElementById('github-btn').addEventListener('click', function() {
+        const authModal = document.getElementById('auth-modal');
+        const authError = document.getElementById('auth-error');
+        const authCode = document.getElementById('auth-code');
+
+        // 重置验证状态
+        authError.style.display = 'none';
+        authCode.value = '';
+
+        // 显示验证弹窗
+        authModal.style.display = 'flex';
+
+        // 确认按钮事件
+        document.getElementById('auth-confirm').onclick = function() {
+          if (authCode.value.toLowerCase() === 'eye') {
+            window.open(issue.html_url, '_blank');
+            authModal.style.display = 'none';
+          } else {
+            authError.style.display = 'block';
+          }
+        };
+
+        // 返回按钮事件
+        document.getElementById('auth-cancel').onclick = function() {
+          authModal.style.display = 'none';
+        };
+      });
+
+      // 保存CSV到本地按钮（使用新文件名格式）
+      document.getElementById('save-csv-btn').addEventListener('click', function() {
+        saveCSVToLocal(csvContent, csvFileName);
+      });
+
+      // 保存JSON到本地按钮（使用新文件名格式）
+      document.getElementById('save-json-btn').addEventListener('click', function() {
+        saveJSONToLocal(jsonContent, jsonFileName);
+      });
+
+      // 保存结果表格按钮
+      document.getElementById('save-results-btn').addEventListener('click', function() {
+        saveCSVToLocal(resultsCSV, resultsFileName);
+      });
+
+      // 退出实验按钮 - 改为刷新页面
+      document.getElementById('exit-btn').addEventListener('click', function() {
+        location.reload(); // 刷新页面回到登录界面
+      });
+    };
+
+    // 执行上传
+    await uploadData();
+
+  } catch (error) {
+    const statusMessage = document.getElementById('status-message');
+    statusMessage.className = "status-message status-error";
+    statusMessage.textContent = `数据处理失败: ${error.message}`;
+    console.error('完整错误信息:', error);
+
+    // 获取数据用于本地保存
+    const allData = jsPsych.data.get().filter({task: 'view'}).values();
+
+    // 汇总分析结果
+    aggregateResults(allData);
+
+    // 生成结果表格
+    const resultsTable = generateResultsTable();
+    const resultsCSV = generateResultsCSV();
+
+    // 生成CSV数据
+    const csvData = allData.map(trial => {
+      const baseData = {
+        trial_id: trial.trial_index,
+        phase: trial.phase,
+        image_type: trial.image_type,
+        image_attribute: trial.image_attribute,
+        image_position: trial.image_position,
+        original_index: trial.original_index,
+        image_src: trial.image_src,
+        start_time: trial.trial_start_time,
+        end_time: trial.trial_end_time,
+        duration: trial.trial_duration_actual
+      };
+      if (trial.gaze_data && trial.gaze_data.length > 0) {
+        baseData.first_gaze_x = trial.gaze_data[0].x;
+        baseData.first_gaze_y = trial.gaze_data[0].y;
+        baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
+        baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
+        baseData.gaze_samples = trial.gaze_data.length;
+      }
+      if (trial.analysisResult) {
+        baseData.dwell_time = trial.analysisResult.dwellTime;
+        baseData.first_fixation = trial.analysisResult.firstFixation;
+        baseData.regression_count = trial.analysisResult.regressionCount;
+      }
+      return baseData;
+    });
+
+    let csvContent = Object.keys(csvData[0]).join(',') + '\n';
+    csvData.forEach(row => {
+      csvContent += Object.values(row).join(',') + '\n';
+    });
+
+    const jsonContent = JSON.stringify(allData, null, 2);
+
+    // 生成新格式文件名（添加时间戳确保唯一性）
+    const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
+    const sessionStr = userInfo.session.toString().padStart(2, '0');
+    const timestamp = Date.now();
+    const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+    const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
+    const resultsFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
+
+    // 生成预测结果HTML（如果有） - 修改点7：在错误处理中也显示预测结果
+    let predictionHTML = "";
+    if (predictionResult) {
+      predictionHTML = generatePredictionHTML(predictionResult);
+    }
+
+    // 显示错误恢复选项和预测结果
     document.querySelector('.jspsych-content').innerHTML = `
       <div class="centered-text">
         <h2>第 ${userInfo.session} 次实验完成</h2>
-        <p class="warning">眼动数据未记录（摄像头权限被拒绝）</p>
+        <p class="warning">数据上传失败，请尝试其他方式保存数据</p>
         ${predictionHTML}
+        <div class="error-panel">
+          <h4>数据上传失败处理方案</h4>
+          <p>系统无法自动上传数据到服务器，请选择以下操作:</p>
+          <p><strong>错误原因:</strong> ${error.message}</p>
+          <ul>
+            <li>检查您的网络连接后重试</li>
+            <li>保存数据到本地并稍后提交给实验负责人</li>
+            <li>退出实验并重新开始</li>
+          </ul>
+        </div>
         ${resultsTable}
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+          <button class="login-button" id="retry-btn">重试上传</button>
           <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
           <button class="save-button" id="save-json-btn">保存JSON到本地</button>
           <button class="save-button" id="save-results-btn">保存结果表格</button>
@@ -2745,320 +3000,64 @@ try {
       </div>
     `;
 
-    // 添加按钮事件
-    document.getElementById('save-csv-btn').addEventListener('click', function() {
-      saveCSVToLocal(csvContent, csvFileName);
-    });
+    // 重试上传按钮
+    document.getElementById('retry-btn').addEventListener('click', async () => {
+      const statusMessage = document.getElementById('status-message');
+      statusMessage.className = "status-message status-loading";
+      statusMessage.textContent = "正在重试上传数据...";
 
-    document.getElementById('save-json-btn').addEventListener('click', function() {
-      saveJSONToLocal(jsonContent, jsonFileName);
-    });
+      try {
+        // 重新执行上传逻辑
+        const issue = await getOrCreateIssue();
+        const commentBody = generateGitHubComment(dataPoints, predictionResult);
+        await addIssueComment(issue.number, commentBody);
+        await uploadFileToGitHub(csvContent, csvFileName, 'data1');
+        await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
+        await uploadFileToGitHub(resultsCSV, resultsFileName, 'results');
 
-    document.getElementById('save-results-btn').addEventListener('click', function() {
-      saveCSVToLocal(resultsCSV, resultsFileName);
-    });
+        // 更新次数记录
+        localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
 
-    document.getElementById('exit-btn').addEventListener('click', function() {
-      location.reload();
-    });
+        statusMessage.className = "status-message status-success";
+        statusMessage.textContent = "数据上传成功！";
 
-    return;
-  }
+        // 刷新页面
+        setTimeout(() => location.reload(), 2000);
 
-  // 加载模型和预处理配置
-  statusMessage.textContent = "加载预测模型...";
-  const modelLoaded = await loadPredictionModel();
-  const configLoaded = await loadPreprocessingConfig();
-
-  // 运行预测
-  if (modelLoaded) {
-    statusMessage.textContent = "运行进食障碍风险预测...";
-    try {
-      const predictionScore = await runPrediction();
-      predictionResult = interpretPrediction(predictionScore);
-    } catch (error) {
-      console.error('预测失败:', error);
-      statusMessage.textContent = "预测失败，继续数据处理...";
-    }
-  }
-
-  // 生成预测结果HTML（如果有）
-  let predictionHTML = "";
-  if (predictionResult) {
-    predictionHTML = generatePredictionHTML(predictionResult);
-  }
-
-  // 上传数据的核心函数
-  const uploadData = async () => {
-    // 1. 创建或获取GitHub Issue（每个被试只创建一个）
-    statusMessage.textContent = "连接GitHub仓库...";
-    const issue = await getOrCreateIssue();
-
-    // 2. 生成GitHub评论内容（包含预测结果）
-    statusMessage.textContent = "生成数据报告...";
-    const commentBody = generateGitHubComment(dataPoints, predictionResult);
-
-    // 3. 添加评论到Issue（每次的数据作为一条评论）
-    statusMessage.textContent = "上传数据到GitHub Issues...";
-    await addIssueComment(issue.number, commentBody);
-
-    // 4. 上传CSV文件到data1目录（使用新文件名格式）
-    statusMessage.textContent = "上传CSV文件到data1目录...";
-    await uploadFileToGitHub(csvContent, csvFileName, 'data1');
-
-    // 5. 上传JSON文件到data2目录（使用新文件名格式）
-    statusMessage.textContent = "上传JSON文件到data2目录...";
-    await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
-
-    // 6. 上传结果文件到results目录
-    statusMessage.textContent = "上传结果文件到results目录...";
-    await uploadFileToGitHub(resultsCSV, resultsFileName, 'results');
-
-    // 7. 更新次数记录
-    localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
-
-    // 8. 更新状态显示
-    statusMessage.className = "status-message status-success";
-    statusMessage.textContent = "数据上传成功！";
-
-    // 9. 显示数据报告和操作按钮
-    let content = `
-      <div class="centered-text">
-        <h2>第 ${userInfo.session} 次实验完成</h2>
-        <p>详细眼动数据已成功上传至GitHub仓库</p>
-        ${predictionHTML}
-        ${resultsTable}
-        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
-          <button class="copy-button" id="copy-btn">复制报告摘要</button>
-          <button class="github-button" id="github-btn">查看GitHub记录</button>
-          <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
-          <button class="save-button" id="save-json-btn">保存JSON到本地</button>
-          <button class="save-button" id="save-results-btn">保存结果表格</button>
-          <button class="exit-button" id="exit-btn">退出实验</button>
-        </div>
-      </div>
-    `;
-
-    document.querySelector('.jspsych-content').innerHTML = content;
-
-    // 添加按钮事件
-    document.getElementById('copy-btn').addEventListener('click', function() {
-      const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}`;
-      if (predictionResult) {
-        summary += `\n进食障碍风险: ${predictionResult.score}% (${predictionResult.riskLevel})`;
+      } catch (retryError) {
+        statusMessage.className = "status-message status-error";
+        statusMessage.textContent = `重试失败: ${retryError.message}`;
+        console.error('重试错误信息:', retryError);
       }
-      summary += `\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
-
-      navigator.clipboard.writeText(summary)
-        .then(() => alert('报告摘要已复制到剪贴板'))
-        .catch(err => console.error('复制失败:', err));
     });
 
-    // GitHub查看权限验证
-    document.getElementById('github-btn').addEventListener('click', function() {
-      const authModal = document.getElementById('auth-modal');
-      const authError = document.getElementById('auth-error');
-      const authCode = document.getElementById('auth-code');
-
-      // 重置验证状态
-      authError.style.display = 'none';
-      authCode.value = '';
-
-      // 显示验证弹窗
-      authModal.style.display = 'flex';
-
-      // 确认按钮事件
-      document.getElementById('auth-confirm').onclick = function() {
-        if (authCode.value.toLowerCase() === 'eye') {
-          window.open(issue.html_url, '_blank');
-          authModal.style.display = 'none';
-        } else {
-          authError.style.display = 'block';
-        }
-      };
-
-      // 返回按钮事件
-      document.getElementById('auth-cancel').onclick = function() {
-        authModal.style.display = 'none';
-      };
-    });
-
-    // 保存CSV到本地按钮（使用新文件名格式）
+    // 保存CSV按钮（使用新文件名格式）
     document.getElementById('save-csv-btn').addEventListener('click', function() {
       saveCSVToLocal(csvContent, csvFileName);
+      // 更新实验次数
+      localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
     });
 
-    // 保存JSON到本地按钮（使用新文件名格式）
+    // 保存JSON按钮（使用新文件名格式）
     document.getElementById('save-json-btn').addEventListener('click', function() {
       saveJSONToLocal(jsonContent, jsonFileName);
+      // 更新实验次数
+      localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
     });
 
     // 保存结果表格按钮
     document.getElementById('save-results-btn').addEventListener('click', function() {
       saveCSVToLocal(resultsCSV, resultsFileName);
+      // 更新实验次数
+      localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
     });
 
     // 退出实验按钮 - 改为刷新页面
     document.getElementById('exit-btn').addEventListener('click', function() {
       location.reload(); // 刷新页面回到登录界面
     });
-  };
-
-  // 执行上传
-  await uploadData();
-
-} catch (error) {
-  const statusMessage = document.getElementById('status-message');
-  statusMessage.className = "status-message status-error";
-  statusMessage.textContent = `数据处理失败: ${error.message}`;
-  console.error('完整错误信息:', error);
-
-  // 获取数据用于本地保存
-  const allData = jsPsych.data.get().filter({task: 'view'}).values();
-
-  // 汇总分析结果
-  aggregateResults(allData);
-
-  // 生成结果表格
-  const resultsTable = generateResultsTable();
-  const resultsCSV = generateResultsCSV();
-
-  // 生成CSV数据
-  const csvData = allData.map(trial => {
-    const baseData = {
-      trial_id: trial.trial_index,
-      phase: trial.phase,
-      image_type: trial.image_type,
-      image_attribute: trial.image_attribute,
-      image_position: trial.image_position,
-      original_index: trial.original_index,
-      image_src: trial.image_src,
-      start_time: trial.trial_start_time,
-      end_time: trial.trial_end_time,
-      duration: trial.trial_duration_actual
-    };
-    if (trial.gaze_data && trial.gaze_data.length > 0) {
-      baseData.first_gaze_x = trial.gaze_data[0].x;
-      baseData.first_gaze_y = trial.gaze_data[0].y;
-      baseData.last_gaze_x = trial.gaze_data[trial.gaze_data.length - 1].x;
-      baseData.last_gaze_y = trial.gaze_data[trial.gaze_data.length - 1].y;
-      baseData.gaze_samples = trial.gaze_data.length;
-    }
-    if (trial.analysisResult) {
-      baseData.dwell_time = trial.analysisResult.dwellTime;
-      baseData.first_fixation = trial.analysisResult.firstFixation;
-      baseData.regression_count = trial.analysisResult.regressionCount;
-    }
-    return baseData;
-  });
-
-  let csvContent = Object.keys(csvData[0]).join(',') + '\n';
-  csvData.forEach(row => {
-    csvContent += Object.values(row).join(',') + '\n';
-  });
-
-  const jsonContent = JSON.stringify(allData, null, 2);
-
-  // 生成新格式文件名（添加时间戳确保唯一性）
-  const subjectIdNum = userInfo.subjectId.replace('eye-', '').padStart(3, '0');
-  const sessionStr = userInfo.session.toString().padStart(2, '0');
-  const timestamp = Date.now();
-  const csvFileName = `csv_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-  const jsonFileName = `json_eye-${subjectIdNum}_${sessionStr}_${timestamp}.json`;
-  const resultsFileName = `results_eye-${subjectIdNum}_${sessionStr}_${timestamp}.csv`;
-
-  // 生成预测结果HTML（如果有）
-  let predictionHTML = "";
-  if (predictionResult) {
-    predictionHTML = generatePredictionHTML(predictionResult);
   }
-
-  // 显示错误恢复选项和预测结果
-  document.querySelector('.jspsych-content').innerHTML = `
-    <div class="centered-text">
-      <h2>第 ${userInfo.session} 次实验完成</h2>
-      <p class="warning">数据上传失败，请尝试其他方式保存数据</p>
-      ${predictionHTML}
-      <div class="error-panel">
-        <h4>数据上传失败处理方案</h4>
-        <p>系统无法自动上传数据到服务器，请选择以下操作:</p>
-        <p><strong>错误原因:</strong> ${error.message}</p>
-        <ul>
-          <li>检查您的网络连接后重试</li>
-          <li>保存数据到本地并稍后提交给实验负责人</li>
-          <li>退出实验并重新开始</li>
-        </ul>
-      </div>
-      ${resultsTable}
-      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
-        <button class="login-button" id="retry-btn">重试上传</button>
-        <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
-        <button class="save-button" id="save-json-btn">保存JSON到本地</button>
-        <button class="save-button" id="save-results-btn">保存结果表格</button>
-        <button class="exit-button" id="exit-btn">退出实验</button>
-      </div>
-    </div>
-  `;
-
-  // 重试上传按钮
-  document.getElementById('retry-btn').addEventListener('click', async () => {
-    const statusMessage = document.getElementById('status-message');
-    statusMessage.className = "status-message status-loading";
-    statusMessage.textContent = "正在重试上传数据...";
-
-    try {
-      // 重新执行上传逻辑
-      const issue = await getOrCreateIssue();
-      const commentBody = generateGitHubComment(dataPoints, predictionResult);
-      await addIssueComment(issue.number, commentBody);
-      await uploadFileToGitHub(csvContent, csvFileName, 'data1');
-      await uploadFileToGitHub(jsonContent, jsonFileName, 'data2');
-      await uploadFileToGitHub(resultsCSV, resultsFileName, 'results');
-
-      // 更新次数记录
-      localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
-
-      statusMessage.className = "status-message status-success";
-      statusMessage.textContent = "数据上传成功！";
-
-      // 刷新页面
-      setTimeout(() => location.reload(), 2000);
-
-    } catch (retryError) {
-      statusMessage.className = "status-message status-error";
-      statusMessage.textContent = `重试失败: ${retryError.message}`;
-      console.error('重试错误信息:', retryError);
-    }
-  });
-
-  // 保存CSV按钮（使用新文件名格式）
-  document.getElementById('save-csv-btn').addEventListener('click', function() {
-    saveCSVToLocal(csvContent, csvFileName);
-    // 更新实验次数
-    localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
-  });
-
-  // 保存JSON按钮（使用新文件名格式）
-  document.getElementById('save-json-btn').addEventListener('click', function() {
-    saveJSONToLocal(jsonContent, jsonFileName);
-    // 更新实验次数
-    localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
-  });
-
-  // 保存结果表格按钮
-  document.getElementById('save-results-btn').addEventListener('click', function() {
-    saveCSVToLocal(resultsCSV, resultsFileName);
-    // 更新实验次数
-    localStorage.setItem(`session_${userInfo.subjectId}`, userInfo.session.toString());
-  });
-
-  // 退出实验按钮 - 改为刷新页面
-  document.getElementById('exit-btn').addEventListener('click', function() {
-    location.reload(); // 刷新页面回到登录界面
-  });
 }
-      }
-    };
 
     timeline.push(dataProcessingTrial);
 
