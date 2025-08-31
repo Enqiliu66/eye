@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>进食障碍眼动程序</title>
+  <title>进食障碍眼动预测程序</title>
 
   <!-- 引入 Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <!-- 在head部分添加 -->
+  <!-- ONNX Runtime -->
   <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
   <!-- jsPsych 相关脚本 -->
   <script src="https://unpkg.com/jspsych@8.0.0"></script>
@@ -736,6 +736,45 @@
     }
 
     /* ==== 预测结果样式 ==== */
+    .prediction-highlight {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 20px 0;
+      color: white;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      border: 3px solid rgba(255,255,255,0.2);
+      width: 90%;
+      max-width: 800px;
+    }
+    
+    .prediction-score-large {
+      font-size: 4rem;
+      font-weight: 800;
+      margin: 15px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .risk-indicator {
+      display: inline-block;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin: 15px 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .prediction-explanation {
+      background: rgba(255,255,255,0.15);
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px 0;
+      text-align: left;
+      backdrop-filter: blur(10px);
+    }
+
     .prediction-result {
       background: #f8f9fa;
       border-radius: 15px;
@@ -814,7 +853,7 @@
 <body>
   <!-- 顶部导航栏 -->
   <div class="header">
-    <h1>进食障碍眼动程序</h1>
+    <h1>进食障碍眼动预测程序</h1>
   </div>
 
   <!-- 中央固定十字 -->
@@ -1010,15 +1049,15 @@
     /* ==== 人脸检测函数 ==== */
     async function checkFaceDetection() {
       updateInitStatus('face', '检测中...');
-      
+
       return new Promise((resolve) => {
         let detected = false;
         let attempts = 0;
         const maxAttempts = 10;
-        
+
         const checkInterval = setInterval(() => {
           attempts++;
-          
+
           if (webgazer && webgazer.getTracker()) {
             const tracker = webgazer.getTracker();
             if (tracker.isUserVisible()) {
@@ -1028,7 +1067,7 @@
               resolve(true);
             }
           }
-          
+
           if (attempts >= maxAttempts) {
             clearInterval(checkInterval);
             updateInitStatus('face', '检测失败', true);
@@ -1042,7 +1081,7 @@
     function showFaceDetectionHelp() {
       const helpEl = document.getElementById('face-detection-help');
       helpEl.style.display = 'block';
-      
+
       // 尝试显示摄像头预览
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true })
@@ -1059,12 +1098,12 @@
             console.error('无法访问摄像头:', err);
           });
       }
-      
+
       // 重试按钮事件
       document.getElementById('retry-face-detection').addEventListener('click', async () => {
         helpEl.style.display = 'none';
         faceDetectionAttempts++;
-        
+
         // 最多尝试3次
         if (faceDetectionAttempts <= 3) {
           const detected = await checkFaceDetection();
@@ -1190,17 +1229,17 @@
         console.error('容器位置信息未设置');
         return 'outside';
       }
-      
+
       // 检查是否在容器内
-      if (x < containerRect.left || x > containerRect.right || 
+      if (x < containerRect.left || x > containerRect.right ||
           y < containerRect.top || y > containerRect.bottom) {
         return 'outside';
       }
-      
+
       // 计算相对位置
       const relativeX = x - containerRect.left;
       const containerWidth = containerRect.right - containerRect.left;
-      
+
       // 判断左右区域
       if (relativeX < containerWidth / 2) {
         return 'left';
@@ -1215,7 +1254,7 @@
       let rightDwellTime = 0;
       let firstFixation = null;
       let regressions = 0;
-      
+
       // 计算注视时间
       gazeData.forEach(gaze => {
         const region = getGazeRegion(gaze.x, gaze.y);
@@ -1225,20 +1264,20 @@
           rightDwellTime += 20;
         }
       });
-      
+
       // 计算首视点
       if (gazeData.length > 0) {
         const firstRegion = getGazeRegion(gazeData[0].x, gazeData[0].y);
         firstFixation = firstRegion;
       }
-      
+
       // 计算回视次数
       let lastRegion = null;
       let lastTransitionTime = null;
-      
+
       gazeData.forEach((gaze, index) => {
         const currentRegion = getGazeRegion(gaze.x, gaze.y);
-        
+
         // 检测区域变化
         if (lastRegion && currentRegion !== lastRegion && currentRegion !== 'outside') {
           // 检查是否是回视（快速回到之前的区域）
@@ -1247,17 +1286,17 @@
           }
           lastTransitionTime = gaze.timestamp;
         }
-        
+
         lastRegion = currentRegion;
       });
-      
+
       // 根据图片类型和属性计算最终指标
       let result = {};
-      
+
       if (imageType === 'food') {
         // 食物图片：前8张是低热量在左边，后12张是高热量在左边
         const isLowCalorieLeft = parseInt(imageAttribute.split('_')[0]) <= 8;
-        
+
         if (isLowCalorieLeft) {
           // 左边是低热量，右边是高热量
           result.dwellTime = rightDwellTime - leftDwellTime; // 高热量-低热量
@@ -1270,7 +1309,7 @@
       } else if (imageType === 'body') {
         // 身材图片：前11张是胖子在左边，后14张是瘦子在左边
         const isFatLeft = parseInt(imageAttribute.split('_')[0]) <= 11;
-        
+
         if (isFatLeft) {
           // 左边是胖子，右边是瘦子
           result.dwellTime = leftDwellTime - rightDwellTime; // 胖子-瘦子
@@ -1281,11 +1320,11 @@
           result.firstFixation = firstFixation === 'right' ? 1 : (firstFixation === 'left' ? -1 : 0);
         }
       }
-      
+
       result.regressionCount = regressions;
       result.leftDwellTime = leftDwellTime;
       result.rightDwellTime = rightDwellTime;
-      
+
       // 更新调试信息
       updateDebugInfo(
         `${imageType}-${imageAttribute}`,
@@ -1295,7 +1334,7 @@
         firstFixation,
         regressions
       );
-      
+
       return result;
     }
 
@@ -1303,14 +1342,14 @@
     function aggregateResults(trialData) {
       const foodTrials = trialData.filter(trial => trial.image_type === 'food');
       const bodyTrials = trialData.filter(trial => trial.image_type === 'body');
-      
+
       // 计算食物图片的平均值
       if (foodTrials.length > 0) {
         analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / foodTrials.length;
         analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
         analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / foodTrials.length;
       }
-      
+
       // 计算身材图片的平均值
       if (bodyTrials.length > 0) {
         analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / bodyTrials.length;
@@ -1393,9 +1432,9 @@
         analysisResults.food.regressionCount,
         analysisResults.body.regressionCount
       ];
-      
+
       console.log('原始特征:', features);
-      
+
       // 应用预处理（标准化）
       let processedFeatures = features;
       if (preprocessingConfig && preprocessingConfig.mean && preprocessingConfig.std) {
@@ -1403,9 +1442,9 @@
           return (value - preprocessingConfig.mean[index]) / preprocessingConfig.std[index];
         });
       }
-      
+
       console.log('预处理后特征:', processedFeatures);
-      
+
       // 转换为模型需要的张量格式
       const tensor = new ort.Tensor('float32', new Float32Array(processedFeatures), [1, processedFeatures.length]);
       return tensor;
@@ -1417,18 +1456,18 @@
         if (!predictionModel) {
           throw new Error('预测模型未加载');
         }
-        
+
         // 准备输入数据
         const inputTensor = prepareModelInput();
-        
+
         // 运行预测
         const feeds = { input: inputTensor }; // 注意：这里的"input"需要与模型实际输入名称匹配
         const results = await predictionModel.run(feeds);
-        
+
         // 获取输出 - 假设模型输出名为"output"
         const output = results.output;
         const predictionScore = output.data[0];
-        
+
         console.log('预测结果:', predictionScore);
         return predictionScore;
       } catch (error) {
@@ -1440,7 +1479,7 @@
     // 解释预测结果
     function interpretPrediction(score) {
       let riskLevel, interpretation;
-      
+
       if (score < 0.3) {
         riskLevel = '低风险';
         interpretation = '根据眼动数据分析，您的进食障碍风险较低。您的注视模式与健康人群相似。';
@@ -1451,7 +1490,7 @@
         riskLevel = '高风险';
         interpretation = '根据眼动数据分析，您的进食障碍风险较高。强烈建议寻求专业医疗或心理咨询师的帮助。';
       }
-      
+
       return {
         score: (score * 100).toFixed(1),
         riskLevel,
@@ -1461,31 +1500,23 @@
 
     // 生成预测结果HTML
     function generatePredictionHTML(predictionResult) {
-      const riskClass = predictionResult.riskLevel === '低风险' ? 'risk-low' : 
+      const riskClass = predictionResult.riskLevel === '低风险' ? 'risk-low' :
                        predictionResult.riskLevel === '中等风险' ? 'risk-medium' : 'risk-high';
-      
+                       
+      const riskColor = predictionResult.riskLevel === '低风险' ? '#27ae60' :
+                       predictionResult.riskLevel === '中等风险' ? '#f39c12' : '#e74c3c';
+                       
       return `
-        <div class="prediction-result">
-          <h3>进食障碍风险预测结果</h3>
-          <div class="prediction-score">${predictionResult.score}%</div>
-          <div class="risk-level ${riskClass}">${predictionResult.riskLevel}</div>
-          <div class="prediction-interpretation">
-            <p>${predictionResult.interpretation}</p>
+        <div class="prediction-highlight" style="background: linear-gradient(135deg, ${riskColor}33 0%, ${riskColor}66 100%);">
+          <h2 style="color: white; margin-bottom: 20px;">进食障碍风险预测结果</h2>
+          <div class="prediction-score-large">${predictionResult.score}%</div>
+          <div class="risk-indicator ${riskClass}" style="background: ${riskColor}; color: white;">${predictionResult.riskLevel}</div>
+          <div class="prediction-explanation">
+            <p style="font-size: 1.2rem; margin-bottom: 15px;">${predictionResult.interpretation}</p>
+            <p style="font-style: italic; font-size: 0.9rem;">
+              注意: 此预测基于机器学习模型分析，仅供参考，不能替代专业医疗诊断。
+            </p>
           </div>
-          <div class="prediction-features">
-            <h4>使用的眼动特征:</h4>
-            <ul>
-              <li>食物图片注视时间差异: ${analysisResults.food.dwellTime.toFixed(2)}ms</li>
-              <li>身材图片注视时间差异: ${analysisResults.body.dwellTime.toFixed(2)}ms</li>
-              <li>食物图片首视点偏好: ${analysisResults.food.firstFixation}</li>
-              <li>身材图片首视点偏好: ${analysisResults.body.firstFixation}</li>
-              <li>食物图片回视次数: ${analysisResults.food.regressionCount.toFixed(2)}</li>
-              <li>身材图片回视次数: ${analysisResults.body.regressionCount.toFixed(2)}</li>
-            </ul>
-          </div>
-          <p style="margin-top: 15px; font-style: italic;">
-            注意: 此预测基于机器学习模型分析，仅供参考，不能替代专业医疗诊断。
-          </p>
         </div>
       `;
     }
@@ -1727,14 +1758,14 @@
              `- **B首视点**: ${analysisResults.body.firstFixation}\n` +
              `- **F回视次数**: ${analysisResults.food.regressionCount.toFixed(2)}\n` +
              `- **B回视次数**: ${analysisResults.body.regressionCount.toFixed(2)}\n`;
-      
+
       // 如果有预测结果，添加到评论中
       if (predictionResult) {
         comment += `\n## 进食障碍风险预测\n` +
                    `- **预测分数**: ${predictionResult.score}%\n` +
                    `- **风险等级**: ${predictionResult.riskLevel}\n`;
       }
-      
+
       return comment;
     }
 
@@ -2012,7 +2043,7 @@
             const faceDetected = await checkFaceDetection();
             if (!faceDetected) {
               showFaceDetectionHelp();
-              
+
               // 暂停实验直到用户操作
               return false;
             }
@@ -2275,7 +2306,7 @@
           trial.data.trial_start_time = startTime;
           // 在试次对象上存储开始时间
           this.trial_start_time = startTime;
-          
+
           // 在图片加载完成后获取容器位置
           setTimeout(() => {
             const container = document.querySelector('.stimulus-container');
@@ -2290,7 +2321,7 @@
               console.log('容器位置信息:', containerRect);
             }
           }, 500);
-          
+
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
@@ -2317,7 +2348,7 @@
           }
 
           data.gaze_data = stopGazeTracking(); // 保存眼动数据
-          
+
           // 分析眼动数据
           if (data.gaze_data && data.gaze_data.length > 0) {
             data.analysisResult = analyzeGazeData(data.gaze_data, data.image_type, data.image_attribute);
@@ -2492,7 +2523,7 @@
           trial.data.trial_start_time = startTime;
           // 在试次对象上存储开始时间
           this.trial_start_time = startTime;
-          
+
           // 在图片加载完成后获取容器位置
           setTimeout(() => {
             const container = document.querySelector('.stimulus-container');
@@ -2507,7 +2538,7 @@
               console.log('容器位置信息:', containerRect);
             }
           }, 500);
-          
+
           startGazeTracking(trial.data);
         },
         on_finish: function(data) {
@@ -2534,7 +2565,7 @@
           }
 
           data.gaze_data = stopGazeTracking(); // 保存眼动数据
-          
+
           // 分析眼动数据
           if (data.gaze_data && data.gaze_data.length > 0) {
             data.analysisResult = analyzeGazeData(data.gaze_data, data.image_type, data.image_attribute);
@@ -2664,7 +2695,7 @@
           if (cameraPermissionDenied) {
             statusMessage.className = "status-message status-error";
             statusMessage.textContent = "眼动数据未记录（摄像头权限被拒绝）";
-            
+
             // 显示结果表格
             document.querySelector('.jspsych-content').innerHTML = `
               <div class="centered-text">
@@ -2704,9 +2735,9 @@
           statusMessage.textContent = "加载预测模型...";
           const modelLoaded = await loadPredictionModel();
           const configLoaded = await loadPreprocessingConfig();
-          
+
           let predictionResult = null;
-          
+
           // 运行预测
           if (modelLoaded) {
             statusMessage.textContent = "运行进食障碍风险预测...";
@@ -2757,15 +2788,15 @@
               <div class="centered-text">
                 <h2>第 ${userInfo.session} 次实验完成</h2>
                 <p>详细眼动数据已成功上传至GitHub仓库</p>
-                ${resultsTable}
             `;
-            
-            // 如果有预测结果，显示预测结果
+
+            // 如果有预测结果，显示预测结果（放在最前面）
             if (predictionResult) {
               content += generatePredictionHTML(predictionResult);
             }
-            
+
             content += `
+                ${resultsTable}
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
                   <button class="copy-button" id="copy-btn">复制报告摘要</button>
                   <button class="github-button" id="github-btn">查看GitHub记录</button>
@@ -2786,7 +2817,7 @@
                 summary += `\n进食障碍风险: ${predictionResult.score}% (${predictionResult.riskLevel})`;
               }
               summary += `\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
-              
+
               navigator.clipboard.writeText(summary)
                 .then(() => alert('报告摘要已复制到剪贴板'))
                 .catch(err => console.error('复制失败:', err));
@@ -2909,7 +2940,7 @@
           document.querySelector('.jspsych-content').innerHTML += `
             <div class="error-panel">
               <h4>数据上传失败处理方案</h4>
-              <p>系统无法自动上传数据到服务器，请选择以下操作：</p>
+              <p>系统无法自动上传数据到服务器，请选择以下操作:</p>
               <p><strong>错误原因:</strong> ${error.message}</p>
               <ul>
                 <li>检查您的网络连接后重试</li>
