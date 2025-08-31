@@ -748,14 +748,14 @@
       width: 90%;
       max-width: 800px;
     }
-    
+
     .prediction-score-large {
       font-size: 4rem;
       font-weight: 800;
       margin: 15px 0;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
-    
+
     .risk-indicator {
       display: inline-block;
       padding: 10px 25px;
@@ -765,7 +765,7 @@
       margin: 15px 0;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
-    
+
     .prediction-explanation {
       background: rgba(255,255,255,0.15);
       padding: 20px;
@@ -773,6 +773,7 @@
       margin: 20px 0;
       text-align: left;
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px); /* 添加Webkit前缀以支持Safari */
     }
 
     .prediction-result {
@@ -1250,6 +1251,18 @@
 
     // 分析眼动数据
     function analyzeGazeData(gazeData, imageType, imageAttribute) {
+      // 如果眼动数据为空，返回默认值
+      if (!gazeData || gazeData.length === 0) {
+        console.warn('眼动数据为空，返回默认分析结果');
+        return {
+          dwellTime: 0,
+          firstFixation: 0,
+          regressionCount: 0,
+          leftDwellTime: 0,
+          rightDwellTime: 0
+        };
+      }
+
       let leftDwellTime = 0;
       let rightDwellTime = 0;
       let firstFixation = null;
@@ -1343,18 +1356,24 @@
       const foodTrials = trialData.filter(trial => trial.image_type === 'food');
       const bodyTrials = trialData.filter(trial => trial.image_type === 'body');
 
-      // 计算食物图片的平均值
+      // 计算食物图片的平均值 - 修复：只处理有analysisResult的试次
       if (foodTrials.length > 0) {
-        analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / foodTrials.length;
-        analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
-        analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / foodTrials.length;
+        const validFoodTrials = foodTrials.filter(trial => trial.analysisResult);
+        if (validFoodTrials.length > 0) {
+          analysisResults.food.dwellTime = validFoodTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / validFoodTrials.length;
+          analysisResults.food.firstFixation = validFoodTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
+          analysisResults.food.regressionCount = validFoodTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / validFoodTrials.length;
+        }
       }
 
-      // 计算身材图片的平均值
+      // 计算身材图片的平均值 - 修复：只处理有analysisResult的试次
       if (bodyTrials.length > 0) {
-        analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / bodyTrials.length;
-        analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
-        analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / bodyTrials.length;
+        const validBodyTrials = bodyTrials.filter(trial => trial.analysisResult);
+        if (validBodyTrials.length > 0) {
+          analysisResults.body.dwellTime = validBodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / validBodyTrials.length;
+          analysisResults.body.firstFixation = validBodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
+          analysisResults.body.regressionCount = validBodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / validBodyTrials.length;
+        }
       }
     }
 
@@ -1502,10 +1521,10 @@
     function generatePredictionHTML(predictionResult) {
       const riskClass = predictionResult.riskLevel === '低风险' ? 'risk-low' :
                        predictionResult.riskLevel === '中等风险' ? 'risk-medium' : 'risk-high';
-                       
+
       const riskColor = predictionResult.riskLevel === '低风险' ? '#27ae60' :
                        predictionResult.riskLevel === '中等风险' ? '#f39c12' : '#e74c3c';
-                       
+
       return `
         <div class="prediction-highlight" style="background: linear-gradient(135deg, ${riskColor}33 0%, ${riskColor}66 100%);">
           <h2 style="color: white; margin-bottom: 20px;">进食障碍风险预测结果</h2>
@@ -2162,14 +2181,7 @@
     const calibration_done = {
       type: jsPsychHtmlButtonResponse,
       stimulus: `
-        <div class="centered-text">
-          <p>太好了，校准已完成！</p>
-          <p>接下来将开始实验，请注视屏幕中央的十字，然后观看图片。</p>
-        </div>
-      `,
-      choices: ['继续']
-    };
-    timeline.push(calibration_done);
+        <div class timeline.push(calibration_done);
 
     /* ==== 欢迎页 和 实验说明 ==== */
     const welcome = {
