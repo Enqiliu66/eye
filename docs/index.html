@@ -1366,8 +1366,8 @@
     }
 
     // 生成结果表格
-    function generateResultsTable() {
-      return `
+    function generateResultsTable(predictionResult = null) {
+      let tableContent = `
         <table class="results-table">
           <thead>
             <tr>
@@ -1378,6 +1378,17 @@
               <th>B首视点</th>
               <th>F回视次数</th>
               <th>B回视次数</th>
+      `;
+
+      // 如果有预测结果，添加预测列
+      if (predictionResult) {
+        tableContent += `
+              <th>预测分数</th>
+              <th>风险等级</th>
+        `;
+      }
+
+      tableContent += `
             </tr>
           </thead>
           <tbody>
@@ -1389,15 +1400,37 @@
               <td>${analysisResults.body.firstFixation}</td>
               <td>${analysisResults.food.regressionCount.toFixed(2)}</td>
               <td>${analysisResults.body.regressionCount.toFixed(2)}</td>
+      `;
+
+      // 如果有预测结果，添加预测数据
+      if (predictionResult) {
+        tableContent += `
+              <td>${predictionResult.score}%</td>
+              <td>${predictionResult.riskLevel}</td>
+        `;
+      }
+
+      tableContent += `
             </tr>
           </tbody>
         </table>
       `;
+
+      return tableContent;
     }
 
     // 生成CSV格式的结果
-    function generateResultsCSV() {
-      return `被试编号,F注视时间(ms),B注视时间(ms),F首视点,B首视点,F回视次数,B回视次数\n${userInfo.subjectId},${analysisResults.food.dwellTime.toFixed(2)},${analysisResults.body.dwellTime.toFixed(2)},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount.toFixed(2)},${analysisResults.body.regressionCount.toFixed(2)}`;
+    function generateResultsCSV(predictionResult = null) {
+      let csvHeader = '被试编号,F注视时间(ms),B注视时间(ms),F首视点,B首视点,F回视次数,B回视次数';
+      let csvData = `${userInfo.subjectId},${analysisResults.food.dwellTime.toFixed(2)},${analysisResults.body.dwellTime.toFixed(2)},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount.toFixed(2)},${analysisResults.body.regressionCount.toFixed(2)}`;
+
+      // 如果有预测结果，添加预测列
+      if (predictionResult) {
+        csvHeader += ',预测分数,风险等级';
+        csvData += `,${predictionResult.score},${predictionResult.riskLevel}`;
+      }
+
+      return `${csvHeader}\n${csvData}`;
     }
 
     /* ==== ONNX模型预测功能 ==== */
@@ -1473,8 +1506,18 @@
         const results = await predictionModel.run(feeds);
 
         // 获取输出 - 假设模型输出名为"output"
-        const output = results.output;
-        const predictionScore = output.data[0];
+        const output = results.output|| results.label;
+
+        // 假设模型返回的是概率或决策值
+        let predictionScore;
+        if (output && output.dims && output.dims[1] > 1) {
+          // 多分类情况，取最大值
+          const data = Array.from(output.data);
+          predictionScore = Math.max(...data);
+        } else {
+          // 二分类情况，直接取值
+          predictionScore = output.data[0];
+        }
 
         console.log('预测结果:', predictionScore);
         return predictionScore;
@@ -1486,23 +1529,27 @@
 
     // 解释预测结果
     function interpretPrediction(score) {
-      let riskLevel, interpretation;
+      let riskLevel, interpretation, detailedExplanation;
 
       if (score < 0.3) {
         riskLevel = '低风险';
-        interpretation = '根据眼动数据分析，您的进食障碍风险较低。您的注视模式与健康人群相似。';
+        interpretation = '根据眼动数据分析，您的进食障碍风险较低。';
+        detailedExplanation = '您的注视模式与健康人群相似，对食物和身材图片的注意力分配较为均衡。';
       } else if (score < 0.7) {
         riskLevel = '中等风险';
-        interpretation = '根据眼动数据分析，您存在一定的进食障碍风险。建议关注饮食健康，必要时可咨询专业人士。';
+        interpretation = '根据眼动数据分析，您存在一定的进食障碍风险。';
+        detailedExplanation = '您的注视模式显示出对特定类型图片的偏好或回避，这可能与饮食态度有关。建议关注饮食健康，必要时可咨询专业人士。';
       } else {
         riskLevel = '高风险';
-        interpretation = '根据眼动数据分析，您的进食障碍风险较高。强烈建议寻求专业医疗或心理咨询师的帮助。';
+        interpretation = '根据眼动数据分析，您的进食障碍风险较高。';
+        detailedExplanation = '您的注视模式显示出明显的异常模式，可能包括对高热量食物的过度关注或对身体形象的不健康态度。强烈建议寻求专业医疗或心理咨询师的帮助。';
       }
 
       return {
         score: (score * 100).toFixed(1),
         riskLevel,
-        interpretation
+        interpretation,
+        detailedExplanation
       };
     }
 
@@ -1771,7 +1818,9 @@
       if (predictionResult) {
         comment += `\n## 进食障碍风险预测\n` +
                    `- **预测分数**: ${predictionResult.score}%\n` +
-                   `- **风险等级**: ${predictionResult.riskLevel}\n`;
+                   `- **风险等级**: ${predictionResult.riskLevel}\n` +
+                   `- **解释**: ${predictionResult.interpretation}\n` +
+                   `- **详细分析**: ${predictionResult.detailedExplanation}\n`;
       }
 
       return comment;
@@ -2652,8 +2701,8 @@
           aggregateResults(allData);
 
           // 生成结果表格
-          const resultsTable = generateResultsTable();
-          const resultsCSV = generateResultsCSV();
+          const resultsTable = generateResultsTable(predictionResult);
+          const resultsCSV = generateResultsCSV(predictionResult);
 
           // 生成CSV数据（原始数据）
           const csvData = allData.map(trial => {
