@@ -2802,8 +2802,6 @@
           const modelLoaded = await loadPredictionModel();
           const configLoaded = await loadPreprocessingConfig();
 
-          let predictionResult = null;
-
           // 运行预测
           if (modelLoaded) {
             statusMessage.textContent = "运行进食障碍风险预测...";
@@ -2813,6 +2811,7 @@
             } catch (error) {
               console.error('预测失败:', error);
               statusMessage.textContent = "预测失败，继续数据处理...";
+              predictionResult = null;
             }
           }
 
@@ -2943,6 +2942,7 @@
           await uploadData();
 
         } catch (error) {
+          predictionResult = null;
           const statusMessage = document.getElementById('status-message');
           statusMessage.className = "status-message status-error";
           statusMessage.textContent = `数据处理失败: ${error.message}`;
