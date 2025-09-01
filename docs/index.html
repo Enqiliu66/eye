@@ -1968,6 +1968,7 @@
             if (!sessionDisplay) {
               sessionDisplay = document.createElement('div');
               sessionDisplay.className = 'session-display';
+              const subjectIdGroup = document.querySelector('.form-group');
               document.querySelector('.login-container').insertBefore(sessionDisplay, document.querySelector('.form-group:last-child'));
             }
             sessionDisplay.innerHTML = `这是您的第 <span>${currentSession}</span> 次实验`;
