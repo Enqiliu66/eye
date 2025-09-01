@@ -1508,7 +1508,7 @@
         const results = await predictionModel.run(feeds);
 
         // 获取输出 - 假设模型输出名为"output"
-        const output = results.output_probability;
+        const output = results.probabilities;
 
         if (!output) {
           throw new Error('无法获取模型输出');
@@ -1543,8 +1543,9 @@
     }
 
     // 解释预测结果
-    function interpretPrediction(score) {
+    function interpretPrediction(predictionResult) {
       let riskLevel, interpretation, detailedExplanation;
+      const score = predictionResult.score;
 
       if (predictionResult.classIndex === 0) {
         riskLevel = '高风险';
@@ -1565,7 +1566,7 @@
         riskLevel,
         interpretation,
         detailedExplanation,
-        classLabel: predictionResult.classLabel
+        classLabel: preprocessingConfig.classes[predictionResult.classIndex]
       };
     }
 
@@ -2824,7 +2825,7 @@
             statusMessage.textContent = "运行进食障碍风险预测...";
             try {
               const predictionOutput = await runPrediction();
-              predictionResult = interpretPrediction(predictionOutput);
+              const predictionResult = interpretPrediction(predictionOutput);
             } catch (error) {
               console.error('预测失败:', error);
               statusMessage.textContent = "预测失败，继续数据处理...";
