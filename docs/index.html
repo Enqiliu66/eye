@@ -773,6 +773,7 @@
       margin: 20px 0;
       text-align: left;
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px); /* 添加 Safari 前缀 */
     }
 
     .prediction-result {
@@ -1345,16 +1346,22 @@
 
       // 计算食物图片的平均值
       if (foodTrials.length > 0) {
-        analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / foodTrials.length;
-        analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
-        analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / foodTrials.length;
+        analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) =>
+          sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / foodTrials.length;
+        analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) =>
+          sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
+        analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) =>
+          sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / foodTrials.length;
       }
 
       // 计算身材图片的平均值
       if (bodyTrials.length > 0) {
-        analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / bodyTrials.length;
-        analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
-        analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / bodyTrials.length;
+        analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) =>
+          sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / bodyTrials.length;
+        analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) =>
+          sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
+        analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) =>
+          sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / bodyTrials.length;
       }
     }
 
