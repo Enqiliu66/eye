@@ -1345,16 +1345,16 @@
 
       // 计算食物图片的平均值
       if (foodTrials.length > 0) {
-        analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / foodTrials.length;
-        analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
-        analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / foodTrials.length;
+        analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / foodTrials.length;
+        analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
+        analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / foodTrials.length;
       }
 
       // 计算身材图片的平均值
       if (bodyTrials.length > 0) {
-        analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.dwellTime || 0), 0) / bodyTrials.length;
-        analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.firstFixation || 0), 0);
-        analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) => sum + (trial.analysisResult.regressionCount || 0), 0) / bodyTrials.length;
+        analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / bodyTrials.length;
+        analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
+        analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) => sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / bodyTrials.length;
       }
     }
 
@@ -2356,6 +2356,14 @@
             console.log(`试次 ${data.trial_index} 分析结果:`, data.analysisResult);
           } else {
             console.warn(`试次 ${data.trial_index} 无眼动数据`);
+            // 设置默认的analysisResult对象，防止后续出现null错误
+            data.analysisResult = {
+              dwellTime: 0,
+              firstFixation: 0,
+              regressionCount: 0,
+              leftDwellTime: 0,
+              rightDwellTime: 0
+             }；
           }
         }
       };
