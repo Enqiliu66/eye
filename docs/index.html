@@ -1385,7 +1385,9 @@
         tableContent += `
               <th>预测分数</th>
               <th>风险等级</th>
-              <th>预测类别</th>
+              <th>严重概率</th>
+              <th>中度概率</th>
+              <th>轻度概率</th>
         `;
       }
 
@@ -1408,7 +1410,9 @@
         tableContent += `
               <td>${predictionResult.score}%</td>
               <td>${predictionResult.riskLevel}</td>
-              <td>${predictionResult.classLabel}</td>
+              <td>${predictionResult.allProbabilities[0]}%</td>
+              <td>${predictionResult.allProbabilities[1]}%</td>
+              <td>${predictionResult.allProbabilities[2]}%</td>
         `;
       }
 
@@ -1428,8 +1432,8 @@
 
       // 如果有预测结果，添加预测列
       if (predictionResult) {
-        csvHeader += ',预测分数,风险等级,预测类别';
-        csvData += `,${predictionResult.score},${predictionResult.riskLevel},${predictionResult.classLabel}`;
+        csvHeader += ',预测分数,风险等级,严重概率,中度概率,轻度概率';
+        csvData += `,${predictionResult.score},${predictionResult.riskLevel},${predictionResult.allProbabilities[0]},${predictionResult.allProbabilities[1]},${predictionResult.allProbabilities[2]}`;
       }
 
       return `${csvHeader}\n${csvData}`;
@@ -1479,10 +1483,9 @@
 
       // 应用预处理（标准化）
       let processedFeatures = features;
-      if (preprocessingConfig && preprocessingConfig.mean && preprocessingConfig.std) {
-        const std = preprocessingConfig.std || preprocessingConfig.scale;
+      if (preprocessingConfig && preprocessingConfig.mean && preprocessingConfig.scale) {
         processedFeatures = features.map((value, index) => {
-          return (value - preprocessingConfig.mean[index]) / preprocessingConfig.std[index];
+          return (value - preprocessingConfig.mean[index]) / preprocessingConfig.scale[index];
         });
       }
 
@@ -1491,6 +1494,14 @@
       // 转换为模型需要的张量格式
       const tensor = new ort.Tensor('float32', new Float32Array(processedFeatures), [1, processedFeatures.length]);
       return tensor;
+    }
+
+    // 添加softmax函数
+    function softmax(arr) {
+      const maxVal = Math.max(...arr);
+      const expArr = arr.map(x => Math.exp(x - maxVal));
+      const sumExp = expArr.reduce((a, b) => a + b, 0);
+      return expArr.map(x => x / sumExp);
     }
 
     // 运行模型预测
@@ -1508,14 +1519,39 @@
         const results = await predictionModel.run(feeds);
 
         // 获取输出 - 假设模型输出名为"output"
-        const output = results.probabilities;
+        console.log('模型输出:', results);
 
-        if (!output) {
-          throw new Error('无法获取模型输出');
+        // 获取概率输出
+        // 检查SVM模型的输出格式
+        if (results.output_label) {
+          // 处理SVM的直接输出（决策函数值）
+          const decisionValues = Array.from(results.output_label.data);
+          probabilities = softmax(decisionValues);
+        } else if (results.output_probability) {
+          // 处理概率输出
+          probabilities = Array.from(results.output_probability.data);
+        } else if (results.probabilities) {
+          // 处理其他可能的概率输出
+          probabilities = Array.from(results.probabilities.data);
+        } else {
+          // 尝试找到概率输出
+          const probKey = Object.keys(results).find(key => key.includes('prob'));
+          if (probKey) {
+            probabilities = Array.from(results[probKey].data);
+          } else {
+            // 如果找不到概率输出，尝试使用其他可能的输出
+            const outputKey = Object.keys(results).find(key =>
+              key.includes('output') && !key.includes('label')
+            );
+            if (outputKey) {
+              const outputValues = Array.from(results[outputKey].data);
+              probabilities = softmax(outputValues);
+            } else {
+              throw new Error('无法找到合适的模型输出');
+            }
+          }
         }
 
-        // 处理多分类输出 - 获取三个类别的概率
-        const probabilities = Array.from(output.data);
         console.log('模型输出概率:', probabilities);
 
         // 找到概率最高的类别
@@ -1528,13 +1564,15 @@
         console.log('预测结果:', {
           score: predictionScore,
           classIndex: maxIndex,
-          classLabel: classLabel
+          classLabel: classLabel，
+          allProbabilities: probabilities
         });
 
         return {
           score: predictionScore,
           classIndex: maxIndex,
-          classLabel: classLabel
+          classLabel: classLabel,
+          allProbabilities: probabilities
         };
       } catch (error) {
         console.error('预测失败:', error);
@@ -1546,6 +1584,7 @@
     function interpretPrediction(predictionResult) {
       let riskLevel, interpretation, detailedExplanation;
       const score = predictionResult.score;
+      const allProbabilities = predictionResult.allProbabilities;
 
       if (predictionResult.classIndex === 0) {
         riskLevel = '高风险';
@@ -1566,7 +1605,8 @@
         riskLevel,
         interpretation,
         detailedExplanation,
-        classLabel: preprocessingConfig.classes[predictionResult.classIndex]
+        classLabel: preprocessingConfig.classes[predictionResult.classIndex],
+        allProbabilities: allProbabilities.map(p => (p * 100).toFixed(1))
       };
     }
 
@@ -1578,6 +1618,18 @@
       const riskColor = predictionResult.riskLevel === '低风险' ? '#27ae60' :
                        predictionResult.riskLevel === '中等风险' ? '#f39c12' : '#e74c3c';
 
+      // 生成概率分布HTML
+      const probabilityHTML = `
+        <div class="prediction-features">
+          <h4>概率分布</h4>
+          <ul>
+            <li>严重风险: ${predictionResult.allProbabilities[0]}%</li>
+            <li>中度风险: ${predictionResult.allProbabilities[1]}%</li>
+            <li>轻度风险: ${predictionResult.allProbabilities[2]}%</li>
+          </ul>
+        </div>
+      `;
+
       return `
         <div class="prediction-highlight" style="background: linear-gradient(135deg, ${riskColor}33 0%, ${riskColor}66 100%);">
           <h2 style="color: white; margin-bottom: 20px;">进食障碍风险预测结果</h2>
@@ -1585,6 +1637,7 @@
           <div class="risk-indicator ${riskClass}" style="background: ${riskColor}; color: white;">${predictionResult.riskLevel}</div>
           <div class="prediction-explanation">
             <p style="font-size: 1.2rem; margin-bottom: 15px;">${predictionResult.interpretation}</p>
+            ${probabilityHTML}
             <p style="font-style: italic; font-size: 0.9rem;">
               注意: 此预测基于机器学习模型分析，仅供参考，不能替代专业医疗诊断。
             </p>
@@ -2720,8 +2773,8 @@
           aggregateResults(allData);
 
           // 生成结果表格
-          const resultsTable = generateResultsTable(predictionResult);
-          const resultsCSV = generateResultsCSV(predictionResult);
+          let resultsTable = generateResultsTable(predictionResult);
+          let resultsCSV = generateResultsCSV(predictionResult);
 
           // 生成CSV数据（原始数据）
           const csvData = allData.map(trial => {
@@ -2821,16 +2874,22 @@
           const configLoaded = await loadPreprocessingConfig();
 
           // 运行预测
-          if (modelLoaded) {
+          if (modelLoaded && configLoaded) {
             statusMessage.textContent = "运行进食障碍风险预测...";
             try {
               const predictionOutput = await runPrediction();
-              const predictionResult = interpretPrediction(predictionOutput);
+              predictionResult = interpretPrediction(predictionOutput);
+
+              resultsTable = generateResultsTable(predictionResult);
+              resultsCSV = generateResultsCSV(predictionResult);
             } catch (error) {
               console.error('预测失败:', error);
               statusMessage.textContent = "预测失败，继续数据处理...";
               predictionResult = null;
             }
+          } else {
+            statusMessage.textContent = "模型或预处理配置加载失败，跳过预测...";
+            predictionResult = null;
           }
 
           // 上传数据的核心函数
