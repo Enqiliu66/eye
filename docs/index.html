@@ -1522,36 +1522,43 @@
         console.log('模型输出:', results);
 
         // 获取概率输出
-        // 检查SVM模型的输出格式
-        if (results.output_label) {
-          // 处理SVM的直接输出（决策函数值）
-          const decisionValues = Array.from(results.output_label.data);
-          probabilities = softmax(decisionValues);
-        } else if (results.output_probability) {
-          // 处理概率输出
-          probabilities = Array.from(results.output_probability.data);
-        } else if (results.probabilities) {
-          // 处理其他可能的概率输出
-          probabilities = Array.from(results.probabilities.data);
-        } else {
-          // 尝试找到概率输出
-          const probKey = Object.keys(results).find(key => key.includes('prob'));
-          if (probKey) {
-            probabilities = Array.from(results[probKey].data);
-          } else {
-            // 如果找不到概率输出，尝试使用其他可能的输出
-            const outputKey = Object.keys(results).find(key =>
-              key.includes('output') && !key.includes('label')
-            );
-            if (outputKey) {
-              const outputValues = Array.from(results[outputKey].data);
-              probabilities = softmax(outputValues);
-            } else {
-              throw new Error('无法找到合适的模型输出');
-            }
-          }
-        }
+        // 获取模型输出 - 查找正确的输出名称
+        let outputValues = null;
+        let outputKey = null;
 
+        // 尝试找到包含决策值的输出
+        const possibleOutputKeys = ['concatenated', 'output_label', 'label', 'output'];
+        for (const key of possibleOutputKeys) {
+            if (results[key] && Array.isArray(results[key].data)) {
+                outputValues = Array.from(results[key].data);
+                outputKey = key;
+                console.log(`使用输出键: ${key}, 值: ${outputValues}`);
+                break;
+            }
+         }
+
+         // 如果没找到，尝试其他可能的键
+         if (!outputValues) {
+             // 查找所有输出键
+             const allKeys = Object.keys(results);
+             for (const key of allKeys) {
+                 if (results[key] && results[key].data && Array.isArray(results[key].data)) {
+                     outputValues = Array.from(results[key].data);
+                     outputKey = key;
+                     console.log(`备用输出键: ${key}, 值: ${outputValues}`);
+                     break;
+                 }
+             }
+         }
+
+         if (!outputValues) {
+             throw new Error('无法找到模型输出');
+         }
+
+         console.log('原始输出值:', outputValues);
+
+         // 应用softmax得到概率
+        const probabilities = softmax(outputValues);
         console.log('模型输出概率:', probabilities);
 
         // 找到概率最高的类别
