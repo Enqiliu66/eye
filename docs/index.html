@@ -1519,46 +1519,54 @@
         const results = await predictionModel.run(feeds);
 
         // 获取输出 - 假设模型输出名为"output"
-        console.log('模型输出:', results);
+        console.log('模型输出结果的所有键:', Object.keys(results));
+        for (let key in results) {
+          console.log(`输出 ${key} 的数据:`, results[key].data);
+          console.log(`输出 ${key} 的形状:`, results[key].dims);
+        }
 
-        // 获取概率输出
-        // 获取模型输出 - 查找正确的输出名称
-        let outputValues = null;
-        let outputKey = null;
 
-        // 尝试找到包含决策值的输出
-        const possibleOutputKeys = ['concatenated', 'output_label', 'label', 'output'];
-        for (const key of possibleOutputKeys) {
-            if (results[key] && Array.isArray(results[key].data)) {
-                outputValues = Array.from(results[key].data);
-                outputKey = key;
-                console.log(`使用输出键: ${key}, 值: ${outputValues}`);
-                break;
-            }
-         }
+        // 获取输出 - 根据实际模型输出调整
+        let classIndex;
+        let probabilities;
 
-         // 如果没找到，尝试其他可能的键
-         if (!outputValues) {
-             // 查找所有输出键
-             const allKeys = Object.keys(results);
-             for (const key of allKeys) {
-                 if (results[key] && results[key].data && Array.isArray(results[key].data)) {
-                     outputValues = Array.from(results[key].data);
-                     outputKey = key;
-                     console.log(`备用输出键: ${key}, 值: ${outputValues}`);
-                     break;
-                 }
-             }
-         }
+        // 检查模型输出结构
+        if (results.output_label && results.output_probability) {
+          // 如果同时有标签和概率输出
+          classIndex = Array.from(results.output_label.data)[0];
+          probabilities = Array.from(results.output_probability.data);
 
-         if (!outputValues) {
-             throw new Error('无法找到模型输出');
-         }
+          console.log('使用output_label和output_probability:', {classIndex, probabilities});
+        } else if (results.output_probability) {
+          // 如果只有概率输出
+          probabilities = Array.from(results.output_probability.data);
+          classIndex = probabilities.indexOf(Math.max(...probabilities));
 
-         console.log('原始输出值:', outputValues);
+          console.log('使用output_probability计算类别:', {classIndex, probabilities});
+        } else if (results.output_label) {
+          // 如果只有标签输出，尝试获取概率信息
+          const decisionValues = Array.from(results.output_label.data);
+          probabilities = softmax(decisionValues);
+          classIndex = decisionValues.indexOf(Math.max(...decisionValues));
 
-         // 应用softmax得到概率
-        const probabilities = softmax(outputValues);
+          console.log('使用output_label计算概率:', {classIndex, probabilities});
+        } else {
+          // 尝试查找其他可能的输出
+          const probKey = Object.keys(results).find(key => key.includes('prob'));
+          const labelKey = Object.keys(results).find(key => key.includes('label'));
+
+          if (probKey) {
+            probabilities = Array.from(results[probKey].data);
+            classIndex = probabilities.indexOf(Math.max(...probabilities));
+          } else if (labelKey) {
+            const decisionValues = Array.from(results[labelKey].data);
+            probabilities = softmax(decisionValues);
+            classIndex = decisionValues.indexOf(Math.max(...decisionValues));
+          } else {
+            throw new Error('无法找到合适的模型输出');
+          }
+        }
+
         console.log('模型输出概率:', probabilities);
 
         // 找到概率最高的类别
@@ -1589,9 +1597,15 @@
 
     // 解释预测结果
     function interpretPrediction(predictionResult) {
+      // 确保概率值是正确的数值类型
+      const allProbabilities = predictionResult.allProbabilities.map(p =>
+        typeof p === 'number' ? p : parseFloat(p)
+      );
+
+      const score = allProbabilities[predictionResult.classIndex];
+
       let riskLevel, interpretation, detailedExplanation;
-      const score = predictionResult.score;
-      const allProbabilities = predictionResult.allProbabilities;
+
 
       if (predictionResult.classIndex === 0) {
         riskLevel = '高风险';
@@ -1982,7 +1996,7 @@
               <label for="subject-id">被试ID</label>
               <select id="subject-id">
                 <option value="">请选择被试ID</option>
-                ${Array.from({length: 151}, (_, i) => {
+                ${Array.from({length: 101}, (_, i) => {
                   const id = `eye-${(i+1).toString().padStart(3, '0')}`;
                   return `<option value="${id}">${id}</option>`;
                 }).join('')}
