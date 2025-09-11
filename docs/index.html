@@ -1248,7 +1248,7 @@ let modelLoaded = false;
       return result;
     }
 
-    // 汇总分析结果
+  // 修改汇总分析结果的函数
 function aggregateResults(trialData) {
     const foodTrials = trialData.filter(trial => trial.image_type === 'food');
     const bodyTrials = trialData.filter(trial => trial.image_type === 'body');
@@ -1258,7 +1258,7 @@ function aggregateResults(trialData) {
         analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) =>
             sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / foodTrials.length;
         analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) =>
-            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
+            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0) / foodTrials.length; // 改为平均值
         analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) =>
             sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / foodTrials.length;
     }
@@ -1268,7 +1268,7 @@ function aggregateResults(trialData) {
         analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) =>
             sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / bodyTrials.length;
         analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) =>
-            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
+            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0) / bodyTrials.length; // 改为平均值
         analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) =>
             sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / bodyTrials.length;
     }
@@ -1362,6 +1362,9 @@ async function loadModel() {
 
         // 加载预处理配置
         const configResponse = await fetch('preprocessing.json');
+        if (!configResponse.ok) {
+            throw new Error(`预处理配置加载失败: ${configResponse.status}`);
+        }
         preprocessingConfig = await configResponse.json();
         console.log('预处理配置加载成功:', preprocessingConfig);
 
@@ -1408,8 +1411,13 @@ function prepareModelInput(analysisResults) {
 // 使用模型进行预测
 async function predictEatingDisorder(analysisResults) {
     if (!modelLoaded || !onnxSession) {
-        console.error('模型未加载');
-        return null;
+        console.error('模型未加载，无法进行预测');
+        return {
+            predictedClass: -1,
+            confidence: 0,
+            riskLevel: '未知',
+            error: '模型未加载'
+        };
     }
 
     try {
@@ -1427,19 +1435,21 @@ async function predictEatingDisorder(analysisResults) {
         console.log('模型输出:', output);
 
         // 解析预测结果
-        const prediction = {
+        return {
             probabilities: Array.from(output),
-            predictedClass: output[1] > 0.5 ? 1 : 0, // 假设索引1是不正常的概率
+            predictedClass: output[1] > 0.5 ? 1 : 0,
             confidence: Math.max(...output) * 100,
             riskLevel: output[1] > 0.7 ? '高风险' : output[1] > 0.4 ? '中等风险' : '低风险'
         };
 
-        console.log('预测结果:', prediction);
-        return prediction;
-
     } catch (error) {
         console.error('预测失败:', error);
-        return null;
+        return {
+            predictedClass: -1,
+            confidence: 0,
+            riskLevel: '未知',
+            error: error.message
+        };
     }
 }
     /* ==== GitHub API 功能 ==== */
@@ -2271,21 +2281,21 @@ function generateGitHubComment(dataPoints, predictionResult = null) {
           data.gaze_data = stopGazeTracking(); // 保存眼动数据
 
           // 分析眼动数据
-          if (data.gaze_data && data.gaze_data.length > 0) {
-            data.analysisResult = analyzeGazeData(data.gaze_data, data.image_type, data.image_attribute);
-            console.log(`试次 ${data.trial_index} 分析结果:`, data.analysisResult);
-          } else {
-            console.warn(`试次 ${data.trial_index} 无眼动数据`);
-            // 设置默认的analysisResult对象，防止后续出现null错误
-            data.analysisResult = {
-              dwellTime: 0,
-              firstFixation: 0,
-              regressionCount: 0,
-              leftDwellTime: 0,
-              rightDwellTime: 0
-            };
-          }
-        }
+           if (data.gaze_data && data.gaze_data.length > 0) {
+    data.analysisResult = analyzeGazeData(data.gaze_data, data.image_type, data.image_attribute);
+    console.log(`试次 ${data.trial_index} 分析结果:`, data.analysisResult);
+  } else {
+    console.warn(`试次 ${data.trial_index} 无眼动数据`);
+    // 添加这行代码，设置默认的analysisResult对象
+    data.analysisResult = {
+      dwellTime: 0,
+      firstFixation: 0,
+      regressionCount: 0,
+      leftDwellTime: 0,
+      rightDwellTime: 0
+    };
+  }
+}
       };
       foodTrials.push(foodTrial);
 
@@ -2572,12 +2582,6 @@ function generateGitHubComment(dataPoints, predictionResult = null) {
     } else {
       console.warn('模型未加载，跳过预测');
     }
-if (modelLoaded) {
-    predictionResult = await predictEatingDisorder(analysisResults);
-    console.log('进食障碍预测结果:', predictionResult);
-} else {
-    console.warn('模型未加载，跳过预测');
-}
           // 生成结果表格
           let resultsTable = generateResultsTable(predictionResult);
           let resultsCSV = generateResultsCSV(predictionResult);
@@ -2933,18 +2937,35 @@ document.getElementById('copy-btn').addEventListener('click', function() {
         }
       }
     };
-
-    timeline.push(dataProcessingTrial);
-// 在实验开始时加载模型
-document.addEventListener('DOMContentLoaded', async function() {
+// 在timeline开始前添加模型加载
+const preExperimentSetup = {
+  type: jsPsychCallFunction,
+  func: async function() {
     console.log('开始加载模型...');
     const modelLoaded = await loadModel();
     if (modelLoaded) {
-        console.log('模型加载成功，可以开始实验');
+      console.log('模型加载成功');
     } else {
-        console.warn('模型加载失败，预测功能将不可用');
+      console.warn('模型加载失败，预测功能将不可用');
     }
-});
+  }
+};
+// 将preExperimentSetup添加到timeline开头
+timeline.unshift(preExperimentSetup);
+
+// 按顺序添加到主时间线：先食物试次，再过渡，再第二个校准环节，再身材试次
+timeline.push({ timeline: foodTrials });
+timeline.push(phaseTransition);
+timeline.push(second_calibration_instructions);
+timeline.push(second_calibration);
+timeline.push(second_validation_instructions);
+timeline.push(second_validation);
+timeline.push(second_recalibrate);
+timeline.push(second_calibration_done);
+timeline.push({ timeline: bodyTrials });
+
+// 数据处理和GitHub上传
+timeline.push(dataProcessingTrial);
 
 /* ==== 运行实验 ==== */
 jsPsych.run(timeline);
