@@ -1284,7 +1284,7 @@ function aggregateResults(trialData) {
     console.log('f注视时长 (food.dwellTime):', analysisResults.food.dwellTime);
 }
 
-   // 生成结果表格
+  // 生成结果表格
 function generateResultsTable(predictionResult = null) {
     let tableContent = `
         <table class="results-table">
@@ -1340,45 +1340,17 @@ function generateResultsTable(predictionResult = null) {
 
     return tableContent;
 }
-
-      tableContent += `
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>${userInfo.subjectId}</td>
-              <td>${analysisResults.food.dwellTime.toFixed(2)}</td>
-              <td>${analysisResults.body.dwellTime.toFixed(2)}</td>
-              <td>${analysisResults.food.firstFixation}</td>
-              <td>${analysisResults.body.firstFixation}</td>
-              <td>${analysisResults.food.regressionCount.toFixed(2)}</td>
-              <td>${analysisResults.body.regressionCount.toFixed(2)}</td>
-      `;
-
-      // 如果有预测结果，添加预测数据
-      if (predictionResult) {
-        tableContent += `
-              <td>${predictionResult.score}%</td>
-              <td>${predictionResult.riskLevel}</td>
-              <td>${predictionResult.allProbabilities[0]}%</td>
-              <td>${predictionResult.allProbabilities[1]}%</td>
-              <td>${predictionResult.allProbabilities[2]}%</td>
-        `;
-      }
-
-      tableContent += `
-            </tr>
-          </tbody>
-        </table>
-      `;
-
-      return tableContent;
-    }
-
-    // 生成CSV格式的结果
-  function generateResultsCSV() {
+// 生成CSV格式的结果
+function generateResultsCSV(predictionResult = null) {
   let csvHeader = '被试编号,F注视时间(ms),B注视时间(ms),F首视点,B首视点,F回视次数,B回视次数';
   let csvData = `${userInfo.subjectId},${analysisResults.food.dwellTime.toFixed(2)},${analysisResults.body.dwellTime.toFixed(2)},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount.toFixed(2)},${analysisResults.body.regressionCount.toFixed(2)}`;
+
+  // 如果有预测结果，添加预测数据
+  if (predictionResult) {
+    const resultText = predictionResult.predictedClass === 1 ? '不正常' : '正常';
+    csvHeader += ',预测结果,置信度,风险等级';
+    csvData += `,${resultText},${predictionResult.confidence.toFixed(2)}%,${predictionResult.riskLevel}`;
+  }
 
   return `${csvHeader}\n${csvData}`;
 }
@@ -2578,23 +2550,28 @@ function generateGitHubComment(dataPoints, predictionResult = null) {
       },
       choices: [],
       on_load: async function() {
-        let predictionResult = null;
-        try {
-          const statusMessage = document.getElementById('status-message');
+  let predictionResult = null;
+  try {
+    const statusMessage = document.getElementById('status-message');
 
-          // 收集所有实验数据
-          const allData = jsPsych.data.get().filter({task: 'view'}).values();
+    // 收集所有实验数据
+    const allData = jsPsych.data.get().filter({task: 'view'}).values();
 
-          // 计算眼动数据点总数
-          const dataPoints = allData.reduce((total, trial) => {
-            return total + (trial.gaze_data ? trial.gaze_data.length : 0);
-          }, 0);
+    // 计算眼动数据点总数
+    const dataPoints = allData.reduce((total, trial) => {
+      return total + (trial.gaze_data ? trial.gaze_data.length : 0);
+    }, 0);
 
-         // 汇总分析结果
-aggregateResults(allData);
+    // 汇总分析结果
+    aggregateResults(allData);
 
-// 使用模型进行预测
-let predictionResult = null;
+    // 使用模型进行预测
+    if (modelLoaded) {
+      predictionResult = await predictEatingDisorder(analysisResults);
+      console.log('进食障碍预测结果:', predictionResult);
+    } else {
+      console.warn('模型未加载，跳过预测');
+    }
 if (modelLoaded) {
     predictionResult = await predictEatingDisorder(analysisResults);
     console.log('进食障碍预测结果:', predictionResult);
