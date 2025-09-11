@@ -736,81 +736,11 @@
     }
 
     /* ==== 预测结果样式 ==== */
-    .prediction-highlight {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 20px;
-      padding: 30px;
-      margin: 20px 0;
-      color: white;
-      text-align: center;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-      border: 3px solid rgba(255,255,255,0.2);
-      width: 90%;
-      max-width: 800px;
-    }
-
-    .prediction-score-large {
-      font-size: 4rem;
-      font-weight: 800;
-      margin: 15px 0;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .risk-indicator {
-      display: inline-block;
-      padding: 10px 25px;
-      border-radius: 50px;
-      font-weight: bold;
-      font-size: 1.5rem;
-      margin: 15px 0;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    .prediction-explanation {
-      background: rgba(255,255,255,0.15);
-      padding: 20px;
-      border-radius: 15px;
-      margin: 20px 0;
-      text-align: left;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px); /* 添加 Safari 前缀 */
-    }
-
-    .prediction-result {
-      background: #f8f9fa;
-      border-radius: 15px;
-      padding: 25px;
-      margin: 20px 0;
-      border-left: 5px solid #3498db;
-      text-align: left;
-      max-width: 800px;
-    }
-
     .prediction-result h3 {
       color: #2c3e50;
       margin-bottom: 15px;
       border-bottom: 2px solid #e9ecef;
       padding-bottom: 10px;
-    }
-
-    .prediction-score {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #2980b9;
-      text-align: center;
-      margin: 15px 0;
-    }
-
-    .prediction-interpretation {
-      background: #e8f4fc;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 15px 0;
-      border-left: 3px solid #2980b9;
-    }
-
-    .prediction-features {
-      margin: 15px 0;
     }
 
     .prediction-features h4 {
@@ -824,29 +754,6 @@
 
     .prediction-features li {
       margin-bottom: 8px;
-    }
-
-    .risk-level {
-      display: inline-block;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    .risk-low {
-      background: #d4edda;
-      color: #155724;
-    }
-
-    .risk-medium {
-      background: #fff3cd;
-      color: #856404;
-    }
-
-    .risk-high {
-      background: #f8d7da;
-      color: #721c24;
     }
   </style>
 </head>
@@ -962,6 +869,10 @@
   <div class="footer">2025 北京师范大学 Eye—ED 项目组联合出品。</div>
 
   <script>
+    /* ==== 模型相关变量 ==== */
+let onnxSession = null;
+let preprocessingConfig = null;
+let modelLoaded = false;
     /* ==== 用户信息存储 ==== */
     let userInfo = null;
     let cameraPermissionDenied = false; // 摄像头权限状态
@@ -969,8 +880,6 @@
     let gazeData = []; // 存储每个试次的眼动数据
     let gazeUpdateInterval; // 眼动数据更新间隔
     let faceDetectionAttempts = 0; // 人脸检测尝试次数
-    let predictionModel = null; // ONNX模型
-    let preprocessingConfig = null; // 预处理配置
 
     /* ==== 眼动数据分析变量 ==== */
     let containerRect = null; // 存储图片容器位置信息
@@ -1340,56 +1249,97 @@
     }
 
     // 汇总分析结果
-    function aggregateResults(trialData) {
-      const foodTrials = trialData.filter(trial => trial.image_type === 'food');
-      const bodyTrials = trialData.filter(trial => trial.image_type === 'body');
+function aggregateResults(trialData) {
+    const foodTrials = trialData.filter(trial => trial.image_type === 'food');
+    const bodyTrials = trialData.filter(trial => trial.image_type === 'body');
 
-      // 计算食物图片的平均值
-      if (foodTrials.length > 0) {
+    // 计算食物图片的平均值
+    if (foodTrials.length > 0) {
         analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) =>
-          sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / foodTrials.length;
+            sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / foodTrials.length;
         analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) =>
-          sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
+            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
         analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) =>
-          sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / foodTrials.length;
-      }
-
-      // 计算身材图片的平均值
-      if (bodyTrials.length > 0) {
-        analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) =>
-          sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / bodyTrials.length;
-        analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) =>
-          sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
-        analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) =>
-          sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / bodyTrials.length;
-      }
+            sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / foodTrials.length;
     }
 
-    // 生成结果表格
-    function generateResultsTable(predictionResult = null) {
-      let tableContent = `
-        <table class="results-table">
-          <thead>
-            <tr>
-              <th>被试编号</th>
-              <th>F注视时间(ms)</th>
-              <th>B注视时间(ms)</th>
-              <th>F首视点</th>
-              <th>B首视点</th>
-              <th>F回视次数</th>
-              <th>B回视次数</th>
-      `;
+    // 计算身材图片的平均值
+    if (bodyTrials.length > 0) {
+        analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) =>
+            sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / bodyTrials.length;
+        analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) =>
+            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
+        analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) =>
+            sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / bodyTrials.length;
+    }
 
-      // 如果有预测结果，添加预测列
-      if (predictionResult) {
+    // 添加调试信息
+    console.log('分析结果汇总:', analysisResults);
+    console.log('特征值对应:');
+    console.log('b首视点 (body.firstFixation):', analysisResults.body.firstFixation);
+    console.log('b回视次数 (body.regressionCount):', analysisResults.body.regressionCount);
+    console.log('b注视时长 (body.dwellTime):', analysisResults.body.dwellTime);
+    console.log('f首视点 (food.firstFixation):', analysisResults.food.firstFixation);
+    console.log('f回视次数 (food.regressionCount):', analysisResults.food.regressionCount);
+    console.log('f注视时长 (food.dwellTime):', analysisResults.food.dwellTime);
+}
+
+   // 生成结果表格
+function generateResultsTable(predictionResult = null) {
+    let tableContent = `
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>被试编号</th>
+                    <th>F注视时间(ms)</th>
+                    <th>B注视时间(ms)</th>
+                    <th>F首视点</th>
+                    <th>B首视点</th>
+                    <th>F回视次数</th>
+                    <th>B回视次数</th>
+    `;
+
+    // 添加预测结果列
+    if (predictionResult) {
         tableContent += `
-              <th>预测分数</th>
-              <th>风险等级</th>
-              <th>严重概率</th>
-              <th>中度概率</th>
-              <th>轻度概率</th>
+                    <th>预测结果</th>
+                    <th>置信度</th>
+                    <th>风险等级</th>
         `;
-      }
+    }
+
+    tableContent += `
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>${userInfo.subjectId}</td>
+                    <td>${analysisResults.food.dwellTime.toFixed(2)}</td>
+                    <td>${analysisResults.body.dwellTime.toFixed(2)}</td>
+                    <td>${analysisResults.food.firstFixation}</td>
+                    <td>${analysisResults.body.firstFixation}</td>
+                    <td>${analysisResults.food.regressionCount.toFixed(2)}</td>
+                    <td>${analysisResults.body.regressionCount.toFixed(2)}</td>
+    `;
+
+    // 添加预测结果数据
+    if (predictionResult) {
+        const resultText = predictionResult.predictedClass === 1 ? '不正常' : '正常';
+        tableContent += `
+                    <td>${resultText}</td>
+                    <td>${predictionResult.confidence.toFixed(2)}%</td>
+                    <td>${predictionResult.riskLevel}</td>
+        `;
+    }
+
+    tableContent += `
+                </tr>
+            </tbody>
+        </table>
+    `;
+
+    return tableContent;
+}
 
       tableContent += `
             </tr>
@@ -1426,247 +1376,100 @@
     }
 
     // 生成CSV格式的结果
-    function generateResultsCSV(predictionResult = null) {
-      let csvHeader = '被试编号,F注视时间(ms),B注视时间(ms),F首视点,B首视点,F回视次数,B回视次数';
-      let csvData = `${userInfo.subjectId},${analysisResults.food.dwellTime.toFixed(2)},${analysisResults.body.dwellTime.toFixed(2)},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount.toFixed(2)},${analysisResults.body.regressionCount.toFixed(2)}`;
+  function generateResultsCSV() {
+  let csvHeader = '被试编号,F注视时间(ms),B注视时间(ms),F首视点,B首视点,F回视次数,B回视次数';
+  let csvData = `${userInfo.subjectId},${analysisResults.food.dwellTime.toFixed(2)},${analysisResults.body.dwellTime.toFixed(2)},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount.toFixed(2)},${analysisResults.body.regressionCount.toFixed(2)}`;
 
-      // 如果有预测结果，添加预测列
-      if (predictionResult) {
-        csvHeader += ',预测分数,风险等级,严重概率,中度概率,轻度概率';
-        csvData += `,${predictionResult.score},${predictionResult.riskLevel},${predictionResult.allProbabilities[0]},${predictionResult.allProbabilities[1]},${predictionResult.allProbabilities[2]}`;
-      }
+  return `${csvHeader}\n${csvData}`;
+}
 
-      return `${csvHeader}\n${csvData}`;
-    }
+/* ==== ONNX模型功能 ==== */
+async function loadModel() {
+    try {
+        console.log('开始加载模型...');
 
-    /* ==== ONNX模型预测功能 ==== */
-    // 加载ONNX模型
-    async function loadPredictionModel() {
-      try {
-        console.log('开始加载预测模型...');
-        predictionModel = await ort.InferenceSession.create('model.onnx');
-        console.log('模型加载成功');
-        return true;
-      } catch (error) {
-        console.error('模型加载失败:', error);
-        return false;
-      }
-    }
-
-    // 加载预处理配置
-    async function loadPreprocessingConfig() {
-      try {
-        console.log('开始加载预处理配置...');
-        const response = await fetch('preprocessing.json');
-        preprocessingConfig = await response.json();
+        // 加载预处理配置
+        const configResponse = await fetch('preprocessing.json');
+        preprocessingConfig = await configResponse.json();
         console.log('预处理配置加载成功:', preprocessingConfig);
+
+        // 加载ONNX模型
+        onnxSession = await ort.InferenceSession.create('model.onnx');
+        console.log('ONNX模型加载成功');
+
+        modelLoaded = true;
         return true;
-      } catch (error) {
-        console.error('预处理配置加载失败:', error);
+    } catch (error) {
+        console.error('模型加载失败:', error);
+        modelLoaded = false;
         return false;
-      }
+    }
+}
+
+// 特征映射函数 - 将HTML数据转换为模型输入
+function prepareModelInput(analysisResults) {
+    // 根据预处理配置中的特征顺序准备输入
+    const featureValues = [];
+
+    // 特征顺序: ['b首视点', 'b回视次数', 'b注视时长', 'f首视点', 'f回视次数', 'f注视时长']
+    featureValues.push(analysisResults.body.firstFixation);    // b首视点
+    featureValues.push(analysisResults.body.regressionCount);  // b回视次数
+    featureValues.push(analysisResults.body.dwellTime);        // b注视时长
+    featureValues.push(analysisResults.food.firstFixation);    // f首视点
+    featureValues.push(analysisResults.food.regressionCount);  // f回视次数
+    featureValues.push(analysisResults.food.dwellTime);        // f注视时长
+
+    console.log('原始特征值:', featureValues);
+
+    // 标准化处理
+    const standardizedFeatures = featureValues.map((value, index) => {
+        const mean = preprocessingConfig.mean[index];
+        const scale = preprocessingConfig.scale[index];
+        return (value - mean) / scale;
+    });
+
+    console.log('标准化后特征值:', standardizedFeatures);
+
+    return standardizedFeatures;
+}
+
+// 使用模型进行预测
+async function predictEatingDisorder(analysisResults) {
+    if (!modelLoaded || !onnxSession) {
+        console.error('模型未加载');
+        return null;
     }
 
-    // 准备模型输入特征
-    function prepareModelInput() {
-      // 从分析结果中提取特征
-      const features = [
-        analysisResults.food.dwellTime,
-        analysisResults.body.dwellTime,
-        analysisResults.food.firstFixation,
-        analysisResults.body.firstFixation,
-        analysisResults.food.regressionCount,
-        analysisResults.body.regressionCount
-      ];
-
-      console.log('原始特征:', features);
-
-      // 应用预处理（标准化）
-      let processedFeatures = features;
-      if (preprocessingConfig && preprocessingConfig.mean && preprocessingConfig.scale) {
-        processedFeatures = features.map((value, index) => {
-          return (value - preprocessingConfig.mean[index]) / preprocessingConfig.scale[index];
-        });
-      }
-
-      console.log('预处理后特征:', processedFeatures);
-
-      // 转换为模型需要的张量格式
-      const tensor = new ort.Tensor('float32', new Float32Array(processedFeatures), [1, processedFeatures.length]);
-      return tensor;
-    }
-
-    // 添加softmax函数
-    function softmax(arr) {
-      const maxVal = Math.max(...arr);
-      const expArr = arr.map(x => Math.exp(x - maxVal));
-      const sumExp = expArr.reduce((a, b) => a + b, 0);
-      return expArr.map(x => x / sumExp);
-    }
-
-    // 运行模型预测
-    async function runPrediction() {
-      try {
-        if (!predictionModel) {
-          throw new Error('预测模型未加载');
-        }
-
+    try {
         // 准备输入数据
-        const inputTensor = prepareModelInput();
+        const inputData = prepareModelInput(analysisResults);
+
+        // 创建ONNX输入张量
+        const inputTensor = new ort.Tensor('float32', Float32Array.from(inputData), [1, 6]);
 
         // 运行预测
-        const feeds = { float_input: inputTensor }; // 注意：这里的"input"需要与模型实际输入名称匹配
-        const results = await predictionModel.run(feeds);
+        const results = await onnxSession.run({ 'float_input': inputTensor });
 
-        // 获取输出 - 假设模型输出名为"output"
-        console.log('模型输出结果的所有键:', Object.keys(results));
-        for (let key in results) {
-          console.log(`输出 ${key} 的数据:`, results[key].data);
-          console.log(`输出 ${key} 的形状:`, results[key].dims);
-        }
+        // 获取预测结果
+        const output = results.output.data;
+        console.log('模型输出:', output);
 
-
-        // 获取输出 - 根据实际模型输出调整
-        let classIndex;
-        let probabilities;
-
-        // 检查模型输出结构
-        if (results.output_label && results.output_probability) {
-          // 如果同时有标签和概率输出
-          classIndex = Array.from(results.output_label.data)[0];
-          probabilities = Array.from(results.output_probability.data);
-
-          console.log('使用output_label和output_probability:', {classIndex, probabilities});
-        } else if (results.output_probability) {
-          // 如果只有概率输出
-          probabilities = Array.from(results.output_probability.data);
-          classIndex = probabilities.indexOf(Math.max(...probabilities));
-
-          console.log('使用output_probability计算类别:', {classIndex, probabilities});
-        } else if (results.output_label) {
-          // 如果只有标签输出，尝试获取概率信息
-          const decisionValues = Array.from(results.output_label.data);
-          probabilities = softmax(decisionValues);
-          classIndex = decisionValues.indexOf(Math.max(...decisionValues));
-
-          console.log('使用output_label计算概率:', {classIndex, probabilities});
-        } else {
-          // 尝试查找其他可能的输出
-          const probKey = Object.keys(results).find(key => key.includes('prob'));
-          const labelKey = Object.keys(results).find(key => key.includes('label'));
-
-          if (probKey) {
-            probabilities = Array.from(results[probKey].data);
-            classIndex = probabilities.indexOf(Math.max(...probabilities));
-          } else if (labelKey) {
-            const decisionValues = Array.from(results[labelKey].data);
-            probabilities = softmax(decisionValues);
-            classIndex = decisionValues.indexOf(Math.max(...decisionValues));
-          } else {
-            throw new Error('无法找到合适的模型输出');
-          }
-        }
-
-        console.log('模型输出概率:', probabilities);
-
-        // 找到概率最高的类别
-        const maxIndex = probabilities.indexOf(Math.max(...probabilities));
-        const predictionScore = probabilities[maxIndex];
-
-        // 获取类别标签（从预处理配置中
-        const classLabel = preprocessingConfig.classes[maxIndex];
-
-        console.log('预测结果:', {
-          score: predictionScore,
-          classIndex: maxIndex,
-          classLabel: classLabel,
-          allProbabilities: probabilities
-        });
-
-        return {
-          score: predictionScore,
-          classIndex: maxIndex,
-          classLabel: classLabel,
-          allProbabilities: probabilities
+        // 解析预测结果
+        const prediction = {
+            probabilities: Array.from(output),
+            predictedClass: output[1] > 0.5 ? 1 : 0, // 假设索引1是不正常的概率
+            confidence: Math.max(...output) * 100,
+            riskLevel: output[1] > 0.7 ? '高风险' : output[1] > 0.4 ? '中等风险' : '低风险'
         };
-      } catch (error) {
+
+        console.log('预测结果:', prediction);
+        return prediction;
+
+    } catch (error) {
         console.error('预测失败:', error);
-        throw error;
-      }
+        return null;
     }
-
-    // 解释预测结果
-    function interpretPrediction(predictionResult) {
-      // 确保概率值是正确的数值类型
-      const allProbabilities = predictionResult.allProbabilities.map(p =>
-        typeof p === 'number' ? p : parseFloat(p)
-      );
-
-      const score = allProbabilities[predictionResult.classIndex];
-
-      let riskLevel, interpretation, detailedExplanation;
-
-
-      if (predictionResult.classIndex === 0) {
-        riskLevel = '高风险';
-        interpretation = '根据眼动数据分析，您的进食障碍风险较高。';
-        detailedExplanation = '您的注视模式显示出明显的异常模式，可能包括对高热量食物的过度关注或对身体形象的不健康态度。强烈建议寻求专业医疗或心理咨询师的帮助。';
-      } else if (predictionResult.classIndex === 1) {
-        riskLevel = '中等风险';
-        interpretation = '根据眼动数据分析，您存在一定的进食障碍风险。';
-        detailedExplanation = '您的注视模式显示出对特定类型图片的偏好或回避，这可能与饮食态度有关。建议关注饮食健康，必要时可咨询专业人士。';
-      } else {
-        riskLevel = '低风险';
-        interpretation = '根据眼动数据分析，您的进食障碍风险较低。';
-        detailedExplanation = '您的注视模式与健康人群相似，对食物和身材图片的注意力分配较为均衡。';
-      }
-
-      return {
-        score: (score * 100).toFixed(1),
-        riskLevel,
-        interpretation,
-        detailedExplanation,
-        classLabel: preprocessingConfig.classes[predictionResult.classIndex],
-        allProbabilities: allProbabilities.map(p => (p * 100).toFixed(1))
-      };
-    }
-
-    // 生成预测结果HTML
-    function generatePredictionHTML(predictionResult) {
-      const riskClass = predictionResult.riskLevel === '低风险' ? 'risk-low' :
-                       predictionResult.riskLevel === '中等风险' ? 'risk-medium' : 'risk-high';
-
-      const riskColor = predictionResult.riskLevel === '低风险' ? '#27ae60' :
-                       predictionResult.riskLevel === '中等风险' ? '#f39c12' : '#e74c3c';
-
-      // 生成概率分布HTML
-      const probabilityHTML = `
-        <div class="prediction-features">
-          <h4>概率分布</h4>
-          <ul>
-            <li>严重风险: ${predictionResult.allProbabilities[0]}%</li>
-            <li>中度风险: ${predictionResult.allProbabilities[1]}%</li>
-            <li>轻度风险: ${predictionResult.allProbabilities[2]}%</li>
-          </ul>
-        </div>
-      `;
-
-      return `
-        <div class="prediction-highlight" style="background: linear-gradient(135deg, ${riskColor}33 0%, ${riskColor}66 100%);">
-          <h2 style="color: white; margin-bottom: 20px;">进食障碍风险预测结果</h2>
-          <div class="prediction-score-large">${predictionResult.score}%</div>
-          <div class="risk-indicator ${riskClass}" style="background: ${riskColor}; color: white;">${predictionResult.riskLevel}</div>
-          <div class="prediction-explanation">
-            <p style="font-size: 1.2rem; margin-bottom: 15px;">${predictionResult.interpretation}</p>
-            ${probabilityHTML}
-            <p style="font-style: italic; font-size: 0.9rem;">
-              注意: 此预测基于机器学习模型分析，仅供参考，不能替代专业医疗诊断。
-            </p>
-          </div>
-        </div>
-      `;
-    }
-
+}
     /* ==== GitHub API 功能 ==== */
 
     // 创建或获取Issue（带错误处理和重试机制） - 总共尝试2次
@@ -1890,33 +1693,30 @@
     }
 
     // 生成GitHub评论内容（包含分析结果和预测）
-    function generateGitHubComment(dataPoints, predictionResult = null) {
-      // 获取当前日期时间
-      const now = new Date();
-      const dateTime = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+function generateGitHubComment(dataPoints, predictionResult = null) {
+    const now = new Date();
+    const dateTime = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
 
-      let comment = `## 第 ${userInfo.session} 次实验数据\n\n` +
-             `- **实验日期时间**: ${dateTime}\n` +
-             `- **眼动数据点总数**: ${dataPoints}\n` +
-             `- **F注视时间**: ${analysisResults.food.dwellTime.toFixed(2)}ms\n` +
-             `- **B注视时间**: ${analysisResults.body.dwellTime.toFixed(2)}ms\n` +
-             `- **F首视点**: ${analysisResults.food.firstFixation}\n` +
-             `- **B首视点**: ${analysisResults.body.firstFixation}\n` +
-             `- **F回视次数**: ${analysisResults.food.regressionCount.toFixed(2)}\n` +
-             `- **B回视次数**: ${analysisResults.body.regressionCount.toFixed(2)}\n`;
+    let comment = `## 第 ${userInfo.session} 次实验数据\n\n` +
+           `- **实验日期时间**: ${dateTime}\n` +
+           `- **眼动数据点总数**: ${dataPoints}\n` +
+           `- **F注视时间**: ${analysisResults.food.dwellTime.toFixed(2)}ms\n` +
+           `- **B注视时间**: ${analysisResults.body.dwellTime.toFixed(2)}ms\n` +
+           `- **F首视点**: ${analysisResults.food.firstFixation}\n` +
+           `- **B首视点**: ${analysisResults.body.firstFixation}\n` +
+           `- **F回视次数**: ${analysisResults.food.regressionCount.toFixed(2)}\n` +
+           `- **B回视次数**: ${analysisResults.body.regressionCount.toFixed(2)}\n`;
 
-      // 如果有预测结果，添加到评论中
-      if (predictionResult) {
-        comment += `\n## 进食障碍风险预测\n` +
-                   `- **预测分数**: ${predictionResult.score}%\n` +
-                   `- **风险等级**: ${predictionResult.riskLevel}\n` +
-                   `- **预测类别**: ${predictionResult.classLabel}\n` +
-                   `- **解释**: ${predictionResult.interpretation}\n` +
-                   `- **详细分析**: ${predictionResult.detailedExplanation}\n`;
-      }
-
-      return comment;
+    // 添加预测结果
+    if (predictionResult) {
+        const resultText = predictionResult.predictedClass === 1 ? '不正常' : '正常';
+        comment += `- **AI预测结果**: ${resultText}\n` +
+                   `- **预测置信度**: ${predictionResult.confidence.toFixed(2)}%\n` +
+                   `- **风险等级**: ${predictionResult.riskLevel}\n`;
     }
+
+    return comment;
+}
 
     // 保存CSV到本地
     function saveCSVToLocal(csvContent, fileName) {
@@ -2790,9 +2590,17 @@
             return total + (trial.gaze_data ? trial.gaze_data.length : 0);
           }, 0);
 
-          // 汇总分析结果
-          aggregateResults(allData);
+         // 汇总分析结果
+aggregateResults(allData);
 
+// 使用模型进行预测
+let predictionResult = null;
+if (modelLoaded) {
+    predictionResult = await predictEatingDisorder(analysisResults);
+    console.log('进食障碍预测结果:', predictionResult);
+} else {
+    console.warn('模型未加载，跳过预测');
+}
           // 生成结果表格
           let resultsTable = generateResultsTable(predictionResult);
           let resultsCSV = generateResultsCSV(predictionResult);
@@ -2889,30 +2697,6 @@
             return;
           }
 
-          // 加载模型和预处理配置
-          statusMessage.textContent = "加载预测模型...";
-          const modelLoaded = await loadPredictionModel();
-          const configLoaded = await loadPreprocessingConfig();
-
-          // 运行预测
-          if (modelLoaded && configLoaded) {
-            statusMessage.textContent = "运行进食障碍风险预测...";
-            try {
-              const predictionOutput = await runPrediction();
-              predictionResult = interpretPrediction(predictionOutput);
-
-              resultsTable = generateResultsTable(predictionResult);
-              resultsCSV = generateResultsCSV(predictionResult);
-            } catch (error) {
-              console.error('预测失败:', error);
-              statusMessage.textContent = "预测失败，继续数据处理...";
-              predictionResult = null;
-            }
-          } else {
-            statusMessage.textContent = "模型或预处理配置加载失败，跳过预测...";
-            predictionResult = null;
-          }
-
           // 上传数据的核心函数
           const uploadData = async () => {
             // 1. 创建或获取GitHub Issue（每个被试只创建一个）
@@ -2953,11 +2737,6 @@
                 <p>详细眼动数据已成功上传至GitHub仓库</p>
             `;
 
-            // 如果有预测结果，显示预测结果（放在最前面）
-            if (predictionResult) {
-              content += generatePredictionHTML(predictionResult);
-            }
-
             content += `
                 ${resultsTable}
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
@@ -2974,17 +2753,13 @@
             document.querySelector('.jspsych-content').innerHTML = content;
 
             // 添加按钮事件
-            document.getElementById('copy-btn').addEventListener('click', function() {
-              const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}`;
-              if (predictionResult) {
-                summary += `\n进食障碍风险: ${predictionResult.score}% (${predictionResult.riskLevel})`;
-              }
-              summary += `\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
+document.getElementById('copy-btn').addEventListener('click', function() {
+  const summary = `被试ID: ${userInfo.subjectId}\n实验次数: ${userInfo.session}\n数据点数量: ${dataPoints}\n文件位置: data1/${csvFileName} 和 data2/${jsonFileName}`;
 
-              navigator.clipboard.writeText(summary)
-                .then(() => alert('报告摘要已复制到剪贴板'))
-                .catch(err => console.error('复制失败:', err));
-            });
+  navigator.clipboard.writeText(summary)
+    .then(() => alert('报告摘要已复制到剪贴板'))
+    .catch(err => console.error('复制失败:', err));
+});
 
             // GitHub查看权限验证
             document.getElementById('github-btn').addEventListener('click', function() {
@@ -3183,9 +2958,19 @@
     };
 
     timeline.push(dataProcessingTrial);
+// 在实验开始时加载模型
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('开始加载模型...');
+    const modelLoaded = await loadModel();
+    if (modelLoaded) {
+        console.log('模型加载成功，可以开始实验');
+    } else {
+        console.warn('模型加载失败，预测功能将不可用');
+    }
+});
 
-    /* ==== 运行实验 ==== */
-    jsPsych.run(timeline);
+/* ==== 运行实验 ==== */
+jsPsych.run(timeline);
   </script>
 </body>
 </html>
