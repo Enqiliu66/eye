@@ -2953,17 +2953,6 @@ const preExperimentSetup = {
 // 将preExperimentSetup添加到timeline开头
 timeline.unshift(preExperimentSetup);
 
-// 按顺序添加到主时间线：先食物试次，再过渡，再第二个校准环节，再身材试次
-timeline.push({ timeline: foodTrials });
-timeline.push(phaseTransition);
-timeline.push(second_calibration_instructions);
-timeline.push(second_calibration);
-timeline.push(second_validation_instructions);
-timeline.push(second_validation);
-timeline.push(second_recalibrate);
-timeline.push(second_calibration_done);
-timeline.push({ timeline: bodyTrials });
-
 // 数据处理和GitHub上传
 timeline.push(dataProcessingTrial);
 
