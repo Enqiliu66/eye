@@ -1325,8 +1325,6 @@ function generateResultsTable(predictionResult = null) {
         const resultText = predictionResult.predictedClass === 1 ? '不正常' : '正常';
         tableContent += `
                     <td>${resultText}</td>
-                    <td>${predictionResult.confidence.toFixed(2)}%</td>
-                    <td>${predictionResult.riskLevel}</td>
         `;
     }
 
@@ -1343,11 +1341,11 @@ function generateResultsCSV(predictionResult = null) {
   let csvHeader = '被试编号,F注视时间(ms),B注视时间(ms),F首视点,B首视点,F回视次数,B回视次数';
   let csvData = `${userInfo.subjectId},${analysisResults.food.dwellTime.toFixed(2)},${analysisResults.body.dwellTime.toFixed(2)},${analysisResults.food.firstFixation},${analysisResults.body.firstFixation},${analysisResults.food.regressionCount.toFixed(2)},${analysisResults.body.regressionCount.toFixed(2)}`;
 
-  // 如果有预测结果，添加预测数据
+  // 如果有预测结果，只添加预测结果，删除置信度和风险等级
   if (predictionResult) {
     const resultText = predictionResult.predictedClass === 1 ? '不正常' : '正常';
-    csvHeader += ',预测结果,置信度,风险等级';
-    csvData += `,${resultText},${predictionResult.confidence.toFixed(2)}%,${predictionResult.riskLevel}`;
+    csvHeader += ',预测结果';
+    csvData += `,${resultText}`;
   }
 
   return `${csvHeader}\n${csvData}`;
@@ -1690,9 +1688,7 @@ function generateGitHubComment(dataPoints, predictionResult = null) {
     // 添加预测结果
     if (predictionResult) {
         const resultText = predictionResult.predictedClass === 1 ? '不正常' : '正常';
-        comment += `- **AI预测结果**: ${resultText}\n` +
-                   `- **预测置信度**: ${predictionResult.confidence.toFixed(2)}%\n` +
-                   `- **风险等级**: ${predictionResult.riskLevel}\n`;
+        comment += `- **AI预测结果**: ${resultText}\n`;
     }
 
     return comment;
