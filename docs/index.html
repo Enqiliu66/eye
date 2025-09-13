@@ -2661,7 +2661,10 @@ function generateGitHubComment(dataPoints, predictionResult = null) {
       },
       choices: [],
       on_load: async function() {
-  let predictionResult = null;
+        let predictionResult = null;
+        let diagnosticReportHTML = ''; // 在此处声明诊断报告变量
+        let reportId = '';
+        let reportDate = '';
   try {
     const statusMessage = document.getElementById('status-message');
 
@@ -2683,11 +2686,11 @@ if (modelLoaded) {
 
   // 生成诊断报告
   const reportType = predictionResult.predictedClass === 1 ? 'abnormal' : 'normal';
-  const reportId = `${userInfo.subjectId}_${userInfo.session}_${Date.now()}`;
+  reportId = `${userInfo.subjectId}_${userInfo.session}_${Date.now()}`;
   const now = new Date();
-  const reportDate = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日`;
+  reportDate = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日`;
 
-  let diagnosticReport = diagnosticReports[reportType]
+diagnosticReportHTML = diagnosticReports[reportType]
     .replace(/{reportId}/g, reportId)
     .replace(/{reportDate}/g, reportDate)
     .replace(/{subjectId}/g, userInfo.subjectId);
@@ -2831,9 +2834,9 @@ if (modelLoaded) {
                 <p>详细眼动数据已成功上传至GitHub仓库</p>
             `;
             // 如果有预测结果，显示诊断报告
-            if (predictionResult) {
-             content += diagnosticReport;
-            }
+          if (predictionResult && diagnosticReportHTML) {
+            content += diagnosticReportHTML;
+          }
 
             content += `
                 ${resultsTable}
@@ -2903,43 +2906,45 @@ document.getElementById('copy-btn').addEventListener('click', function() {
             document.getElementById('save-results-btn').addEventListener('click', function() {
               saveCSVToLocal(resultsCSV, resultsFileName);
             });
-// 保存诊断报告按钮
-document.getElementById('save-report-btn').addEventListener('click', function() {
-  // 创建报告文本内容
-  let reportText = `进食障碍风险眼动测评报告\n`;
-  reportText += `报告编号: REPORT-${reportId}\n`;
-  reportText += `测评日期: ${reportDate}\n`;
-  reportText += `姓名: ${userInfo.subjectId}\n\n`;
+ // 保存诊断报告按钮事件处理
+          if (predictionResult) {
+            document.getElementById('save-report-btn').addEventListener('click', function() {
+              // 创建报告文本内容
+              let reportText = `进食障碍风险眼动测评报告\n`;
+              reportText += `报告编号: REPORT-${reportId}\n`;
+              reportText += `测评日期: ${reportDate}\n`;
+              reportText += `姓名: ${userInfo.subjectId}\n\n`;
 
-  if (predictionResult.predictedClass === 1) {
-    reportText += `尊敬的参与者，感谢您完成本次测评。您的整体进食障碍风险等级评估为：异常。\n\n`;
-    reportText += `您的注意模式显示出明显的进食障碍认知偏差，建议寻求专业咨询或评估。\n\n`;
-    reportText += `建议:\n`;
-    reportText += `- 专业咨询：我们强烈建议您与心理咨询师或辅导员进行一次谈话。\n`;
-    reportText += `- 行动步骤：您可以联系：全国心理援助热线：12356 或 北京心理援助热线：010-82951332。\n`;
-    reportText += `- 避免独自挣扎：与一位您信任的朋友或家人聊聊您的感受。\n`;
-  } else {
-    reportText += `尊敬的参与者，感谢您完成本次测评。您的整体进食障碍风险等级评估为：健康。\n\n`;
-    reportText += `您的注意模式与健康人群相似，未显示出显著的进食障碍相关认知偏差。\n\n`;
-    reportText += `建议:\n`;
-    reportText += `- 保持当前良好的生活习惯。\n`;
-    reportText += `- 可以阅读相关科普资料，增进对心理健康的认识，起到预防作用。\n`;
-    reportText += `- 如果您未来感到压力或困扰，随时可以重新测评。\n`;
-  }
+              if (predictionResult.predictedClass === 1) {
+                reportText += `尊敬的参与者，感谢您完成本次测评。您的整体进食障碍风险等级评估为：异常。\n\n`;
+                reportText += `您的注意模式显示出明显的进食障碍认知偏差，建议寻求专业咨询或评估。\n\n`;
+                reportText += `建议:\n`;
+                reportText += `- 专业咨询：我们强烈建议您与心理咨询师或辅导员进行一次谈话。\n`;
+                reportText += `- 行动步骤：您可以联系：全国心理援助热线：12356 或 北京心理援助热线：010-82951332。\n`;
+                reportText += `- 避免独自挣扎：与一位您信任的朋友或家人聊聊您的感受。\n`;
+              } else {
+                reportText += `尊敬的参与者，感谢您完成本次测评。您的整体进食障碍风险等级评估为：健康。\n\n`;
+                reportText += `您的注意模式与健康人群相似，未显示出显著的进食障碍相关认知偏差。\n\n`;
+                reportText += `建议:\n`;
+                reportText += `- 保持当前良好的生活习惯。\n`;
+                reportText += `- 可以阅读相关科普资料，增进对心理健康的认识，起到预防作用。\n`;
+                reportText += `- 如果您未来感到压力或困扰，随时可以重新测评。\n`;
+              }
 
-  reportText += `\n免责声明：本报告由人工智能算法生成，仅作为筛查和参考工具，不能作为临床诊断的唯一依据。\n`;
-  reportText += `最终的诊断必须由合格的医疗专业人员通过面谈和评估做出。\n`;
+              reportText += `\n免责声明：本报告由人工智能算法生成，仅作为筛查和参考工具，不能作为临床诊断的唯一依据。\n`;
+              reportText += `最终的诊断必须由合格的医疗专业人员通过面谈和评估做出。\n`;
 
-  // 保存为文本文件
-  const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `诊断报告_${userInfo.subjectId}_${reportDate}.txt`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-});
+              // 保存为文本文件
+              const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `诊断报告_${userInfo.subjectId}_${reportDate}.txt`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            });
+          }
             // 退出实验按钮 - 改为刷新页面
             document.getElementById('exit-btn').addEventListener('click', function() {
               location.reload(); // 刷新页面回到登录界面
