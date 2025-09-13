@@ -1,0 +1,7559 @@
+[
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "14_high_calorie",
+    "image_position": "left",
+    "original_index": 14,
+    "image_src": "f/14.jpg",
+    "trial_index": 19,
+    "total_trials": 20,
+    "trial_start_time": 1757761560776,
+    "gaze_data": [
+      {
+        "timestamp": 1757761561316,
+        "trial_start_time": 1757761560776,
+        "relative_time": 540,
+        "x": 1479.167001217643,
+        "y": 540.693025798248,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761561832,
+        "trial_start_time": 1757761560776,
+        "relative_time": 1056,
+        "x": 1309.297035428296,
+        "y": 570.7535326272329,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761562481,
+        "trial_start_time": 1757761560776,
+        "relative_time": 1705,
+        "x": 1189.674414836071,
+        "y": 591.9837782815328,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761563006,
+        "trial_start_time": 1757761560776,
+        "relative_time": 2230,
+        "x": 987.2464334808652,
+        "y": 559.8823198080596,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761563599,
+        "trial_start_time": 1757761560776,
+        "relative_time": 2823,
+        "x": 945.0691795857027,
+        "y": 404.85139362364816,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761564096,
+        "trial_start_time": 1757761560776,
+        "relative_time": 3320,
+        "x": 870.6159255486155,
+        "y": 357.06239202559254,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761564625,
+        "trial_start_time": 1757761560776,
+        "relative_time": 3849,
+        "x": 887.7423172567131,
+        "y": 305.4841873325542,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761565286,
+        "trial_start_time": 1757761560776,
+        "relative_time": 4510,
+        "x": 849.6189265004549,
+        "y": 402.1494715067683,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761565804,
+        "trial_start_time": 1757761560776,
+        "relative_time": 5028,
+        "x": 823.5512603561033,
+        "y": 358.19169815179947,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761566439,
+        "trial_start_time": 1757761560776,
+        "relative_time": 5663,
+        "x": 952.7507630181717,
+        "y": 420.25716322804334,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761566900,
+        "trial_start_time": 1757761560776,
+        "relative_time": 6124,
+        "x": 1066.7446386059144,
+        "y": 509.3106333825404,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761567503,
+        "trial_start_time": 1757761560776,
+        "relative_time": 6727,
+        "x": 1099.9679454023499,
+        "y": 554.0491254360937,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 20,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 120,
+      "rightDwellTime": 100
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/14.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 101592,
+    "webgazer_data": [
+      {
+        "x": 1561,
+        "y": 660,
+        "t": 1
+      },
+      {
+        "x": 1390,
+        "y": 570,
+        "t": 541
+      },
+      {
+        "x": 1257,
+        "y": 601,
+        "t": 1057
+      },
+      {
+        "x": 1135,
+        "y": 643,
+        "t": 1705
+      },
+      {
+        "x": 952,
+        "y": 435,
+        "t": 2232
+      },
+      {
+        "x": 870,
+        "y": 378,
+        "t": 2823
+      },
+      {
+        "x": 928,
+        "y": 354,
+        "t": 3321
+      },
+      {
+        "x": 875,
+        "y": 320,
+        "t": 3849
+      },
+      {
+        "x": 845,
+        "y": 337,
+        "t": 4510
+      },
+      {
+        "x": 850,
+        "y": 387,
+        "t": 5031
+      },
+      {
+        "x": 1021,
+        "y": 450,
+        "t": 5663
+      },
+      {
+        "x": 1090,
+        "y": 507,
+        "t": 6124
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 556,
+        "y": 178.09375,
+        "width": 800,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1356,
+        "bottom": 845.890625,
+        "left": 556
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761567504,
+    "trial_duration_actual": 6728
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "11_high_calorie",
+    "image_position": "left",
+    "original_index": 11,
+    "image_src": "f/11.jpg",
+    "trial_index": 22,
+    "total_trials": 20,
+    "trial_start_time": 1757761570721,
+    "gaze_data": [
+      {
+        "timestamp": 1757761571306,
+        "trial_start_time": 1757761570721,
+        "relative_time": 585,
+        "x": 1067.777564367936,
+        "y": 435.5039525120841,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761571899,
+        "trial_start_time": 1757761570721,
+        "relative_time": 1178,
+        "x": 999.8526159861289,
+        "y": 288.33075524930314,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761572415,
+        "trial_start_time": 1757761570721,
+        "relative_time": 1694,
+        "x": 886.8363613192557,
+        "y": 452.6021612277924,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761573044,
+        "trial_start_time": 1757761570721,
+        "relative_time": 2323,
+        "x": 971.3259707627518,
+        "y": 575.1429115435051,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761573573,
+        "trial_start_time": 1757761570721,
+        "relative_time": 2852,
+        "x": 1046.7734613618327,
+        "y": 612.8564184136819,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761574155,
+        "trial_start_time": 1757761570721,
+        "relative_time": 3434,
+        "x": 1114.8810961723675,
+        "y": 390.6407987323302,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761574613,
+        "trial_start_time": 1757761570721,
+        "relative_time": 3892,
+        "x": 1067.8987195401382,
+        "y": 391.3894286665361,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761575119,
+        "trial_start_time": 1757761570721,
+        "relative_time": 4398,
+        "x": 1021.1131575741531,
+        "y": 198.41319562881785,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761575892,
+        "trial_start_time": 1757761570721,
+        "relative_time": 5171,
+        "x": 1038.4522636184154,
+        "y": 205.87481801570394,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761576722,
+        "trial_start_time": 1757761570721,
+        "relative_time": 6001,
+        "x": 1025.9319376366225,
+        "y": 254.25879576526603,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761577272,
+        "trial_start_time": 1757761570721,
+        "relative_time": 6551,
+        "x": 1048.0135156650078,
+        "y": 238.44845144257806,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -180,
+      "firstFixation": -1,
+      "regressionCount": 0,
+      "leftDwellTime": 20,
+      "rightDwellTime": 200
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/11.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 111362,
+    "webgazer_data": [
+      {
+        "x": 941,
+        "y": 468,
+        "t": 3
+      },
+      {
+        "x": 989,
+        "y": 397,
+        "t": 585
+      },
+      {
+        "x": 877,
+        "y": 328,
+        "t": 1179
+      },
+      {
+        "x": 929,
+        "y": 503,
+        "t": 1694
+      },
+      {
+        "x": 1031,
+        "y": 600,
+        "t": 2326
+      },
+      {
+        "x": 1062,
+        "y": 561,
+        "t": 2852
+      },
+      {
+        "x": 1113,
+        "y": 331,
+        "t": 3434
+      },
+      {
+        "x": 1093,
+        "y": 403,
+        "t": 3894
+      },
+      {
+        "x": 1064,
+        "y": 275,
+        "t": 4399
+      },
+      {
+        "x": 1093,
+        "y": 197,
+        "t": 5173
+      },
+      {
+        "x": 1017,
+        "y": 294,
+        "t": 6003
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 556,
+        "y": 178.09375,
+        "width": 800,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1356,
+        "bottom": 845.890625,
+        "left": 556
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761577273,
+    "trial_duration_actual": 6552
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "4_low_calorie",
+    "image_position": "left",
+    "original_index": 4,
+    "image_src": "f/4.jpg",
+    "trial_index": 25,
+    "total_trials": 20,
+    "trial_start_time": 1757761580493,
+    "gaze_data": [
+      {
+        "timestamp": 1757761581084,
+        "trial_start_time": 1757761580493,
+        "relative_time": 591,
+        "x": 1106.952647136734,
+        "y": 403.22937591097764,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761581549,
+        "trial_start_time": 1757761580493,
+        "relative_time": 1056,
+        "x": 1011.4911779424638,
+        "y": 434.2926054404124,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761582022,
+        "trial_start_time": 1757761580493,
+        "relative_time": 1529,
+        "x": 988.8907257763342,
+        "y": 458.50730405857064,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761582554,
+        "trial_start_time": 1757761580493,
+        "relative_time": 2061,
+        "x": 1101.5466367738404,
+        "y": 418.6853391240504,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761583038,
+        "trial_start_time": 1757761580493,
+        "relative_time": 2545,
+        "x": 1137.219750875064,
+        "y": 502.0073308459772,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761583587,
+        "trial_start_time": 1757761580493,
+        "relative_time": 3094,
+        "x": 1165.3326060804673,
+        "y": 526.4077670497982,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761584051,
+        "trial_start_time": 1757761580493,
+        "relative_time": 3558,
+        "x": 1149.0936520281757,
+        "y": 586.781916742008,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761584645,
+        "trial_start_time": 1757761580493,
+        "relative_time": 4152,
+        "x": 1181.601301631521,
+        "y": 601.4993103564275,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761585142,
+        "trial_start_time": 1757761580493,
+        "relative_time": 4649,
+        "x": 1191.0955106692859,
+        "y": 566.3650744286592,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761585755,
+        "trial_start_time": 1757761580493,
+        "relative_time": 5262,
+        "x": 1216.3505892341832,
+        "y": 577.2894298143185,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761586315,
+        "trial_start_time": 1757761580493,
+        "relative_time": 5822,
+        "x": 1192.2916420897764,
+        "y": 603.9969529331485,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761586881,
+        "trial_start_time": 1757761580493,
+        "relative_time": 6388,
+        "x": 1220.1356142134393,
+        "y": 581.871165402413,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 240,
+      "firstFixation": 1,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 240
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/4.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 121224,
+    "webgazer_data": [
+      {
+        "x": 1092,
+        "y": 315,
+        "t": 2
+      },
+      {
+        "x": 1010,
+        "y": 437,
+        "t": 591
+      },
+      {
+        "x": 990,
+        "y": 414,
+        "t": 1057
+      },
+      {
+        "x": 1058,
+        "y": 431,
+        "t": 1530
+      },
+      {
+        "x": 1131,
+        "y": 444,
+        "t": 2062
+      },
+      {
+        "x": 1143,
+        "y": 539,
+        "t": 2545
+      },
+      {
+        "x": 1176,
+        "y": 553,
+        "t": 3095
+      },
+      {
+        "x": 1161,
+        "y": 597,
+        "t": 3559
+      },
+      {
+        "x": 1205,
+        "y": 586,
+        "t": 4153
+      },
+      {
+        "x": 1205,
+        "y": 594,
+        "t": 4650
+      },
+      {
+        "x": 1217,
+        "y": 595,
+        "t": 5263
+      },
+      {
+        "x": 1223,
+        "y": 595,
+        "t": 5824
+      },
+      {
+        "x": 1220,
+        "y": 582,
+        "t": 6390
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 556,
+        "y": 178.09375,
+        "width": 800,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1356,
+        "bottom": 845.890625,
+        "left": 556
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761587135,
+    "trial_duration_actual": 6642
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "2_low_calorie",
+    "image_position": "left",
+    "original_index": 2,
+    "image_src": "f/2.jpg",
+    "trial_index": 28,
+    "total_trials": 20,
+    "trial_start_time": 1757761590158,
+    "gaze_data": [
+      {
+        "timestamp": 1757761590791,
+        "trial_start_time": 1757761590158,
+        "relative_time": 633,
+        "x": 1160.2594824739042,
+        "y": 553.0075889489874,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761591386,
+        "trial_start_time": 1757761590158,
+        "relative_time": 1228,
+        "x": 1254.391175262949,
+        "y": 516.7011194522504,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761591890,
+        "trial_start_time": 1757761590158,
+        "relative_time": 1732,
+        "x": 1251.9097951483793,
+        "y": 470.61352721086456,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761592452,
+        "trial_start_time": 1757761590158,
+        "relative_time": 2294,
+        "x": 1305.5896479984822,
+        "y": 401.15283960666244,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761593064,
+        "trial_start_time": 1757761590158,
+        "relative_time": 2906,
+        "x": 1115.5174651626976,
+        "y": 336.2159243498513,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761593544,
+        "trial_start_time": 1757761590158,
+        "relative_time": 3386,
+        "x": 1092.1778449091291,
+        "y": 406.26780392145287,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761594190,
+        "trial_start_time": 1757761590158,
+        "relative_time": 4032,
+        "x": 1161.855851641184,
+        "y": 425.8908993521045,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761594721,
+        "trial_start_time": 1757761590158,
+        "relative_time": 4563,
+        "x": 1207.7301262948977,
+        "y": 459.04446664668853,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761595341,
+        "trial_start_time": 1757761590158,
+        "relative_time": 5183,
+        "x": 1222.690387208249,
+        "y": 485.03978129645355,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761595826,
+        "trial_start_time": 1757761590158,
+        "relative_time": 5668,
+        "x": 1209.2195313406714,
+        "y": 517.6648188860804,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761596458,
+        "trial_start_time": 1757761590158,
+        "relative_time": 6300,
+        "x": 1179.3486289906682,
+        "y": 559.8259946636537,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/2.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 130807,
+    "webgazer_data": [
+      {
+        "x": 1176,
+        "y": 576,
+        "t": 2
+      },
+      {
+        "x": 1208,
+        "y": 537,
+        "t": 633
+      },
+      {
+        "x": 1261,
+        "y": 502,
+        "t": 1229
+      },
+      {
+        "x": 1280,
+        "y": 437,
+        "t": 1734
+      },
+      {
+        "x": 1270,
+        "y": 394,
+        "t": 2297
+      },
+      {
+        "x": 1063,
+        "y": 378,
+        "t": 2908
+      },
+      {
+        "x": 1129,
+        "y": 400,
+        "t": 3387
+      },
+      {
+        "x": 1177,
+        "y": 441,
+        "t": 4033
+      },
+      {
+        "x": 1210,
+        "y": 467,
+        "t": 4564
+      },
+      {
+        "x": 1232,
+        "y": 509,
+        "t": 5184
+      },
+      {
+        "x": 1224,
+        "y": 542,
+        "t": 5669
+      },
+      {
+        "x": 1182,
+        "y": 572,
+        "t": 6303
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761596718,
+    "trial_duration_actual": 6560
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "18_high_calorie",
+    "image_position": "left",
+    "original_index": 18,
+    "image_src": "f/18.jpg",
+    "trial_index": 31,
+    "total_trials": 20,
+    "trial_start_time": 1757761599733,
+    "gaze_data": [
+      {
+        "timestamp": 1757761600222,
+        "trial_start_time": 1757761599733,
+        "relative_time": 489,
+        "x": 1189.8724700826656,
+        "y": 556.1545609199198,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761600803,
+        "trial_start_time": 1757761599733,
+        "relative_time": 1070,
+        "x": 1186.971851044331,
+        "y": 567.6017548663078,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761601315,
+        "trial_start_time": 1757761599733,
+        "relative_time": 1582,
+        "x": 1208.1868813099238,
+        "y": 573.9132151701938,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761601862,
+        "trial_start_time": 1757761599733,
+        "relative_time": 2129,
+        "x": 1188.7010036522804,
+        "y": 632.8195265082892,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761602338,
+        "trial_start_time": 1757761599733,
+        "relative_time": 2605,
+        "x": 1172.9621321850104,
+        "y": 499.42983717396095,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761602810,
+        "trial_start_time": 1757761599733,
+        "relative_time": 3077,
+        "x": 1249.9296807843743,
+        "y": 319.908404122196,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761603354,
+        "trial_start_time": 1757761599733,
+        "relative_time": 3621,
+        "x": 1321.344338370159,
+        "y": 162.5560831639627,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761603862,
+        "trial_start_time": 1757761599733,
+        "relative_time": 4129,
+        "x": 1288.0349209410488,
+        "y": 73.84308325581834,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761604412,
+        "trial_start_time": 1757761599733,
+        "relative_time": 4679,
+        "x": 1232.6907963174751,
+        "y": -12.961260676464352,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761604918,
+        "trial_start_time": 1757761599733,
+        "relative_time": 5185,
+        "x": 1207.2120069529765,
+        "y": 76.26586451305343,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761605461,
+        "trial_start_time": 1757761599733,
+        "relative_time": 5728,
+        "x": 1144.0124223564005,
+        "y": 33.22861289304764,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761605965,
+        "trial_start_time": 1757761599733,
+        "relative_time": 6232,
+        "x": 1142.2294454422638,
+        "y": 65.87438191803714,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761606556,
+        "trial_start_time": 1757761599733,
+        "relative_time": 6823,
+        "x": 1195.7718937122188,
+        "y": 131.48901875093384,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/18.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 140646,
+    "webgazer_data": [
+      {
+        "x": 1182,
+        "y": 571,
+        "t": 2
+      },
+      {
+        "x": 1166,
+        "y": 567,
+        "t": 489
+      },
+      {
+        "x": 1200,
+        "y": 572,
+        "t": 1072
+      },
+      {
+        "x": 1184,
+        "y": 613,
+        "t": 1584
+      },
+      {
+        "x": 1181,
+        "y": 545,
+        "t": 2131
+      },
+      {
+        "x": 1204,
+        "y": 408,
+        "t": 2606
+      },
+      {
+        "x": 1325,
+        "y": 214,
+        "t": 3079
+      },
+      {
+        "x": 1317,
+        "y": 122,
+        "t": 3622
+      },
+      {
+        "x": 1275,
+        "y": 45,
+        "t": 4131
+      },
+      {
+        "x": 1213,
+        "y": 20,
+        "t": 4681
+      },
+      {
+        "x": 1174,
+        "y": 38,
+        "t": 5186
+      },
+      {
+        "x": 1175,
+        "y": 56,
+        "t": 5729
+      },
+      {
+        "x": 1163,
+        "y": 117,
+        "t": 6236
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761606557,
+    "trial_duration_actual": 6824
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "20_high_calorie",
+    "image_position": "left",
+    "original_index": 20,
+    "image_src": "f/20.jpg",
+    "trial_index": 34,
+    "total_trials": 20,
+    "trial_start_time": 1757761609380,
+    "gaze_data": [
+      {
+        "timestamp": 1757761609952,
+        "trial_start_time": 1757761609380,
+        "relative_time": 572,
+        "x": 1262.6618467982273,
+        "y": 127.41514936781292,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761610432,
+        "trial_start_time": 1757761609380,
+        "relative_time": 1052,
+        "x": 1243.7113928479544,
+        "y": 204.37026447865517,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761610936,
+        "trial_start_time": 1757761609380,
+        "relative_time": 1556,
+        "x": 1294.7555222032581,
+        "y": 219.44508092425116,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761611447,
+        "trial_start_time": 1757761609380,
+        "relative_time": 2067,
+        "x": 1160.4942217052421,
+        "y": 116.01929389955356,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761611989,
+        "trial_start_time": 1757761609380,
+        "relative_time": 2609,
+        "x": 1218.433655817355,
+        "y": 255.96432885712827,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761612477,
+        "trial_start_time": 1757761609380,
+        "relative_time": 3097,
+        "x": 1209.5490850334058,
+        "y": 403.5565519415481,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761612972,
+        "trial_start_time": 1757761609380,
+        "relative_time": 3592,
+        "x": 1219.697890065773,
+        "y": 481.26614165064774,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761613559,
+        "trial_start_time": 1757761609380,
+        "relative_time": 4179,
+        "x": 1261.9542481081253,
+        "y": 510.5636487895453,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761614084,
+        "trial_start_time": 1757761609380,
+        "relative_time": 4704,
+        "x": 1282.6808212452277,
+        "y": 481.05357533901014,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761614612,
+        "trial_start_time": 1757761609380,
+        "relative_time": 5232,
+        "x": 1292.5591107502823,
+        "y": 276.9931105148256,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761615086,
+        "trial_start_time": 1757761609380,
+        "relative_time": 5706,
+        "x": 1268.0026944856822,
+        "y": 238.82202401200544,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761615587,
+        "trial_start_time": 1757761609380,
+        "relative_time": 6207,
+        "x": 1218.0854062193678,
+        "y": 197.40720580952927,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761616059,
+        "trial_start_time": 1757761609380,
+        "relative_time": 6679,
+        "x": 1142.5699657074056,
+        "y": 172.27790605603838,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/20.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 150148,
+    "webgazer_data": [
+      {
+        "x": 1281,
+        "y": 88,
+        "t": 1
+      },
+      {
+        "x": 1260,
+        "y": 140,
+        "t": 574
+      },
+      {
+        "x": 1314,
+        "y": 215,
+        "t": 1053
+      },
+      {
+        "x": 1243,
+        "y": 178,
+        "t": 1557
+      },
+      {
+        "x": 1172,
+        "y": 172,
+        "t": 2070
+      },
+      {
+        "x": 1226,
+        "y": 332,
+        "t": 2610
+      },
+      {
+        "x": 1216,
+        "y": 454,
+        "t": 3097
+      },
+      {
+        "x": 1234,
+        "y": 502,
+        "t": 3596
+      },
+      {
+        "x": 1237,
+        "y": 493,
+        "t": 4180
+      },
+      {
+        "x": 1318,
+        "y": 389,
+        "t": 4705
+      },
+      {
+        "x": 1254,
+        "y": 219,
+        "t": 5234
+      },
+      {
+        "x": 1305,
+        "y": 205,
+        "t": 5707
+      },
+      {
+        "x": 1170,
+        "y": 158,
+        "t": 6208
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761616059,
+    "trial_duration_actual": 6679
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "6_low_calorie",
+    "image_position": "left",
+    "original_index": 6,
+    "image_src": "f/6.jpg",
+    "trial_index": 37,
+    "total_trials": 20,
+    "trial_start_time": 1757761619081,
+    "gaze_data": [
+      {
+        "timestamp": 1757761619678,
+        "trial_start_time": 1757761619081,
+        "relative_time": 597,
+        "x": 1079.1435865601431,
+        "y": 252.91834349512024,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761620280,
+        "trial_start_time": 1757761619081,
+        "relative_time": 1199,
+        "x": 1158.4949705562606,
+        "y": 288.9449155044641,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761620857,
+        "trial_start_time": 1757761619081,
+        "relative_time": 1776,
+        "x": 1150.289396754819,
+        "y": 199.23538441907147,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761621391,
+        "trial_start_time": 1757761619081,
+        "relative_time": 2310,
+        "x": 1272.5781448955872,
+        "y": 235.65894177794004,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761621913,
+        "trial_start_time": 1757761619081,
+        "relative_time": 2832,
+        "x": 1305.4503114243666,
+        "y": 287.6827245801386,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761622452,
+        "trial_start_time": 1757761619081,
+        "relative_time": 3371,
+        "x": 1235.0126821335882,
+        "y": 346.75257759842486,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761623010,
+        "trial_start_time": 1757761619081,
+        "relative_time": 3929,
+        "x": 1174.9437210846193,
+        "y": 389.4402752321372,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761623632,
+        "trial_start_time": 1757761619081,
+        "relative_time": 4551,
+        "x": 1171.7916252908449,
+        "y": 437.0386750351303,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761624193,
+        "trial_start_time": 1757761619081,
+        "relative_time": 5112,
+        "x": 1223.680631587438,
+        "y": 430.785561765116,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761624802,
+        "trial_start_time": 1757761619081,
+        "relative_time": 5721,
+        "x": 1245.0358745008457,
+        "y": 404.4039184505332,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761625417,
+        "trial_start_time": 1757761619081,
+        "relative_time": 6336,
+        "x": 1247.1151166132336,
+        "y": 437.74776324939404,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/6.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 159766,
+    "webgazer_data": [
+      {
+        "x": 1109,
+        "y": 216,
+        "t": 3
+      },
+      {
+        "x": 1110,
+        "y": 257,
+        "t": 598
+      },
+      {
+        "x": 1112,
+        "y": 226,
+        "t": 1201
+      },
+      {
+        "x": 1206,
+        "y": 193,
+        "t": 1777
+      },
+      {
+        "x": 1233,
+        "y": 278,
+        "t": 2311
+      },
+      {
+        "x": 1301,
+        "y": 312,
+        "t": 2835
+      },
+      {
+        "x": 1182,
+        "y": 375,
+        "t": 3372
+      },
+      {
+        "x": 1169,
+        "y": 412,
+        "t": 3930
+      },
+      {
+        "x": 1234,
+        "y": 439,
+        "t": 4556
+      },
+      {
+        "x": 1233,
+        "y": 434,
+        "t": 5113
+      },
+      {
+        "x": 1242,
+        "y": 434,
+        "t": 5723
+      },
+      {
+        "x": 1235,
+        "y": 432,
+        "t": 6340
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761625678,
+    "trial_duration_actual": 6597
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "19_high_calorie",
+    "image_position": "left",
+    "original_index": 19,
+    "image_src": "f/19.jpg",
+    "trial_index": 40,
+    "total_trials": 20,
+    "trial_start_time": 1757761628691,
+    "gaze_data": [
+      {
+        "timestamp": 1757761629199,
+        "trial_start_time": 1757761628691,
+        "relative_time": 508,
+        "x": 1246.0159370920471,
+        "y": 388.090855543488,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761629744,
+        "trial_start_time": 1757761628691,
+        "relative_time": 1053,
+        "x": 1230.1237707217808,
+        "y": 440.66638859922887,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761630261,
+        "trial_start_time": 1757761628691,
+        "relative_time": 1570,
+        "x": 1236.0877998869955,
+        "y": 445.7708129716204,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761630794,
+        "trial_start_time": 1757761628691,
+        "relative_time": 2103,
+        "x": 1269.0681865615247,
+        "y": 488.57882099505355,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761631276,
+        "trial_start_time": 1757761628691,
+        "relative_time": 2585,
+        "x": 1294.7708732634248,
+        "y": 436.6407764458485,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761631821,
+        "trial_start_time": 1757761628691,
+        "relative_time": 3130,
+        "x": 1342.9552652701962,
+        "y": 458.04128765532107,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761632297,
+        "trial_start_time": 1757761628691,
+        "relative_time": 3606,
+        "x": 1308.301464573317,
+        "y": 472.4769031277766,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761632834,
+        "trial_start_time": 1757761628691,
+        "relative_time": 4143,
+        "x": 1311.836825154577,
+        "y": 496.61784058826566,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761633328,
+        "trial_start_time": 1757761628691,
+        "relative_time": 4637,
+        "x": 1178.2770653709497,
+        "y": 449.95166881407897,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761633831,
+        "trial_start_time": 1757761628691,
+        "relative_time": 5140,
+        "x": 842.9281033500604,
+        "y": 239.5306547678028,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761634359,
+        "trial_start_time": 1757761628691,
+        "relative_time": 5668,
+        "x": 663.3573108977589,
+        "y": 81.73122269444683,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761634841,
+        "trial_start_time": 1757761628691,
+        "relative_time": 6150,
+        "x": 673.6391593749835,
+        "y": -46.96404778739375,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761635380,
+        "trial_start_time": 1757761628691,
+        "relative_time": 6689,
+        "x": 730.8518891109509,
+        "y": -98.88802561368779,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -20,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/19.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 169469,
+    "webgazer_data": [
+      {
+        "x": 1171,
+        "y": 377,
+        "t": 3
+      },
+      {
+        "x": 1214,
+        "y": 393,
+        "t": 509
+      },
+      {
+        "x": 1232,
+        "y": 434,
+        "t": 1053
+      },
+      {
+        "x": 1258,
+        "y": 450,
+        "t": 1571
+      },
+      {
+        "x": 1295,
+        "y": 456,
+        "t": 2103
+      },
+      {
+        "x": 1329,
+        "y": 450,
+        "t": 2586
+      },
+      {
+        "x": 1320,
+        "y": 467,
+        "t": 3131
+      },
+      {
+        "x": 1291,
+        "y": 489,
+        "t": 3606
+      },
+      {
+        "x": 1256,
+        "y": 503,
+        "t": 4143
+      },
+      {
+        "x": 1033,
+        "y": 399,
+        "t": 4638
+      },
+      {
+        "x": 720,
+        "y": 125,
+        "t": 5140
+      },
+      {
+        "x": 633,
+        "y": 51,
+        "t": 5669
+      },
+      {
+        "x": 704,
+        "y": -79,
+        "t": 6152
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761635380,
+    "trial_duration_actual": 6689
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "8_low_calorie",
+    "image_position": "left",
+    "original_index": 8,
+    "image_src": "f/8.jpg",
+    "trial_index": 43,
+    "total_trials": 20,
+    "trial_start_time": 1757761638597,
+    "gaze_data": [
+      {
+        "timestamp": 1757761639073,
+        "trial_start_time": 1757761638597,
+        "relative_time": 476,
+        "x": 782.860301256156,
+        "y": -78.93774277176429,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761639589,
+        "trial_start_time": 1757761638597,
+        "relative_time": 992,
+        "x": 888.8398501023535,
+        "y": 132.4555469793122,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761640122,
+        "trial_start_time": 1757761638597,
+        "relative_time": 1525,
+        "x": 1050.9183956476497,
+        "y": 331.2447364980652,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761640876,
+        "trial_start_time": 1757761638597,
+        "relative_time": 2279,
+        "x": 1150.298886307445,
+        "y": 474.2168960216196,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761641809,
+        "trial_start_time": 1757761638597,
+        "relative_time": 3212,
+        "x": 1201.030352199244,
+        "y": 490.6636727244099,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761642666,
+        "trial_start_time": 1757761638597,
+        "relative_time": 4069,
+        "x": 1227.1654655871587,
+        "y": 522.588564871023,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761643393,
+        "trial_start_time": 1757761638597,
+        "relative_time": 4796,
+        "x": 1187.5023061416343,
+        "y": 623.1934323540979,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761644279,
+        "trial_start_time": 1757761638597,
+        "relative_time": 5682,
+        "x": 1214.140364400606,
+        "y": 600.0984386356287,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761645120,
+        "trial_start_time": 1757761638597,
+        "relative_time": 6523,
+        "x": 1222.0343707643772,
+        "y": 591.4902926768237,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/8.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 179685,
+    "webgazer_data": [
+      {
+        "x": 753,
+        "y": -130,
+        "t": 1
+      },
+      {
+        "x": 857,
+        "y": -2,
+        "t": 479
+      },
+      {
+        "x": 986,
+        "y": 235,
+        "t": 993
+      },
+      {
+        "x": 1127,
+        "y": 428,
+        "t": 1526
+      },
+      {
+        "x": 1172,
+        "y": 481,
+        "t": 2282
+      },
+      {
+        "x": 1185,
+        "y": 494,
+        "t": 3213
+      },
+      {
+        "x": 1240,
+        "y": 573,
+        "t": 4071
+      },
+      {
+        "x": 1212,
+        "y": 617,
+        "t": 4799
+      },
+      {
+        "x": 1215,
+        "y": 620,
+        "t": 5683
+      },
+      {
+        "x": 1176,
+        "y": 579,
+        "t": 6526
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761645596,
+    "trial_duration_actual": 6999
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "17_high_calorie",
+    "image_position": "left",
+    "original_index": 17,
+    "image_src": "f/17.jpg",
+    "trial_index": 46,
+    "total_trials": 20,
+    "trial_start_time": 1757761648406,
+    "gaze_data": [
+      {
+        "timestamp": 1757761649407,
+        "trial_start_time": 1757761648406,
+        "relative_time": 1001,
+        "x": 1079.1737409746393,
+        "y": 488.1971393288465,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761650156,
+        "trial_start_time": 1757761648406,
+        "relative_time": 1750,
+        "x": 1080.1880749350382,
+        "y": 391.4138831336887,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761650977,
+        "trial_start_time": 1757761648406,
+        "relative_time": 2571,
+        "x": 1085.9856117153167,
+        "y": 309.42152306459093,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761651872,
+        "trial_start_time": 1757761648406,
+        "relative_time": 3466,
+        "x": 1030.7129644473305,
+        "y": 217.88271561838226,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761652857,
+        "trial_start_time": 1757761648406,
+        "relative_time": 4451,
+        "x": 950.4265577938264,
+        "y": 184.0892777898014,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761653749,
+        "trial_start_time": 1757761648406,
+        "relative_time": 5343,
+        "x": 778.1435619966927,
+        "y": 147.35012060489933,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761654696,
+        "trial_start_time": 1757761648406,
+        "relative_time": 6290,
+        "x": 839.5152669974802,
+        "y": 203.42466617796447,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761655483,
+        "trial_start_time": 1757761648406,
+        "relative_time": 7077,
+        "x": 873.6792904559708,
+        "y": 221.37385606716873,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -20,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/17.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 189573,
+    "webgazer_data": [
+      {
+        "x": 1090,
+        "y": 510,
+        "t": 2
+      },
+      {
+        "x": 1099,
+        "y": 460,
+        "t": 1006
+      },
+      {
+        "x": 1035,
+        "y": 332,
+        "t": 1752
+      },
+      {
+        "x": 1114,
+        "y": 254,
+        "t": 2573
+      },
+      {
+        "x": 967,
+        "y": 207,
+        "t": 3469
+      },
+      {
+        "x": 859,
+        "y": 150,
+        "t": 4452
+      },
+      {
+        "x": 816,
+        "y": 157,
+        "t": 5345
+      },
+      {
+        "x": 817,
+        "y": 187,
+        "t": 6291
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761655484,
+    "trial_duration_actual": 7078
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "3_low_calorie",
+    "image_position": "left",
+    "original_index": 3,
+    "image_src": "f/3.jpg",
+    "trial_index": 49,
+    "total_trials": 20,
+    "trial_start_time": 1757761658292,
+    "gaze_data": [
+      {
+        "timestamp": 1757761659063,
+        "trial_start_time": 1757761658292,
+        "relative_time": 771,
+        "x": 916.2908221585695,
+        "y": 245.5645804898414,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761659852,
+        "trial_start_time": 1757761658292,
+        "relative_time": 1560,
+        "x": 913.4842941094724,
+        "y": 254.5390019856627,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761660744,
+        "trial_start_time": 1757761658292,
+        "relative_time": 2452,
+        "x": 984.7526832812526,
+        "y": 313.246352296347,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761661641,
+        "trial_start_time": 1757761658292,
+        "relative_time": 3349,
+        "x": 978.502820576008,
+        "y": 257.00758459475196,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761662460,
+        "trial_start_time": 1757761658292,
+        "relative_time": 4168,
+        "x": 1086.5736326766612,
+        "y": 298.1702992828958,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761663385,
+        "trial_start_time": 1757761658292,
+        "relative_time": 5093,
+        "x": 1126.3637203718006,
+        "y": 315.6203554295009,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761664149,
+        "trial_start_time": 1757761658292,
+        "relative_time": 5857,
+        "x": 1112.9313238935215,
+        "y": 317.25745336997255,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761665004,
+        "trial_start_time": 1757761658292,
+        "relative_time": 6712,
+        "x": 1095.0822183136834,
+        "y": 309.3159389015136,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/3.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 199458,
+    "webgazer_data": [
+      {
+        "x": 945,
+        "y": 228,
+        "t": 2
+      },
+      {
+        "x": 912,
+        "y": 221,
+        "t": 771
+      },
+      {
+        "x": 943,
+        "y": 230,
+        "t": 1561
+      },
+      {
+        "x": 1001,
+        "y": 252,
+        "t": 2455
+      },
+      {
+        "x": 1027,
+        "y": 256,
+        "t": 3350
+      },
+      {
+        "x": 1144,
+        "y": 340,
+        "t": 4169
+      },
+      {
+        "x": 1188,
+        "y": 312,
+        "t": 5097
+      },
+      {
+        "x": 1095,
+        "y": 352,
+        "t": 5860
+      },
+      {
+        "x": 1100,
+        "y": 352,
+        "t": 6713
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761665369,
+    "trial_duration_actual": 7077
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "1_low_calorie",
+    "image_position": "left",
+    "original_index": 1,
+    "image_src": "f/1.jpg",
+    "trial_index": 52,
+    "total_trials": 20,
+    "trial_start_time": 1757761668386,
+    "gaze_data": [
+      {
+        "timestamp": 1757761669328,
+        "trial_start_time": 1757761668386,
+        "relative_time": 942,
+        "x": 1155.0910986415395,
+        "y": 328.61431432717404,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761670222,
+        "trial_start_time": 1757761668386,
+        "relative_time": 1836,
+        "x": 1191.2170094126236,
+        "y": 249.19058701841283,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761671209,
+        "trial_start_time": 1757761668386,
+        "relative_time": 2823,
+        "x": 1192.3264636173014,
+        "y": 264.7730067664029,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761672141,
+        "trial_start_time": 1757761668386,
+        "relative_time": 3755,
+        "x": 1209.9910415580707,
+        "y": 292.6205245741318,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761673112,
+        "trial_start_time": 1757761668386,
+        "relative_time": 4726,
+        "x": 1219.5985340480254,
+        "y": 408.0509588002459,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761673971,
+        "trial_start_time": 1757761668386,
+        "relative_time": 5585,
+        "x": 1215.2878359251931,
+        "y": 448.11984796660516,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761674703,
+        "trial_start_time": 1757761668386,
+        "relative_time": 6317,
+        "x": 1273.053985166945,
+        "y": 460.11398555989297,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761675434,
+        "trial_start_time": 1757761668386,
+        "relative_time": 7048,
+        "x": 1154.139305163438,
+        "y": 381.8166379188358,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/1.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 209524,
+    "webgazer_data": [
+      {
+        "x": 1154,
+        "y": 330,
+        "t": 2
+      },
+      {
+        "x": 1164,
+        "y": 306,
+        "t": 942
+      },
+      {
+        "x": 1199,
+        "y": 228,
+        "t": 1838
+      },
+      {
+        "x": 1200,
+        "y": 266,
+        "t": 2829
+      },
+      {
+        "x": 1238,
+        "y": 345,
+        "t": 3757
+      },
+      {
+        "x": 1211,
+        "y": 451,
+        "t": 4727
+      },
+      {
+        "x": 1263,
+        "y": 452,
+        "t": 5589
+      },
+      {
+        "x": 1227,
+        "y": 447,
+        "t": 6317
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761675435,
+    "trial_duration_actual": 7049
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "16_high_calorie",
+    "image_position": "left",
+    "original_index": 16,
+    "image_src": "f/16.jpg",
+    "trial_index": 55,
+    "total_trials": 20,
+    "trial_start_time": 1757761678240,
+    "gaze_data": [
+      {
+        "timestamp": 1757761678958,
+        "trial_start_time": 1757761678240,
+        "relative_time": 718,
+        "x": 1188.4676888556266,
+        "y": 398.56210007961096,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761679947,
+        "trial_start_time": 1757761678240,
+        "relative_time": 1707,
+        "x": 1177.912052441981,
+        "y": 372.0645517373729,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761680721,
+        "trial_start_time": 1757761678240,
+        "relative_time": 2481,
+        "x": 1096.5704752529523,
+        "y": 362.53347236428306,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761681626,
+        "trial_start_time": 1757761678240,
+        "relative_time": 3386,
+        "x": 1069.6733874660301,
+        "y": 332.96755167126787,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761682557,
+        "trial_start_time": 1757761678240,
+        "relative_time": 4317,
+        "x": 1066.1420632227914,
+        "y": 348.7702839217418,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761683425,
+        "trial_start_time": 1757761678240,
+        "relative_time": 5185,
+        "x": 1040.368860178389,
+        "y": 368.9272222395201,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761684108,
+        "trial_start_time": 1757761678240,
+        "relative_time": 5868,
+        "x": 1058.9305541486938,
+        "y": 389.7088388081357,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761684830,
+        "trial_start_time": 1757761678240,
+        "relative_time": 6590,
+        "x": 1155.1132174102377,
+        "y": 338.1563937817881,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/16.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 219237,
+    "webgazer_data": [
+      {
+        "x": 1156,
+        "y": 394,
+        "t": 1
+      },
+      {
+        "x": 1183,
+        "y": 362,
+        "t": 719
+      },
+      {
+        "x": 1118,
+        "y": 382,
+        "t": 1709
+      },
+      {
+        "x": 1096,
+        "y": 352,
+        "t": 2483
+      },
+      {
+        "x": 1065,
+        "y": 334,
+        "t": 3389
+      },
+      {
+        "x": 1069,
+        "y": 351,
+        "t": 4320
+      },
+      {
+        "x": 1034,
+        "y": 386,
+        "t": 5186
+      },
+      {
+        "x": 1136,
+        "y": 339,
+        "t": 5870
+      },
+      {
+        "x": 1217,
+        "y": 280,
+        "t": 6591
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761685148,
+    "trial_duration_actual": 6908
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "7_low_calorie",
+    "image_position": "left",
+    "original_index": 7,
+    "image_src": "f/7.jpg",
+    "trial_index": 58,
+    "total_trials": 20,
+    "trial_start_time": 1757761687956,
+    "gaze_data": [
+      {
+        "timestamp": 1757761688685,
+        "trial_start_time": 1757761687956,
+        "relative_time": 729,
+        "x": 1217.1662757035697,
+        "y": 278.5074334316824,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761689403,
+        "trial_start_time": 1757761687956,
+        "relative_time": 1447,
+        "x": 1176.9123065728254,
+        "y": 296.3331991431209,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761690153,
+        "trial_start_time": 1757761687956,
+        "relative_time": 2197,
+        "x": 1194.6902148330091,
+        "y": 269.9153309715145,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761690948,
+        "trial_start_time": 1757761687956,
+        "relative_time": 2992,
+        "x": 1200.4228838102626,
+        "y": 277.32886916888094,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761691713,
+        "trial_start_time": 1757761687956,
+        "relative_time": 3757,
+        "x": 1163.0663505320651,
+        "y": 331.8430337017627,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761692458,
+        "trial_start_time": 1757761687956,
+        "relative_time": 4502,
+        "x": 1164.1839035691276,
+        "y": 325.9607131816861,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761693228,
+        "trial_start_time": 1757761687956,
+        "relative_time": 5272,
+        "x": 1161.8033529785068,
+        "y": 326.16553726700977,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761693915,
+        "trial_start_time": 1757761687956,
+        "relative_time": 5959,
+        "x": 1170.6138804348936,
+        "y": 355.90710613299,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761694651,
+        "trial_start_time": 1757761687956,
+        "relative_time": 6695,
+        "x": 1123.0118202782205,
+        "y": 350.0105213294642,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/7.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 229116,
+    "webgazer_data": [
+      {
+        "x": 1224,
+        "y": 301,
+        "t": 1
+      },
+      {
+        "x": 1221,
+        "y": 297,
+        "t": 732
+      },
+      {
+        "x": 1185,
+        "y": 292,
+        "t": 1450
+      },
+      {
+        "x": 1217,
+        "y": 260,
+        "t": 2198
+      },
+      {
+        "x": 1180,
+        "y": 288,
+        "t": 2994
+      },
+      {
+        "x": 1168,
+        "y": 297,
+        "t": 3758
+      },
+      {
+        "x": 1222,
+        "y": 290,
+        "t": 4503
+      },
+      {
+        "x": 1190,
+        "y": 302,
+        "t": 5275
+      },
+      {
+        "x": 1151,
+        "y": 351,
+        "t": 5962
+      },
+      {
+        "x": 1137,
+        "y": 357,
+        "t": 6697
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761695027,
+    "trial_duration_actual": 7071
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "9_high_calorie",
+    "image_position": "left",
+    "original_index": 9,
+    "image_src": "f/9.jpg",
+    "trial_index": 61,
+    "total_trials": 20,
+    "trial_start_time": 1757761698037,
+    "gaze_data": [
+      {
+        "timestamp": 1757761698715,
+        "trial_start_time": 1757761698037,
+        "relative_time": 678,
+        "x": 1120.8997967830178,
+        "y": 364.9825292211032,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761699476,
+        "trial_start_time": 1757761698037,
+        "relative_time": 1439,
+        "x": 1151.1329729750842,
+        "y": 372.6117377089626,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761700162,
+        "trial_start_time": 1757761698037,
+        "relative_time": 2125,
+        "x": 1122.9730655469136,
+        "y": 369.63582215779604,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761700856,
+        "trial_start_time": 1757761698037,
+        "relative_time": 2819,
+        "x": 1107.6666391563624,
+        "y": 422.6743086596332,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761701655,
+        "trial_start_time": 1757761698037,
+        "relative_time": 3618,
+        "x": 1149.3097948608302,
+        "y": 418.7693775068117,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761702387,
+        "trial_start_time": 1757761698037,
+        "relative_time": 4350,
+        "x": 1176.9577609466887,
+        "y": 354.30579879527505,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761703215,
+        "trial_start_time": 1757761698037,
+        "relative_time": 5178,
+        "x": 1058.6295824215022,
+        "y": 346.4309117041206,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761703880,
+        "trial_start_time": 1757761698037,
+        "relative_time": 5843,
+        "x": 1084.5531517418287,
+        "y": 258.45937803654243,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761704633,
+        "trial_start_time": 1757761698037,
+        "relative_time": 6596,
+        "x": 1118.9507798794668,
+        "y": 197.7583417406482,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/9.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 239056,
+    "webgazer_data": [
+      {
+        "x": 1144,
+        "y": 384,
+        "t": 2
+      },
+      {
+        "x": 1163,
+        "y": 408,
+        "t": 678
+      },
+      {
+        "x": 1118,
+        "y": 364,
+        "t": 1441
+      },
+      {
+        "x": 1105,
+        "y": 415,
+        "t": 2128
+      },
+      {
+        "x": 1098,
+        "y": 403,
+        "t": 2821
+      },
+      {
+        "x": 1179,
+        "y": 408,
+        "t": 3620
+      },
+      {
+        "x": 1100,
+        "y": 337,
+        "t": 4354
+      },
+      {
+        "x": 1076,
+        "y": 291,
+        "t": 5179
+      },
+      {
+        "x": 1110,
+        "y": 236,
+        "t": 5847
+      },
+      {
+        "x": 1103,
+        "y": 208,
+        "t": 6599
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761704967,
+    "trial_duration_actual": 6930
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "10_high_calorie",
+    "image_position": "left",
+    "original_index": 10,
+    "image_src": "f/10.jpg",
+    "trial_index": 64,
+    "total_trials": 20,
+    "trial_start_time": 1757761707985,
+    "gaze_data": [
+      {
+        "timestamp": 1757761708713,
+        "trial_start_time": 1757761707985,
+        "relative_time": 728,
+        "x": 1193.7966285078999,
+        "y": 261.17812098466345,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761709522,
+        "trial_start_time": 1757761707985,
+        "relative_time": 1537,
+        "x": 1183.855645575031,
+        "y": 310.13331894683085,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761710339,
+        "trial_start_time": 1757761707985,
+        "relative_time": 2354,
+        "x": 1170.1946576484213,
+        "y": 320.79439430451276,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761711117,
+        "trial_start_time": 1757761707985,
+        "relative_time": 3132,
+        "x": 1134.1566576764706,
+        "y": 326.7742140163376,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761711824,
+        "trial_start_time": 1757761707985,
+        "relative_time": 3839,
+        "x": 1202.4890641247046,
+        "y": 373.1886338255081,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761712564,
+        "trial_start_time": 1757761707985,
+        "relative_time": 4579,
+        "x": 1161.1395008286977,
+        "y": 285.8025618437659,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761713070,
+        "trial_start_time": 1757761707985,
+        "relative_time": 5085,
+        "x": 1226.7778306488624,
+        "y": 333.06943568830604,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761713584,
+        "trial_start_time": 1757761707985,
+        "relative_time": 5599,
+        "x": 1265.71391181515,
+        "y": 506.40322304270467,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761714081,
+        "trial_start_time": 1757761707985,
+        "relative_time": 6096,
+        "x": 1298.5804938207425,
+        "y": 498.1735629493493,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761714624,
+        "trial_start_time": 1757761707985,
+        "relative_time": 6639,
+        "x": 1258.3110007508703,
+        "y": 492.5978281197268,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/10.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 248713,
+    "webgazer_data": [
+      {
+        "x": 1138,
+        "y": 186,
+        "t": 1
+      },
+      {
+        "x": 1204,
+        "y": 307,
+        "t": 728
+      },
+      {
+        "x": 1185,
+        "y": 347,
+        "t": 1540
+      },
+      {
+        "x": 1166,
+        "y": 296,
+        "t": 2355
+      },
+      {
+        "x": 1169,
+        "y": 331,
+        "t": 3133
+      },
+      {
+        "x": 1119,
+        "y": 309,
+        "t": 3845
+      },
+      {
+        "x": 1224,
+        "y": 295,
+        "t": 4580
+      },
+      {
+        "x": 1220,
+        "y": 452,
+        "t": 5087
+      },
+      {
+        "x": 1295,
+        "y": 503,
+        "t": 5602
+      },
+      {
+        "x": 1261,
+        "y": 502,
+        "t": 6097
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761714625,
+    "trial_duration_actual": 6640
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "15_high_calorie",
+    "image_position": "left",
+    "original_index": 15,
+    "image_src": "f/15.jpg",
+    "trial_index": 67,
+    "total_trials": 20,
+    "trial_start_time": 1757761717653,
+    "gaze_data": [
+      {
+        "timestamp": 1757761718206,
+        "trial_start_time": 1757761717653,
+        "relative_time": 553,
+        "x": 1198.4088863934355,
+        "y": 362.2853903916156,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761718727,
+        "trial_start_time": 1757761717653,
+        "relative_time": 1074,
+        "x": 1189.0375669821499,
+        "y": 449.87547043797866,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761719246,
+        "trial_start_time": 1757761717653,
+        "relative_time": 1593,
+        "x": 1219.1694429464667,
+        "y": 408.24820601091915,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761719741,
+        "trial_start_time": 1757761717653,
+        "relative_time": 2088,
+        "x": 1300.3214186402802,
+        "y": 405.6872944615302,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761720264,
+        "trial_start_time": 1757761717653,
+        "relative_time": 2611,
+        "x": 1305.3547352524874,
+        "y": 352.20705906260173,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761720754,
+        "trial_start_time": 1757761717653,
+        "relative_time": 3101,
+        "x": 1275.2937990848532,
+        "y": 320.6005371197079,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761721270,
+        "trial_start_time": 1757761717653,
+        "relative_time": 3617,
+        "x": 1242.826158368884,
+        "y": 399.8598874331197,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761721764,
+        "trial_start_time": 1757761717653,
+        "relative_time": 4111,
+        "x": 1211.4284018087276,
+        "y": 305.62687594105955,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761722306,
+        "trial_start_time": 1757761717653,
+        "relative_time": 4653,
+        "x": 1028.8488583848648,
+        "y": 456.4445380642974,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761722797,
+        "trial_start_time": 1757761717653,
+        "relative_time": 5144,
+        "x": 712.915084020131,
+        "y": 357.9756664555679,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761723710,
+        "trial_start_time": 1757761717653,
+        "relative_time": 6057,
+        "x": 538.7961690707161,
+        "y": 209.69434454098513,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761724205,
+        "trial_start_time": 1757761717653,
+        "relative_time": 6552,
+        "x": 726.2052454847677,
+        "y": 134.23979946644386,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -40,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 40
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/15.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 258294,
+    "webgazer_data": [
+      {
+        "x": 1243,
+        "y": 462,
+        "t": 2
+      },
+      {
+        "x": 1221,
+        "y": 374,
+        "t": 554
+      },
+      {
+        "x": 1203,
+        "y": 430,
+        "t": 1074
+      },
+      {
+        "x": 1248,
+        "y": 428,
+        "t": 1595
+      },
+      {
+        "x": 1286,
+        "y": 396,
+        "t": 2089
+      },
+      {
+        "x": 1278,
+        "y": 333,
+        "t": 2612
+      },
+      {
+        "x": 1262,
+        "y": 348,
+        "t": 3103
+      },
+      {
+        "x": 1224,
+        "y": 364,
+        "t": 3617
+      },
+      {
+        "x": 1204,
+        "y": 442,
+        "t": 4112
+      },
+      {
+        "x": 867,
+        "y": 276,
+        "t": 4655
+      },
+      {
+        "x": 662,
+        "y": 197,
+        "t": 5145
+      },
+      {
+        "x": 686,
+        "y": 43,
+        "t": 6058
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761724205,
+    "trial_duration_actual": 6552
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "12_high_calorie",
+    "image_position": "left",
+    "original_index": 12,
+    "image_src": "f/12.jpg",
+    "trial_index": 70,
+    "total_trials": 20,
+    "trial_start_time": 1757761727421,
+    "gaze_data": [
+      {
+        "timestamp": 1757761728228,
+        "trial_start_time": 1757761727421,
+        "relative_time": 807,
+        "x": 804.2125420090991,
+        "y": 25.54221852992245,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761728782,
+        "trial_start_time": 1757761727421,
+        "relative_time": 1361,
+        "x": 894.4399348276796,
+        "y": 7.619641339947364,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761729383,
+        "trial_start_time": 1757761727421,
+        "relative_time": 1962,
+        "x": 871.6023045260697,
+        "y": 8.341656957652864,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761729898,
+        "trial_start_time": 1757761727421,
+        "relative_time": 2477,
+        "x": 977.7042291193756,
+        "y": 127.27894081223658,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761730424,
+        "trial_start_time": 1757761727421,
+        "relative_time": 3003,
+        "x": 989.4453293423369,
+        "y": 147.1474452888004,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761730931,
+        "trial_start_time": 1757761727421,
+        "relative_time": 3510,
+        "x": 870.5827475967346,
+        "y": 139.75511281472185,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761731559,
+        "trial_start_time": 1757761727421,
+        "relative_time": 4138,
+        "x": 986.4965152601802,
+        "y": 101.17965407663311,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761732068,
+        "trial_start_time": 1757761727421,
+        "relative_time": 4647,
+        "x": 751.4273385450058,
+        "y": 180.1190058560697,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761732592,
+        "trial_start_time": 1757761727421,
+        "relative_time": 5171,
+        "x": 842.1363463148381,
+        "y": 250.145051185459,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761733075,
+        "trial_start_time": 1757761727421,
+        "relative_time": 5654,
+        "x": 935.6187530362673,
+        "y": 115.67248624965744,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761733573,
+        "trial_start_time": 1757761727421,
+        "relative_time": 6152,
+        "x": 1097.477618873618,
+        "y": 264.20907699379467,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761734087,
+        "trial_start_time": 1757761727421,
+        "relative_time": 6666,
+        "x": 1250.5891519869176,
+        "y": 278.7917166835407,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -40,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 40
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/12.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 268176,
+    "webgazer_data": [
+      {
+        "x": 794,
+        "y": 92,
+        "t": 6
+      },
+      {
+        "x": 859,
+        "y": -6,
+        "t": 808
+      },
+      {
+        "x": 916,
+        "y": 38,
+        "t": 1364
+      },
+      {
+        "x": 932,
+        "y": 56,
+        "t": 1964
+      },
+      {
+        "x": 1005,
+        "y": 125,
+        "t": 2478
+      },
+      {
+        "x": 998,
+        "y": 224,
+        "t": 3004
+      },
+      {
+        "x": 923,
+        "y": 76,
+        "t": 3510
+      },
+      {
+        "x": 916,
+        "y": 118,
+        "t": 4138
+      },
+      {
+        "x": 785,
+        "y": 167,
+        "t": 4650
+      },
+      {
+        "x": 857,
+        "y": 179,
+        "t": 5171
+      },
+      {
+        "x": 1030,
+        "y": 190,
+        "t": 5654
+      },
+      {
+        "x": 1184,
+        "y": 280,
+        "t": 6155
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761734087,
+    "trial_duration_actual": 6666
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "5_low_calorie",
+    "image_position": "left",
+    "original_index": 5,
+    "image_src": "f/5.jpg",
+    "trial_index": 73,
+    "total_trials": 20,
+    "trial_start_time": 1757761737099,
+    "gaze_data": [
+      {
+        "timestamp": 1757761737619,
+        "trial_start_time": 1757761737099,
+        "relative_time": 520,
+        "x": 1326.4432088833269,
+        "y": 495.195781014655,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761738107,
+        "trial_start_time": 1757761737099,
+        "relative_time": 1008,
+        "x": 1337.2659809521845,
+        "y": 424.0508697684695,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761738608,
+        "trial_start_time": 1757761737099,
+        "relative_time": 1509,
+        "x": 1279.520658511448,
+        "y": 321.19781794479115,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761739146,
+        "trial_start_time": 1757761737099,
+        "relative_time": 2047,
+        "x": 1318.5173736164002,
+        "y": 480.020953701124,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761739697,
+        "trial_start_time": 1757761737099,
+        "relative_time": 2598,
+        "x": 1378.390886185183,
+        "y": 570.7341984774622,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761740225,
+        "trial_start_time": 1757761737099,
+        "relative_time": 3126,
+        "x": 1324.6348283390912,
+        "y": 618.4641992030189,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761740743,
+        "trial_start_time": 1757761737099,
+        "relative_time": 3644,
+        "x": 1350.7508285087354,
+        "y": 723.5367457845358,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761741315,
+        "trial_start_time": 1757761737099,
+        "relative_time": 4216,
+        "x": 1402.9142967133466,
+        "y": 746.192233927638,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761741883,
+        "trial_start_time": 1757761737099,
+        "relative_time": 4784,
+        "x": 1388.8435404337567,
+        "y": 736.5433158097438,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761742462,
+        "trial_start_time": 1757761737099,
+        "relative_time": 5363,
+        "x": 1378.9455745976463,
+        "y": 681.0266926554222,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761743108,
+        "trial_start_time": 1757761737099,
+        "relative_time": 6009,
+        "x": 1203.8552403969377,
+        "y": 618.4131657737154,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761743701,
+        "trial_start_time": 1757761737099,
+        "relative_time": 6602,
+        "x": 1227.670863169763,
+        "y": 535.9696611473076,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/5.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 277791,
+    "webgazer_data": [
+      {
+        "x": 1287,
+        "y": 384,
+        "t": 1
+      },
+      {
+        "x": 1344,
+        "y": 497,
+        "t": 522
+      },
+      {
+        "x": 1332,
+        "y": 370,
+        "t": 1009
+      },
+      {
+        "x": 1346,
+        "y": 408,
+        "t": 1510
+      },
+      {
+        "x": 1333,
+        "y": 483,
+        "t": 2051
+      },
+      {
+        "x": 1345,
+        "y": 600,
+        "t": 2600
+      },
+      {
+        "x": 1325,
+        "y": 682,
+        "t": 3127
+      },
+      {
+        "x": 1379,
+        "y": 737,
+        "t": 3646
+      },
+      {
+        "x": 1402,
+        "y": 722,
+        "t": 4218
+      },
+      {
+        "x": 1387,
+        "y": 762,
+        "t": 4785
+      },
+      {
+        "x": 1282,
+        "y": 676,
+        "t": 5366
+      },
+      {
+        "x": 1182,
+        "y": 589,
+        "t": 6011
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761743702,
+    "trial_duration_actual": 6603
+  },
+  {
+    "task": "view",
+    "phase": "food",
+    "block": "food_presentation",
+    "image_type": "food",
+    "image_attribute": "13_high_calorie",
+    "image_position": "left",
+    "original_index": 13,
+    "image_src": "f/13.jpg",
+    "trial_index": 76,
+    "total_trials": 20,
+    "trial_start_time": 1757761746715,
+    "gaze_data": [
+      {
+        "timestamp": 1757761747224,
+        "trial_start_time": 1757761746715,
+        "relative_time": 509,
+        "x": 1205.7627552050342,
+        "y": 470.48350581249326,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761747720,
+        "trial_start_time": 1757761746715,
+        "relative_time": 1005,
+        "x": 1229.9482219993135,
+        "y": 463.09874775236455,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761748204,
+        "trial_start_time": 1757761746715,
+        "relative_time": 1489,
+        "x": 1282.867554073915,
+        "y": 522.5389502572395,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761748704,
+        "trial_start_time": 1757761746715,
+        "relative_time": 1989,
+        "x": 1274.9228854235812,
+        "y": 476.3234236471867,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761749231,
+        "trial_start_time": 1757761746715,
+        "relative_time": 2516,
+        "x": 1342.0470008240318,
+        "y": 418.29707817602986,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761749718,
+        "trial_start_time": 1757761746715,
+        "relative_time": 3003,
+        "x": 1308.6140074806492,
+        "y": 321.3531403523803,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761750269,
+        "trial_start_time": 1757761746715,
+        "relative_time": 3554,
+        "x": 1253.2783512886729,
+        "y": 327.1709664273117,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761750795,
+        "trial_start_time": 1757761746715,
+        "relative_time": 4080,
+        "x": 1225.0847308620673,
+        "y": 403.0507228224955,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761751330,
+        "trial_start_time": 1757761746715,
+        "relative_time": 4615,
+        "x": 1175.8752555590338,
+        "y": 394.2286726228367,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761751839,
+        "trial_start_time": 1757761746715,
+        "relative_time": 5124,
+        "x": 1158.685638518247,
+        "y": 532.8759378126895,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761752341,
+        "trial_start_time": 1757761746715,
+        "relative_time": 5626,
+        "x": 1179.4931496803445,
+        "y": 564.9731501778301,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761752851,
+        "trial_start_time": 1757761746715,
+        "relative_time": 6136,
+        "x": 1230.5582540093712,
+        "y": 439.2632679858299,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761753362,
+        "trial_start_time": 1757761746715,
+        "relative_time": 6647,
+        "x": 1177.215639283076,
+        "y": 391.3801499100105,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"f/13.jpg\" class=\"stimulus-image\" alt=\"食物对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 287451,
+    "webgazer_data": [
+      {
+        "x": 1228,
+        "y": 467,
+        "t": 3
+      },
+      {
+        "x": 1201,
+        "y": 489,
+        "t": 509
+      },
+      {
+        "x": 1266,
+        "y": 486,
+        "t": 1005
+      },
+      {
+        "x": 1290,
+        "y": 484,
+        "t": 1490
+      },
+      {
+        "x": 1304,
+        "y": 471,
+        "t": 1989
+      },
+      {
+        "x": 1335,
+        "y": 355,
+        "t": 2517
+      },
+      {
+        "x": 1253,
+        "y": 285,
+        "t": 3004
+      },
+      {
+        "x": 1242,
+        "y": 333,
+        "t": 3554
+      },
+      {
+        "x": 1200,
+        "y": 352,
+        "t": 4081
+      },
+      {
+        "x": 1174,
+        "y": 471,
+        "t": 4616
+      },
+      {
+        "x": 1183,
+        "y": 589,
+        "t": 5124
+      },
+      {
+        "x": 1220,
+        "y": 449,
+        "t": 5627
+      },
+      {
+        "x": 1227,
+        "y": 355,
+        "t": 6137
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 95,
+        "y": 176.90625,
+        "width": 760,
+        "height": 662.1875,
+        "top": 176.90625,
+        "right": 855,
+        "bottom": 839.09375,
+        "left": 95
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761753363,
+    "trial_duration_actual": 6648
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "13_thin",
+    "image_position": "left",
+    "original_index": 13,
+    "image_src": "b/13.jpg",
+    "trial_index": 88,
+    "total_trials": 25,
+    "trial_start_time": 1757761844016,
+    "gaze_data": [
+      {
+        "timestamp": 1757761844549,
+        "trial_start_time": 1757761844016,
+        "relative_time": 533,
+        "x": 1424.7358853232506,
+        "y": 617.3716739242087,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761845113,
+        "trial_start_time": 1757761844016,
+        "relative_time": 1097,
+        "x": 1521.8032026556516,
+        "y": 683.6406344913534,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761845684,
+        "trial_start_time": 1757761844016,
+        "relative_time": 1668,
+        "x": 1386.0987257899653,
+        "y": 638.8008106970138,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761846674,
+        "trial_start_time": 1757761844016,
+        "relative_time": 2658,
+        "x": 1206.8971119831328,
+        "y": 562.3386455414703,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761847663,
+        "trial_start_time": 1757761844016,
+        "relative_time": 3647,
+        "x": 1145.2219571927885,
+        "y": 565.2160916951711,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761848324,
+        "trial_start_time": 1757761844016,
+        "relative_time": 4308,
+        "x": 1009.3186914599287,
+        "y": 441.70777302838366,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761848951,
+        "trial_start_time": 1757761844016,
+        "relative_time": 4935,
+        "x": 1145.491991267241,
+        "y": 437.7143380993092,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761850001,
+        "trial_start_time": 1757761844016,
+        "relative_time": 5985,
+        "x": 1162.2895220000305,
+        "y": 330.3492209193174,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761851010,
+        "trial_start_time": 1757761844016,
+        "relative_time": 6994,
+        "x": 1298.5174210827672,
+        "y": 356.9134108608414,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 80,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 80
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/13.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 385099,
+    "webgazer_data": [
+      {
+        "x": 1387,
+        "y": 535,
+        "t": 2
+      },
+      {
+        "x": 1467,
+        "y": 669,
+        "t": 534
+      },
+      {
+        "x": 1473,
+        "y": 626,
+        "t": 1098
+      },
+      {
+        "x": 1316,
+        "y": 579,
+        "t": 1669
+      },
+      {
+        "x": 1172,
+        "y": 585,
+        "t": 2659
+      },
+      {
+        "x": 1112,
+        "y": 556,
+        "t": 3648
+      },
+      {
+        "x": 1050,
+        "y": 456,
+        "t": 4325
+      },
+      {
+        "x": 1164,
+        "y": 415,
+        "t": 5334
+      },
+      {
+        "x": 1242,
+        "y": 306,
+        "t": 6327
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761851010,
+    "trial_duration_actual": 6994
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "25_thin",
+    "image_position": "left",
+    "original_index": 25,
+    "image_src": "b/25.jpg",
+    "trial_index": 91,
+    "total_trials": 25,
+    "trial_start_time": 1757761855339,
+    "gaze_data": [
+      {
+        "timestamp": 1757761856654,
+        "trial_start_time": 1757761855339,
+        "relative_time": 1315,
+        "x": 1233.0408911205784,
+        "y": 465.16205573567544,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761857660,
+        "trial_start_time": 1757761855339,
+        "relative_time": 2321,
+        "x": 1303.136284293188,
+        "y": 470.31685067248753,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761858651,
+        "trial_start_time": 1757761855339,
+        "relative_time": 3312,
+        "x": 1245.0833648007217,
+        "y": 458.40178177887594,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761859659,
+        "trial_start_time": 1757761855339,
+        "relative_time": 4320,
+        "x": 1418.647950641555,
+        "y": 413.2912508458891,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761860622,
+        "trial_start_time": 1757761855339,
+        "relative_time": 5283,
+        "x": 1349.7616599664657,
+        "y": 419.8616506196638,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761861647,
+        "trial_start_time": 1757761855339,
+        "relative_time": 6308,
+        "x": 1360.3185188690275,
+        "y": 435.6029954046795,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761862229,
+        "trial_start_time": 1757761855339,
+        "relative_time": 6890,
+        "x": 1497.0256037709316,
+        "y": 485.0247306528339,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/25.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 396429,
+    "webgazer_data": [
+      {
+        "x": 1150,
+        "y": 408,
+        "t": 1
+      },
+      {
+        "x": 1184,
+        "y": 419,
+        "t": 1316
+      },
+      {
+        "x": 1328,
+        "y": 460,
+        "t": 2322
+      },
+      {
+        "x": 1250,
+        "y": 418,
+        "t": 3312
+      },
+      {
+        "x": 1379,
+        "y": 414,
+        "t": 4321
+      },
+      {
+        "x": 1431,
+        "y": 454,
+        "t": 5284
+      },
+      {
+        "x": 1466,
+        "y": 438,
+        "t": 6309
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761862340,
+    "trial_duration_actual": 7001
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "11_fat",
+    "image_position": "left",
+    "original_index": 11,
+    "image_src": "b/11.jpg",
+    "trial_index": 94,
+    "total_trials": 25,
+    "trial_start_time": 1757761867339,
+    "gaze_data": [
+      {
+        "timestamp": 1757761868647,
+        "trial_start_time": 1757761867339,
+        "relative_time": 1308,
+        "x": 1748.8822374209449,
+        "y": 588.2113066985701,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761869639,
+        "trial_start_time": 1757761867339,
+        "relative_time": 2300,
+        "x": 1928.8028012964724,
+        "y": 471.7148896063841,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761870649,
+        "trial_start_time": 1757761867339,
+        "relative_time": 3310,
+        "x": 1837.8743295763127,
+        "y": 412.3623867244048,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761871626,
+        "trial_start_time": 1757761867339,
+        "relative_time": 4287,
+        "x": 1784.8249319514848,
+        "y": 472.0608879266071,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761872730,
+        "trial_start_time": 1757761867339,
+        "relative_time": 5391,
+        "x": 1664.1973868331984,
+        "y": 470.836442719453,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761873287,
+        "trial_start_time": 1757761867339,
+        "relative_time": 5948,
+        "x": 998.9443608926164,
+        "y": 360.43596961775046,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761873873,
+        "trial_start_time": 1757761867339,
+        "relative_time": 6534,
+        "x": 940.9086562679114,
+        "y": 390.68424582504304,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 20,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/11.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 408228,
+    "webgazer_data": [
+      {
+        "x": 1541,
+        "y": 569,
+        "t": 2
+      },
+      {
+        "x": 1860,
+        "y": 545,
+        "t": 1310
+      },
+      {
+        "x": 1910,
+        "y": 450,
+        "t": 2301
+      },
+      {
+        "x": 1778,
+        "y": 439,
+        "t": 3311
+      },
+      {
+        "x": 1773,
+        "y": 472,
+        "t": 4289
+      },
+      {
+        "x": 1263,
+        "y": 396,
+        "t": 5398
+      },
+      {
+        "x": 880,
+        "y": 371,
+        "t": 5949
+      },
+      {
+        "x": 827,
+        "y": 426,
+        "t": 6535
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761874139,
+    "trial_duration_actual": 6800
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "24_thin",
+    "image_position": "left",
+    "original_index": 24,
+    "image_src": "b/24.jpg",
+    "trial_index": 97,
+    "total_trials": 25,
+    "trial_start_time": 1757761876953,
+    "gaze_data": [
+      {
+        "timestamp": 1757761877540,
+        "trial_start_time": 1757761876953,
+        "relative_time": 587,
+        "x": 866.3093546494713,
+        "y": 360.9227276936749,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761878113,
+        "trial_start_time": 1757761876953,
+        "relative_time": 1160,
+        "x": 1214.5587798164254,
+        "y": 404.3248176681477,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761878863,
+        "trial_start_time": 1757761876953,
+        "relative_time": 1910,
+        "x": 1267.0272354352458,
+        "y": 391.96166160040343,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761880586,
+        "trial_start_time": 1757761876953,
+        "relative_time": 3633,
+        "x": 1199.7248576991828,
+        "y": 340.868868358284,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761881768,
+        "trial_start_time": 1757761876953,
+        "relative_time": 4815,
+        "x": 1331.4182661338054,
+        "y": 281.28994387658196,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761882988,
+        "trial_start_time": 1757761876953,
+        "relative_time": 6035,
+        "x": 1262.4378640728237,
+        "y": 238.0745126585657,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761884196,
+        "trial_start_time": 1757761876953,
+        "relative_time": 7243,
+        "x": 1043.9097859105389,
+        "y": 241.32933235760507,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": -1,
+      "regressionCount": 0,
+      "leftDwellTime": 20,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/24.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 418285,
+    "webgazer_data": [
+      {
+        "x": 764,
+        "y": 362,
+        "t": 1
+      },
+      {
+        "x": 1057,
+        "y": 406,
+        "t": 588
+      },
+      {
+        "x": 1233,
+        "y": 448,
+        "t": 1396
+      },
+      {
+        "x": 1161,
+        "y": 395,
+        "t": 2387
+      },
+      {
+        "x": 1241,
+        "y": 306,
+        "t": 3635
+      },
+      {
+        "x": 1244,
+        "y": 253,
+        "t": 4816
+      },
+      {
+        "x": 1255,
+        "y": 277,
+        "t": 6036
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761884196,
+    "trial_duration_actual": 7243
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "18_thin",
+    "image_position": "left",
+    "original_index": 18,
+    "image_src": "b/18.jpg",
+    "trial_index": 100,
+    "total_trials": 25,
+    "trial_start_time": 1757761887359,
+    "gaze_data": [
+      {
+        "timestamp": 1757761888986,
+        "trial_start_time": 1757761887359,
+        "relative_time": 1627,
+        "x": 1088.1555954461896,
+        "y": 344.281866159176,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761890147,
+        "trial_start_time": 1757761887359,
+        "relative_time": 2788,
+        "x": 1082.5527213876048,
+        "y": 374.02889702520173,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761891349,
+        "trial_start_time": 1757761887359,
+        "relative_time": 3990,
+        "x": 822.3394580477204,
+        "y": 258.6903196130693,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761892516,
+        "trial_start_time": 1757761887359,
+        "relative_time": 5157,
+        "x": 755.9592585965822,
+        "y": 245.52211836861545,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761893694,
+        "trial_start_time": 1757761887359,
+        "relative_time": 6335,
+        "x": 980.1987444065951,
+        "y": 243.7924393263202,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761894889,
+        "trial_start_time": 1757761887359,
+        "relative_time": 7530,
+        "x": 993.9533887478759,
+        "y": 307.26456371713374,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 40,
+      "firstFixation": 1,
+      "regressionCount": 0,
+      "leftDwellTime": 40,
+      "rightDwellTime": 80
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/18.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 428979,
+    "webgazer_data": [
+      {
+        "x": 1141,
+        "y": 320,
+        "t": 1
+      },
+      {
+        "x": 1045,
+        "y": 374,
+        "t": 1627
+      },
+      {
+        "x": 893,
+        "y": 332,
+        "t": 2789
+      },
+      {
+        "x": 773,
+        "y": 244,
+        "t": 3990
+      },
+      {
+        "x": 908,
+        "y": 290,
+        "t": 5158
+      },
+      {
+        "x": 902,
+        "y": 264,
+        "t": 6337
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761894890,
+    "trial_duration_actual": 7531
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "4_fat",
+    "image_position": "left",
+    "original_index": 4,
+    "image_src": "b/4.jpg",
+    "trial_index": 103,
+    "total_trials": 25,
+    "trial_start_time": 1757761899337,
+    "gaze_data": [
+      {
+        "timestamp": 1757761900933,
+        "trial_start_time": 1757761899337,
+        "relative_time": 1596,
+        "x": 964.0757784865705,
+        "y": 237.67435768159717,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761902108,
+        "trial_start_time": 1757761899337,
+        "relative_time": 2771,
+        "x": 1093.0197116057705,
+        "y": 278.5757915143239,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761903307,
+        "trial_start_time": 1757761899337,
+        "relative_time": 3970,
+        "x": 779.569397414132,
+        "y": 176.67694686648284,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761904465,
+        "trial_start_time": 1757761899337,
+        "relative_time": 5128,
+        "x": 798.1279558426961,
+        "y": 231.82411513212128,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761905626,
+        "trial_start_time": 1757761899337,
+        "relative_time": 6289,
+        "x": 946.5688813246446,
+        "y": 170.98852801713008,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761906807,
+        "trial_start_time": 1757761899337,
+        "relative_time": 7470,
+        "x": 796.1004754165526,
+        "y": 182.5147711476703,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": -1,
+      "regressionCount": 0,
+      "leftDwellTime": 40,
+      "rightDwellTime": 40
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/4.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 440896,
+    "webgazer_data": [
+      {
+        "x": 1050,
+        "y": 289,
+        "t": 1
+      },
+      {
+        "x": 1024,
+        "y": 261,
+        "t": 1597
+      },
+      {
+        "x": 1059,
+        "y": 293,
+        "t": 2771
+      },
+      {
+        "x": 820,
+        "y": 253,
+        "t": 3972
+      },
+      {
+        "x": 832,
+        "y": 197,
+        "t": 5129
+      },
+      {
+        "x": 952,
+        "y": 215,
+        "t": 6290
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761906807,
+    "trial_duration_actual": 7470
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "22_thin",
+    "image_position": "left",
+    "original_index": 22,
+    "image_src": "b/22.jpg",
+    "trial_index": 106,
+    "total_trials": 25,
+    "trial_start_time": 1757761911346,
+    "gaze_data": [
+      {
+        "timestamp": 1757761912939,
+        "trial_start_time": 1757761911346,
+        "relative_time": 1593,
+        "x": 935.8042786090015,
+        "y": 272.98414949335927,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761914161,
+        "trial_start_time": 1757761911346,
+        "relative_time": 2815,
+        "x": 1164.6507369464152,
+        "y": 339.4084450581164,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761915419,
+        "trial_start_time": 1757761911346,
+        "relative_time": 4073,
+        "x": 1219.7486986283072,
+        "y": 290.2526208751793,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761916703,
+        "trial_start_time": 1757761911346,
+        "relative_time": 5357,
+        "x": 1355.0088234563682,
+        "y": 350.5638999137701,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761917915,
+        "trial_start_time": 1757761911346,
+        "relative_time": 6569,
+        "x": 1262.4597083860158,
+        "y": 415.91499388286064,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761919167,
+        "trial_start_time": 1757761911346,
+        "relative_time": 7821,
+        "x": 1203.802190348888,
+        "y": 526.405439302416,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -20,
+      "firstFixation": -1,
+      "regressionCount": 0,
+      "leftDwellTime": 20,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/22.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 453257,
+    "webgazer_data": [
+      {
+        "x": 916,
+        "y": 280,
+        "t": 2
+      },
+      {
+        "x": 1110,
+        "y": 358,
+        "t": 1593
+      },
+      {
+        "x": 1291,
+        "y": 274,
+        "t": 2815
+      },
+      {
+        "x": 1285,
+        "y": 310,
+        "t": 4073
+      },
+      {
+        "x": 1346,
+        "y": 395,
+        "t": 5358
+      },
+      {
+        "x": 1247,
+        "y": 520,
+        "t": 6570
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761919168,
+    "trial_duration_actual": 7822
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "6_fat",
+    "image_position": "left",
+    "original_index": 6,
+    "image_src": "b/6.jpg",
+    "trial_index": 109,
+    "total_trials": 25,
+    "trial_start_time": 1757761922179,
+    "gaze_data": [
+      {
+        "timestamp": 1757761922803,
+        "trial_start_time": 1757761922179,
+        "relative_time": 624,
+        "x": 683.7671827140423,
+        "y": 482.57510557976775,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761923339,
+        "trial_start_time": 1757761922179,
+        "relative_time": 1160,
+        "x": 300.920601620091,
+        "y": 434.42868321938033,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761923855,
+        "trial_start_time": 1757761922179,
+        "relative_time": 1676,
+        "x": 494.413339983912,
+        "y": 408.7186736573674,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761924422,
+        "trial_start_time": 1757761922179,
+        "relative_time": 2243,
+        "x": 398.64976508938537,
+        "y": 417.185843366394,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761924935,
+        "trial_start_time": 1757761922179,
+        "relative_time": 2756,
+        "x": 635.7527785457125,
+        "y": 444.30469871800915,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761925456,
+        "trial_start_time": 1757761922179,
+        "relative_time": 3277,
+        "x": 709.1861706489306,
+        "y": 357.49919520881656,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761926001,
+        "trial_start_time": 1757761922179,
+        "relative_time": 3822,
+        "x": 301.29295763298774,
+        "y": 178.41237468433928,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761926530,
+        "trial_start_time": 1757761922179,
+        "relative_time": 4351,
+        "x": 555.1370575480767,
+        "y": 78.50128228971951,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761927080,
+        "trial_start_time": 1757761922179,
+        "relative_time": 4901,
+        "x": 885.7828205262842,
+        "y": 54.98948786071864,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761927930,
+        "trial_start_time": 1757761922179,
+        "relative_time": 5751,
+        "x": 909.3467887833672,
+        "y": 132.57529608967928,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761928881,
+        "trial_start_time": 1757761922179,
+        "relative_time": 6702,
+        "x": 781.7774125388586,
+        "y": 78.89788966661465,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/6.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 462971,
+    "webgazer_data": [
+      {
+        "x": 803,
+        "y": 525,
+        "t": 3
+      },
+      {
+        "x": 408,
+        "y": 396,
+        "t": 624
+      },
+      {
+        "x": 436,
+        "y": 452,
+        "t": 1160
+      },
+      {
+        "x": 600,
+        "y": 434,
+        "t": 1676
+      },
+      {
+        "x": 408,
+        "y": 411,
+        "t": 2243
+      },
+      {
+        "x": 702,
+        "y": 468,
+        "t": 2758
+      },
+      {
+        "x": 332,
+        "y": 224,
+        "t": 3278
+      },
+      {
+        "x": 472,
+        "y": 124,
+        "t": 3822
+      },
+      {
+        "x": 760,
+        "y": 71,
+        "t": 4356
+      },
+      {
+        "x": 886,
+        "y": 79,
+        "t": 5160
+      },
+      {
+        "x": 853,
+        "y": 138,
+        "t": 6164
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761928882,
+    "trial_duration_actual": 6703
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "14_thin",
+    "image_position": "left",
+    "original_index": 14,
+    "image_src": "b/14.jpg",
+    "trial_index": 112,
+    "total_trials": 25,
+    "trial_start_time": 1757761933344,
+    "gaze_data": [
+      {
+        "timestamp": 1757761934663,
+        "trial_start_time": 1757761933344,
+        "relative_time": 1319,
+        "x": 993.3299734330812,
+        "y": 305.3283255572469,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761935198,
+        "trial_start_time": 1757761933344,
+        "relative_time": 1854,
+        "x": 753.2439353479679,
+        "y": 211.07617117031492,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761935876,
+        "trial_start_time": 1757761933344,
+        "relative_time": 2532,
+        "x": 551.1388917289487,
+        "y": 41.146499610802834,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761936897,
+        "trial_start_time": 1757761933344,
+        "relative_time": 3553,
+        "x": 496.9748864003043,
+        "y": 56.62191322885913,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761937874,
+        "trial_start_time": 1757761933344,
+        "relative_time": 4530,
+        "x": 446.05086044635044,
+        "y": -104.01709371885488,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761938849,
+        "trial_start_time": 1757761933344,
+        "relative_time": 5505,
+        "x": 704.083030304428,
+        "y": 82.715550690965,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761939856,
+        "trial_start_time": 1757761933344,
+        "relative_time": 6512,
+        "x": 860.2860984611661,
+        "y": 242.05418426436478,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -20,
+      "firstFixation": 1,
+      "regressionCount": 0,
+      "leftDwellTime": 40,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/14.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 473945,
+    "webgazer_data": [
+      {
+        "x": 896,
+        "y": 242,
+        "t": 2
+      },
+      {
+        "x": 885,
+        "y": 227,
+        "t": 1326
+      },
+      {
+        "x": 621,
+        "y": 100,
+        "t": 1999
+      },
+      {
+        "x": 397,
+        "y": 100,
+        "t": 3007
+      },
+      {
+        "x": 510,
+        "y": -9,
+        "t": 4001
+      },
+      {
+        "x": 570,
+        "y": -30,
+        "t": 4994
+      },
+      {
+        "x": 746,
+        "y": 127,
+        "t": 6001
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761939856,
+    "trial_duration_actual": 6512
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "9_fat",
+    "image_position": "left",
+    "original_index": 9,
+    "image_src": "b/9.jpg",
+    "trial_index": 115,
+    "total_trials": 25,
+    "trial_start_time": 1757761943336,
+    "gaze_data": [
+      {
+        "timestamp": 1757761944618,
+        "trial_start_time": 1757761943336,
+        "relative_time": 1282,
+        "x": 813.5485336850952,
+        "y": 88.08337559900153,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761945587,
+        "trial_start_time": 1757761943336,
+        "relative_time": 2251,
+        "x": 711.5899753217678,
+        "y": 63.22302470624629,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761946601,
+        "trial_start_time": 1757761943336,
+        "relative_time": 3265,
+        "x": 753.1039979527031,
+        "y": 125.55229894947594,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761947594,
+        "trial_start_time": 1757761943336,
+        "relative_time": 4258,
+        "x": 1005.1428706378204,
+        "y": 210.55555876948372,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761948594,
+        "trial_start_time": 1757761943336,
+        "relative_time": 5258,
+        "x": 1048.4817285836932,
+        "y": 374.46238382192786,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761949610,
+        "trial_start_time": 1757761943336,
+        "relative_time": 6274,
+        "x": 1311.2594577177745,
+        "y": 470.612982525298,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761950109,
+        "trial_start_time": 1757761943336,
+        "relative_time": 6773,
+        "x": 1353.426348982289,
+        "y": 494.4498549858084,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -40,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 40
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/9.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 484198,
+    "webgazer_data": [
+      {
+        "x": 935,
+        "y": 125,
+        "t": 1
+      },
+      {
+        "x": 742,
+        "y": 38,
+        "t": 1282
+      },
+      {
+        "x": 516,
+        "y": 6,
+        "t": 2251
+      },
+      {
+        "x": 820,
+        "y": 97,
+        "t": 3265
+      },
+      {
+        "x": 1097,
+        "y": 293,
+        "t": 4258
+      },
+      {
+        "x": 1218,
+        "y": 462,
+        "t": 5259
+      },
+      {
+        "x": 1409,
+        "y": 487,
+        "t": 6274
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761950109,
+    "trial_duration_actual": 6773
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "15_thin",
+    "image_position": "left",
+    "original_index": 15,
+    "image_src": "b/15.jpg",
+    "trial_index": 118,
+    "total_trials": 25,
+    "trial_start_time": 1757761953363,
+    "gaze_data": [
+      {
+        "timestamp": 1757761953919,
+        "trial_start_time": 1757761953363,
+        "relative_time": 556,
+        "x": 928.7092741569234,
+        "y": 571.1849365279347,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761954533,
+        "trial_start_time": 1757761953363,
+        "relative_time": 1170,
+        "x": 835.5064051477323,
+        "y": 723.0466378210522,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761955061,
+        "trial_start_time": 1757761953363,
+        "relative_time": 1698,
+        "x": 682.6160566288754,
+        "y": 795.5649375458925,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761955660,
+        "trial_start_time": 1757761953363,
+        "relative_time": 2297,
+        "x": 779.7299087651797,
+        "y": 952.7558976555343,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761956185,
+        "trial_start_time": 1757761953363,
+        "relative_time": 2822,
+        "x": 955.5059063616527,
+        "y": 956.2276496464681,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761956753,
+        "trial_start_time": 1757761953363,
+        "relative_time": 3390,
+        "x": 1105.5935767769065,
+        "y": 872.0319447137401,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761957275,
+        "trial_start_time": 1757761953363,
+        "relative_time": 3912,
+        "x": 1215.6184982013963,
+        "y": 858.3444052516642,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761957805,
+        "trial_start_time": 1757761953363,
+        "relative_time": 4442,
+        "x": 1251.0708814319546,
+        "y": 847.7543821370833,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761958332,
+        "trial_start_time": 1757761953363,
+        "relative_time": 4969,
+        "x": 757.6554912781269,
+        "y": 778.5462678301551,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761958885,
+        "trial_start_time": 1757761953363,
+        "relative_time": 5522,
+        "x": 727.5004873453673,
+        "y": 640.826255897488,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761959386,
+        "trial_start_time": 1757761953363,
+        "relative_time": 6023,
+        "x": 566.0221278161981,
+        "y": 561.5082603395533,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761959939,
+        "trial_start_time": 1757761953363,
+        "relative_time": 6576,
+        "x": 494.69648782937395,
+        "y": 352.89939193771875,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -60,
+      "firstFixation": -1,
+      "regressionCount": 0,
+      "leftDwellTime": 60,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/15.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 494028,
+    "webgazer_data": [
+      {
+        "x": 1141,
+        "y": 543,
+        "t": 1
+      },
+      {
+        "x": 851,
+        "y": 624,
+        "t": 557
+      },
+      {
+        "x": 644,
+        "y": 725,
+        "t": 1172
+      },
+      {
+        "x": 704,
+        "y": 875,
+        "t": 1699
+      },
+      {
+        "x": 910,
+        "y": 991,
+        "t": 2299
+      },
+      {
+        "x": 1029,
+        "y": 970,
+        "t": 2828
+      },
+      {
+        "x": 1154,
+        "y": 885,
+        "t": 3391
+      },
+      {
+        "x": 1204,
+        "y": 849,
+        "t": 3913
+      },
+      {
+        "x": 1001,
+        "y": 825,
+        "t": 4444
+      },
+      {
+        "x": 669,
+        "y": 712,
+        "t": 4970
+      },
+      {
+        "x": 697,
+        "y": 615,
+        "t": 5523
+      },
+      {
+        "x": 641,
+        "y": 498,
+        "t": 6025
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761959939,
+    "trial_duration_actual": 6576
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "1_fat",
+    "image_position": "left",
+    "original_index": 1,
+    "image_src": "b/1.jpg",
+    "trial_index": 121,
+    "total_trials": 25,
+    "trial_start_time": 1757761963149,
+    "gaze_data": [
+      {
+        "timestamp": 1757761963683,
+        "trial_start_time": 1757761963149,
+        "relative_time": 534,
+        "x": 735.1221291934717,
+        "y": 343.19283418012947,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761964218,
+        "trial_start_time": 1757761963149,
+        "relative_time": 1069,
+        "x": 706.3935820742154,
+        "y": 375.46207053833393,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761964831,
+        "trial_start_time": 1757761963149,
+        "relative_time": 1682,
+        "x": 1119.9568051523793,
+        "y": 358.195407709368,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761965658,
+        "trial_start_time": 1757761963149,
+        "relative_time": 2509,
+        "x": 1507.9674805138156,
+        "y": 360.5864707961147,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761966546,
+        "trial_start_time": 1757761963149,
+        "relative_time": 3397,
+        "x": 1771.4119337838695,
+        "y": 422.80288121402003,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761967126,
+        "trial_start_time": 1757761963149,
+        "relative_time": 3977,
+        "x": 1267.4379626185128,
+        "y": 401.2897295889755,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761967679,
+        "trial_start_time": 1757761963149,
+        "relative_time": 4530,
+        "x": 871.7889045988128,
+        "y": 440.1780110907908,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761968259,
+        "trial_start_time": 1757761963149,
+        "relative_time": 5110,
+        "x": 565.1489192603275,
+        "y": 519.861051684806,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761968797,
+        "trial_start_time": 1757761963149,
+        "relative_time": 5648,
+        "x": 323.6613361445377,
+        "y": 472.88943280442413,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761969332,
+        "trial_start_time": 1757761963149,
+        "relative_time": 6183,
+        "x": 156.99427392207713,
+        "y": 539.3802004319822,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761969873,
+        "trial_start_time": 1757761963149,
+        "relative_time": 6724,
+        "x": 453.1321840978268,
+        "y": 577.8674594899746,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 20,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/1.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 503962,
+    "webgazer_data": [
+      {
+        "x": 451,
+        "y": 323,
+        "t": 1
+      },
+      {
+        "x": 719,
+        "y": 293,
+        "t": 534
+      },
+      {
+        "x": 887,
+        "y": 361,
+        "t": 1071
+      },
+      {
+        "x": 1301,
+        "y": 353,
+        "t": 1683
+      },
+      {
+        "x": 1616,
+        "y": 402,
+        "t": 2510
+      },
+      {
+        "x": 1571,
+        "y": 408,
+        "t": 3405
+      },
+      {
+        "x": 1156,
+        "y": 478,
+        "t": 3978
+      },
+      {
+        "x": 671,
+        "y": 470,
+        "t": 4531
+      },
+      {
+        "x": 473,
+        "y": 515,
+        "t": 5112
+      },
+      {
+        "x": 179,
+        "y": 504,
+        "t": 5649
+      },
+      {
+        "x": 263,
+        "y": 487,
+        "t": 6184
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761969873,
+    "trial_duration_actual": 6724
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "20_thin",
+    "image_position": "left",
+    "original_index": 20,
+    "image_src": "b/20.jpg",
+    "trial_index": 124,
+    "total_trials": 25,
+    "trial_start_time": 1757761972882,
+    "gaze_data": [
+      {
+        "timestamp": 1757761973399,
+        "trial_start_time": 1757761972882,
+        "relative_time": 517,
+        "x": 382.67023135069473,
+        "y": 626.2812220299107,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761973936,
+        "trial_start_time": 1757761972882,
+        "relative_time": 1054,
+        "x": 121.69354120615523,
+        "y": 550.271983495415,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761974466,
+        "trial_start_time": 1757761972882,
+        "relative_time": 1584,
+        "x": 94.93726416694376,
+        "y": 442.0685577062021,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761974993,
+        "trial_start_time": 1757761972882,
+        "relative_time": 2111,
+        "x": 73.25971301282613,
+        "y": 370.1087136257667,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761975518,
+        "trial_start_time": 1757761972882,
+        "relative_time": 2636,
+        "x": 365.50764238457447,
+        "y": 400.8525400660148,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761976060,
+        "trial_start_time": 1757761972882,
+        "relative_time": 3178,
+        "x": 506.245581388455,
+        "y": 500.35921527216897,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761976595,
+        "trial_start_time": 1757761972882,
+        "relative_time": 3713,
+        "x": 1110.5492339028503,
+        "y": 479.2227416177434,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761977242,
+        "trial_start_time": 1757761972882,
+        "relative_time": 4360,
+        "x": 1455.2155299221374,
+        "y": 451.12775040180503,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761977987,
+        "trial_start_time": 1757761972882,
+        "relative_time": 5105,
+        "x": 1754.669219261139,
+        "y": 475.95634011698206,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761978678,
+        "trial_start_time": 1757761972882,
+        "relative_time": 5796,
+        "x": 1733.2961939458044,
+        "y": 499.10500899727253,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761979647,
+        "trial_start_time": 1757761972882,
+        "relative_time": 6765,
+        "x": 1517.0623876413447,
+        "y": 539.0192178453148,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 20,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/20.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 514036,
+    "webgazer_data": [
+      {
+        "x": 348,
+        "y": 597,
+        "t": 1
+      },
+      {
+        "x": 323,
+        "y": 572,
+        "t": 518
+      },
+      {
+        "x": 148,
+        "y": 525,
+        "t": 1055
+      },
+      {
+        "x": 16,
+        "y": 396,
+        "t": 1585
+      },
+      {
+        "x": 109,
+        "y": 350,
+        "t": 2112
+      },
+      {
+        "x": 458,
+        "y": 470,
+        "t": 2636
+      },
+      {
+        "x": 877,
+        "y": 533,
+        "t": 3178
+      },
+      {
+        "x": 1284,
+        "y": 500,
+        "t": 3719
+      },
+      {
+        "x": 1534,
+        "y": 453,
+        "t": 4458
+      },
+      {
+        "x": 1813,
+        "y": 444,
+        "t": 5105
+      },
+      {
+        "x": 1698,
+        "y": 528,
+        "t": 5796
+      },
+      {
+        "x": 1430,
+        "y": 481,
+        "t": 6766
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761979947,
+    "trial_duration_actual": 7065
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "7_fat",
+    "image_position": "left",
+    "original_index": 7,
+    "image_src": "b/7.jpg",
+    "trial_index": 127,
+    "total_trials": 25,
+    "trial_start_time": 1757761983355,
+    "gaze_data": [
+      {
+        "timestamp": 1757761984635,
+        "trial_start_time": 1757761983355,
+        "relative_time": 1280,
+        "x": 1180.5926901132564,
+        "y": 390.8345773476724,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761985227,
+        "trial_start_time": 1757761983355,
+        "relative_time": 1872,
+        "x": 1341.3412996002721,
+        "y": 415.54129717618366,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761985925,
+        "trial_start_time": 1757761983355,
+        "relative_time": 2570,
+        "x": 1266.637182043929,
+        "y": 378.62440678839414,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761986930,
+        "trial_start_time": 1757761983355,
+        "relative_time": 3575,
+        "x": 1422.661106271287,
+        "y": 390.1440507184187,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761987920,
+        "trial_start_time": 1757761983355,
+        "relative_time": 4565,
+        "x": 1387.1516246949725,
+        "y": 400.8334033414202,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761988930,
+        "trial_start_time": 1757761983355,
+        "relative_time": 5575,
+        "x": 1395.7837388188423,
+        "y": 428.4886421532701,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761989993,
+        "trial_start_time": 1757761983355,
+        "relative_time": 6638,
+        "x": 1571.944851589034,
+        "y": 495.32906243199966,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/7.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 524428,
+    "webgazer_data": [
+      {
+        "x": 1379,
+        "y": 439,
+        "t": 2
+      },
+      {
+        "x": 1287,
+        "y": 426,
+        "t": 1281
+      },
+      {
+        "x": 1392,
+        "y": 456,
+        "t": 1983
+      },
+      {
+        "x": 1402,
+        "y": 347,
+        "t": 2988
+      },
+      {
+        "x": 1532,
+        "y": 440,
+        "t": 3980
+      },
+      {
+        "x": 1452,
+        "y": 433,
+        "t": 4984
+      },
+      {
+        "x": 1508,
+        "y": 421,
+        "t": 5996
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757761990339,
+    "trial_duration_actual": 6984
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "12_thin",
+    "image_position": "left",
+    "original_index": 12,
+    "image_src": "b/12.jpg",
+    "trial_index": 130,
+    "total_trials": 25,
+    "trial_start_time": 1757761994343,
+    "gaze_data": [
+      {
+        "timestamp": 1757761995627,
+        "trial_start_time": 1757761994343,
+        "relative_time": 1284,
+        "x": 1559.75984127753,
+        "y": 469.34778953167097,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761996639,
+        "trial_start_time": 1757761994343,
+        "relative_time": 2296,
+        "x": 1513.7499895853632,
+        "y": 452.374580764069,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761997680,
+        "trial_start_time": 1757761994343,
+        "relative_time": 3337,
+        "x": 1511.6208859131355,
+        "y": 511.24529102365244,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761998630,
+        "trial_start_time": 1757761994343,
+        "relative_time": 4287,
+        "x": 1649.0121817843758,
+        "y": 550.3169656408106,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757761999652,
+        "trial_start_time": 1757761994343,
+        "relative_time": 5309,
+        "x": 1501.8515913407375,
+        "y": 548.1375286989876,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762000627,
+        "trial_start_time": 1757761994343,
+        "relative_time": 6284,
+        "x": 1618.6414549619797,
+        "y": 522.8857234919099,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/12.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 535044,
+    "webgazer_data": [
+      {
+        "x": 1624,
+        "y": 508,
+        "t": 1
+      },
+      {
+        "x": 1623,
+        "y": 515,
+        "t": 1284
+      },
+      {
+        "x": 1512,
+        "y": 459,
+        "t": 2297
+      },
+      {
+        "x": 1583,
+        "y": 532,
+        "t": 3337
+      },
+      {
+        "x": 1533,
+        "y": 544,
+        "t": 4288
+      },
+      {
+        "x": 1580,
+        "y": 509,
+        "t": 5310
+      },
+      {
+        "x": 1587,
+        "y": 466,
+        "t": 6285
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748,
+        "y": 178.09375,
+        "width": 416,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1164,
+        "bottom": 845.890625,
+        "left": 748
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762000955,
+    "trial_duration_actual": 6612
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "5_fat",
+    "image_position": "left",
+    "original_index": 5,
+    "image_src": "b/5.jpg",
+    "trial_index": 133,
+    "total_trials": 25,
+    "trial_start_time": 1757762004354,
+    "gaze_data": [
+      {
+        "timestamp": 1757762005644,
+        "trial_start_time": 1757762004354,
+        "relative_time": 1290,
+        "x": 1503.3936736462706,
+        "y": 532.8130923187487,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762006641,
+        "trial_start_time": 1757762004354,
+        "relative_time": 2287,
+        "x": 1506.6963250020276,
+        "y": 503.53409904506,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762007668,
+        "trial_start_time": 1757762004354,
+        "relative_time": 3314,
+        "x": 1465.8996945859715,
+        "y": 538.690300974307,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762008273,
+        "trial_start_time": 1757762004354,
+        "relative_time": 3919,
+        "x": 1283.0603412329083,
+        "y": 506.72094097645436,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762008953,
+        "trial_start_time": 1757762004354,
+        "relative_time": 4599,
+        "x": 1122.7842210609733,
+        "y": 398.7599381587357,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762009925,
+        "trial_start_time": 1757762004354,
+        "relative_time": 5571,
+        "x": 1223.8794160671118,
+        "y": 491.1256998429533,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762010954,
+        "trial_start_time": 1757762004354,
+        "relative_time": 6600,
+        "x": 1205.1459681290376,
+        "y": 487.2321664609186,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -20,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/5.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 545426,
+    "webgazer_data": [
+      {
+        "x": 1498,
+        "y": 484,
+        "t": 1
+      },
+      {
+        "x": 1477,
+        "y": 519,
+        "t": 1290
+      },
+      {
+        "x": 1532,
+        "y": 550,
+        "t": 2287
+      },
+      {
+        "x": 1530,
+        "y": 555,
+        "t": 3314
+      },
+      {
+        "x": 1098,
+        "y": 416,
+        "t": 3993
+      },
+      {
+        "x": 1114,
+        "y": 422,
+        "t": 4988
+      },
+      {
+        "x": 1219,
+        "y": 489,
+        "t": 5990
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762011337,
+    "trial_duration_actual": 6983
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "17_thin",
+    "image_position": "left",
+    "original_index": 17,
+    "image_src": "b/17.jpg",
+    "trial_index": 136,
+    "total_trials": 25,
+    "trial_start_time": 1757762014338,
+    "gaze_data": [
+      {
+        "timestamp": 1757762015640,
+        "trial_start_time": 1757762014338,
+        "relative_time": 1302,
+        "x": 1158.7386018693403,
+        "y": 494.9996987575987,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762016657,
+        "trial_start_time": 1757762014338,
+        "relative_time": 2319,
+        "x": 1299.6165734399997,
+        "y": 520.9406692582845,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762017638,
+        "trial_start_time": 1757762014338,
+        "relative_time": 3300,
+        "x": 1225.670981165232,
+        "y": 487.25482156399215,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762018637,
+        "trial_start_time": 1757762014338,
+        "relative_time": 4299,
+        "x": 1081.8838453630192,
+        "y": 455.8696628512654,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762019629,
+        "trial_start_time": 1757762014338,
+        "relative_time": 5291,
+        "x": 1258.0921046514623,
+        "y": 463.03352354884555,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762020624,
+        "trial_start_time": 1757762014338,
+        "relative_time": 6286,
+        "x": 1301.5802579883125,
+        "y": 379.64740143927924,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762021241,
+        "trial_start_time": 1757762014338,
+        "relative_time": 6903,
+        "x": 1240.5325542122391,
+        "y": 395.24748253859894,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 40,
+      "firstFixation": 1,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 40
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/17.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 555331,
+    "webgazer_data": [
+      {
+        "x": 1153,
+        "y": 453,
+        "t": 2
+      },
+      {
+        "x": 1227,
+        "y": 560,
+        "t": 1303
+      },
+      {
+        "x": 1172,
+        "y": 539,
+        "t": 2321
+      },
+      {
+        "x": 1082,
+        "y": 443,
+        "t": 3300
+      },
+      {
+        "x": 1192,
+        "y": 490,
+        "t": 4300
+      },
+      {
+        "x": 1319,
+        "y": 412,
+        "t": 5293
+      },
+      {
+        "x": 1404,
+        "y": 398,
+        "t": 6287
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762021242,
+    "trial_duration_actual": 6904
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "23_thin",
+    "image_position": "left",
+    "original_index": 23,
+    "image_src": "b/23.jpg",
+    "trial_index": 139,
+    "total_trials": 25,
+    "trial_start_time": 1757762025341,
+    "gaze_data": [
+      {
+        "timestamp": 1757762026666,
+        "trial_start_time": 1757762025341,
+        "relative_time": 1325,
+        "x": 1339.5797303618554,
+        "y": 457.9763707996249,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762027669,
+        "trial_start_time": 1757762025341,
+        "relative_time": 2328,
+        "x": 1453.7760237167417,
+        "y": 465.4245621023888,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762028631,
+        "trial_start_time": 1757762025341,
+        "relative_time": 3290,
+        "x": 1387.9389560208258,
+        "y": 380.41488309535214,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762029641,
+        "trial_start_time": 1757762025341,
+        "relative_time": 4300,
+        "x": 1424.186065738051,
+        "y": 364.8625289056467,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762030639,
+        "trial_start_time": 1757762025341,
+        "relative_time": 5298,
+        "x": 1188.9421331234635,
+        "y": 311.43333841354234,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762031626,
+        "trial_start_time": 1757762025341,
+        "relative_time": 6285,
+        "x": 1004.6220752182187,
+        "y": 264.6303032999,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762032640,
+        "trial_start_time": 1757762025341,
+        "relative_time": 7299,
+        "x": 1024.6357038564354,
+        "y": 331.8439848929582,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 40,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 40
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/23.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 566729,
+    "webgazer_data": [
+      {
+        "x": 1399,
+        "y": 427,
+        "t": 1
+      },
+      {
+        "x": 1433,
+        "y": 468,
+        "t": 1326
+      },
+      {
+        "x": 1292,
+        "y": 414,
+        "t": 2329
+      },
+      {
+        "x": 1438,
+        "y": 380,
+        "t": 3291
+      },
+      {
+        "x": 1249,
+        "y": 350,
+        "t": 4302
+      },
+      {
+        "x": 1094,
+        "y": 310,
+        "t": 5299
+      },
+      {
+        "x": 1037,
+        "y": 302,
+        "t": 6286
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762032640,
+    "trial_duration_actual": 7299
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "19_thin",
+    "image_position": "left",
+    "original_index": 19,
+    "image_src": "b/19.jpg",
+    "trial_index": 142,
+    "total_trials": 25,
+    "trial_start_time": 1757762036355,
+    "gaze_data": [
+      {
+        "timestamp": 1757762037651,
+        "trial_start_time": 1757762036355,
+        "relative_time": 1296,
+        "x": 1200.9058582238993,
+        "y": 298.9041911499243,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762038648,
+        "trial_start_time": 1757762036355,
+        "relative_time": 2293,
+        "x": 1241.3725340240505,
+        "y": 280.5427829237594,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762039636,
+        "trial_start_time": 1757762036355,
+        "relative_time": 3281,
+        "x": 1159.4240773251508,
+        "y": 229.21000607881933,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762040633,
+        "trial_start_time": 1757762036355,
+        "relative_time": 4278,
+        "x": 1377.760249012603,
+        "y": 359.4927676535995,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762041641,
+        "trial_start_time": 1757762036355,
+        "relative_time": 5286,
+        "x": 1470.6227557041227,
+        "y": 333.124005411955,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762042635,
+        "trial_start_time": 1757762036355,
+        "relative_time": 6280,
+        "x": 1392.2562102042893,
+        "y": 311.9326684092377,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762043686,
+        "trial_start_time": 1757762036355,
+        "relative_time": 7331,
+        "x": 1426.3268201777064,
+        "y": 327.2815337055675,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 20,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/19.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 577776,
+    "webgazer_data": [
+      {
+        "x": 1075,
+        "y": 312,
+        "t": 1
+      },
+      {
+        "x": 1152,
+        "y": 305,
+        "t": 1297
+      },
+      {
+        "x": 1175,
+        "y": 204,
+        "t": 2294
+      },
+      {
+        "x": 1308,
+        "y": 334,
+        "t": 3283
+      },
+      {
+        "x": 1364,
+        "y": 330,
+        "t": 4279
+      },
+      {
+        "x": 1489,
+        "y": 315,
+        "t": 5286
+      },
+      {
+        "x": 1494,
+        "y": 323,
+        "t": 6282
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762043687,
+    "trial_duration_actual": 7332
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "10_fat",
+    "image_position": "left",
+    "original_index": 10,
+    "image_src": "b/10.jpg",
+    "trial_index": 145,
+    "total_trials": 25,
+    "trial_start_time": 1757762047344,
+    "gaze_data": [
+      {
+        "timestamp": 1757762048632,
+        "trial_start_time": 1757762047344,
+        "relative_time": 1288,
+        "x": 1304.1302964389283,
+        "y": 420.4174707734886,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762049635,
+        "trial_start_time": 1757762047344,
+        "relative_time": 2291,
+        "x": 1227.3515560819237,
+        "y": 329.7951863431957,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762050632,
+        "trial_start_time": 1757762047344,
+        "relative_time": 3288,
+        "x": 1027.5873948698627,
+        "y": 190.38335844275088,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762051656,
+        "trial_start_time": 1757762047344,
+        "relative_time": 4312,
+        "x": 1114.5803919037394,
+        "y": 236.21992826894368,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762052642,
+        "trial_start_time": 1757762047344,
+        "relative_time": 5298,
+        "x": 999.8021756190984,
+        "y": 201.8811145707477,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762053630,
+        "trial_start_time": 1757762047344,
+        "relative_time": 6286,
+        "x": 1136.3448352967696,
+        "y": 234.3555642252133,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762054643,
+        "trial_start_time": 1757762047344,
+        "relative_time": 7299,
+        "x": 1109.5426470561843,
+        "y": 190.94699866869234,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -100,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 100
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/10.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 588732,
+    "webgazer_data": [
+      {
+        "x": 1339,
+        "y": 343,
+        "t": 1
+      },
+      {
+        "x": 1379,
+        "y": 468,
+        "t": 1289
+      },
+      {
+        "x": 1056,
+        "y": 295,
+        "t": 2292
+      },
+      {
+        "x": 1121,
+        "y": 220,
+        "t": 3289
+      },
+      {
+        "x": 1047,
+        "y": 263,
+        "t": 4313
+      },
+      {
+        "x": 1040,
+        "y": 189,
+        "t": 5299
+      },
+      {
+        "x": 1168,
+        "y": 263,
+        "t": 6287
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762054644,
+    "trial_duration_actual": 7300
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "8_fat",
+    "image_position": "left",
+    "original_index": 8,
+    "image_src": "b/8.jpg",
+    "trial_index": 148,
+    "total_trials": 25,
+    "trial_start_time": 1757762059343,
+    "gaze_data": [
+      {
+        "timestamp": 1757762060641,
+        "trial_start_time": 1757762059343,
+        "relative_time": 1298,
+        "x": 1103.61437316624,
+        "y": 235.98193743257792,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762061644,
+        "trial_start_time": 1757762059343,
+        "relative_time": 2301,
+        "x": 1012.8314031793437,
+        "y": 101.55787850344953,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762062672,
+        "trial_start_time": 1757762059343,
+        "relative_time": 3329,
+        "x": 765.0906328137436,
+        "y": -25.54913959757755,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762063638,
+        "trial_start_time": 1757762059343,
+        "relative_time": 4295,
+        "x": 967.6575728326325,
+        "y": 116.78156233142067,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762064645,
+        "trial_start_time": 1757762059343,
+        "relative_time": 5302,
+        "x": 827.5088325462783,
+        "y": 81.70991145060317,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762065637,
+        "trial_start_time": 1757762059343,
+        "relative_time": 6294,
+        "x": 712.9884469202383,
+        "y": -63.635858700294136,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762066627,
+        "trial_start_time": 1757762059343,
+        "relative_time": 7284,
+        "x": 940.1293256048875,
+        "y": -21.523959425763167,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": -20,
+      "firstFixation": -1,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/8.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 600716,
+    "webgazer_data": [
+      {
+        "x": 991,
+        "y": 151,
+        "t": 1
+      },
+      {
+        "x": 1159,
+        "y": 191,
+        "t": 1299
+      },
+      {
+        "x": 836,
+        "y": -24,
+        "t": 2303
+      },
+      {
+        "x": 841,
+        "y": -1,
+        "t": 3330
+      },
+      {
+        "x": 875,
+        "y": 95,
+        "t": 4296
+      },
+      {
+        "x": 637,
+        "y": -26,
+        "t": 5303
+      },
+      {
+        "x": 845,
+        "y": -54,
+        "t": 6296
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762066627,
+    "trial_duration_actual": 7284
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "21_thin",
+    "image_position": "left",
+    "original_index": 21,
+    "image_src": "b/21.jpg",
+    "trial_index": 151,
+    "total_trials": 25,
+    "trial_start_time": 1757762070336,
+    "gaze_data": [
+      {
+        "timestamp": 1757762071653,
+        "trial_start_time": 1757762070336,
+        "relative_time": 1317,
+        "x": 1124.998077517755,
+        "y": 151.9892209696792,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762072629,
+        "trial_start_time": 1757762070336,
+        "relative_time": 2293,
+        "x": 1191.3673896215134,
+        "y": 378.65721317517466,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762073643,
+        "trial_start_time": 1757762070336,
+        "relative_time": 3307,
+        "x": 1412.782486019484,
+        "y": 438.6003989065372,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762074630,
+        "trial_start_time": 1757762070336,
+        "relative_time": 4294,
+        "x": 1069.2595748716867,
+        "y": 425.9816592556663,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762075627,
+        "trial_start_time": 1757762070336,
+        "relative_time": 5291,
+        "x": 1169.4859405637005,
+        "y": 603.4535285644636,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762076199,
+        "trial_start_time": 1757762070336,
+        "relative_time": 5863,
+        "x": 1401.6289223528975,
+        "y": 723.382029009872,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762076938,
+        "trial_start_time": 1757762070336,
+        "relative_time": 6602,
+        "x": 1398.3550320214051,
+        "y": 672.7598141034273,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 20,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/21.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 611027,
+    "webgazer_data": [
+      {
+        "x": 1032,
+        "y": 56,
+        "t": 1
+      },
+      {
+        "x": 1201,
+        "y": 268,
+        "t": 1317
+      },
+      {
+        "x": 1331,
+        "y": 443,
+        "t": 2293
+      },
+      {
+        "x": 1099,
+        "y": 402,
+        "t": 3308
+      },
+      {
+        "x": 1105,
+        "y": 512,
+        "t": 4294
+      },
+      {
+        "x": 1264,
+        "y": 632,
+        "t": 5291
+      },
+      {
+        "x": 1432,
+        "y": 732,
+        "t": 6004
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762076938,
+    "trial_duration_actual": 6602
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "2_fat",
+    "image_position": "left",
+    "original_index": 2,
+    "image_src": "b/2.jpg",
+    "trial_index": 154,
+    "total_trials": 25,
+    "trial_start_time": 1757762081353,
+    "gaze_data": [
+      {
+        "timestamp": 1757762082637,
+        "trial_start_time": 1757762081353,
+        "relative_time": 1284,
+        "x": 1489.6948002193915,
+        "y": 526.6401424221986,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762083622,
+        "trial_start_time": 1757762081353,
+        "relative_time": 2269,
+        "x": 1729.1901105555385,
+        "y": 490.9342691363516,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762084624,
+        "trial_start_time": 1757762081353,
+        "relative_time": 3271,
+        "x": 1547.9792649570575,
+        "y": 389.8577683582072,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762085628,
+        "trial_start_time": 1757762081353,
+        "relative_time": 4275,
+        "x": 1333.8857667413306,
+        "y": 311.3204251029704,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762086635,
+        "trial_start_time": 1757762081353,
+        "relative_time": 5282,
+        "x": 1232.1549712623553,
+        "y": 252.28241479666966,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762087630,
+        "trial_start_time": 1757762081353,
+        "relative_time": 6277,
+        "x": 1248.9819969992895,
+        "y": 201.10650646873643,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762088644,
+        "trial_start_time": 1757762081353,
+        "relative_time": 7291,
+        "x": 1384.621477896902,
+        "y": 264.85054125710553,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/2.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 622733,
+    "webgazer_data": [
+      {
+        "x": 1456,
+        "y": 560,
+        "t": 2
+      },
+      {
+        "x": 1692,
+        "y": 494,
+        "t": 1284
+      },
+      {
+        "x": 1575,
+        "y": 433,
+        "t": 2270
+      },
+      {
+        "x": 1480,
+        "y": 334,
+        "t": 3272
+      },
+      {
+        "x": 1402,
+        "y": 293,
+        "t": 4276
+      },
+      {
+        "x": 1287,
+        "y": 253,
+        "t": 5283
+      },
+      {
+        "x": 1450,
+        "y": 250,
+        "t": 6278
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762088644,
+    "trial_duration_actual": 7291
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "3_fat",
+    "image_position": "left",
+    "original_index": 3,
+    "image_src": "b/3.jpg",
+    "trial_index": 157,
+    "total_trials": 25,
+    "trial_start_time": 1757762093340,
+    "gaze_data": [
+      {
+        "timestamp": 1757762094633,
+        "trial_start_time": 1757762093340,
+        "relative_time": 1293,
+        "x": 1317.4012296511544,
+        "y": 276.67525906091424,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762095632,
+        "trial_start_time": 1757762093340,
+        "relative_time": 2292,
+        "x": 1484.5858883241597,
+        "y": 368.430527830542,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762096649,
+        "trial_start_time": 1757762093340,
+        "relative_time": 3309,
+        "x": 1570.1190745063875,
+        "y": 341.4197408286618,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762097642,
+        "trial_start_time": 1757762093340,
+        "relative_time": 4302,
+        "x": 1572.1405417471208,
+        "y": 398.67017890381237,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762098619,
+        "trial_start_time": 1757762093340,
+        "relative_time": 5279,
+        "x": 1665.0267431434959,
+        "y": 511.32404518406156,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762099631,
+        "trial_start_time": 1757762093340,
+        "relative_time": 6291,
+        "x": 1394.95350065732,
+        "y": 503.5334842201299,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762100222,
+        "trial_start_time": 1757762093340,
+        "relative_time": 6882,
+        "x": 1244.804319779002,
+        "y": 507.1304605282252,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 0,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 0
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/3.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 634311,
+    "webgazer_data": [
+      {
+        "x": 1309,
+        "y": 275,
+        "t": 1
+      },
+      {
+        "x": 1363,
+        "y": 326,
+        "t": 1294
+      },
+      {
+        "x": 1462,
+        "y": 315,
+        "t": 2292
+      },
+      {
+        "x": 1612,
+        "y": 357,
+        "t": 3310
+      },
+      {
+        "x": 1573,
+        "y": 462,
+        "t": 4302
+      },
+      {
+        "x": 1693,
+        "y": 508,
+        "t": 5280
+      },
+      {
+        "x": 1184,
+        "y": 457,
+        "t": 6292
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762100222,
+    "trial_duration_actual": 6882
+  },
+  {
+    "task": "view",
+    "phase": "body",
+    "block": "body_presentation",
+    "image_type": "body",
+    "image_attribute": "16_thin",
+    "image_position": "left",
+    "original_index": 16,
+    "image_src": "b/16.jpg",
+    "trial_index": 160,
+    "total_trials": 25,
+    "trial_start_time": 1757762103348,
+    "gaze_data": [
+      {
+        "timestamp": 1757762104624,
+        "trial_start_time": 1757762103348,
+        "relative_time": 1276,
+        "x": 1380.0130153267244,
+        "y": 477.9827462757178,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762105631,
+        "trial_start_time": 1757762103348,
+        "relative_time": 2283,
+        "x": 1579.0929903325807,
+        "y": 442.7564789725463,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762106653,
+        "trial_start_time": 1757762103348,
+        "relative_time": 3305,
+        "x": 1809.0590638784206,
+        "y": 393.45402953482045,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762107682,
+        "trial_start_time": 1757762103348,
+        "relative_time": 4334,
+        "x": 1705.5005063062124,
+        "y": 474.9704487189423,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762108593,
+        "trial_start_time": 1757762103348,
+        "relative_time": 5245,
+        "x": 1636.4762717157646,
+        "y": 454.532934474917,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762109606,
+        "trial_start_time": 1757762103348,
+        "relative_time": 6258,
+        "x": 1317.2404218629215,
+        "y": 380.2614853196886,
+        "confidence": null
+      },
+      {
+        "timestamp": 1757762110645,
+        "trial_start_time": 1757762103348,
+        "relative_time": 7297,
+        "x": 1155.1751547308038,
+        "y": 367.5483898053492,
+        "confidence": null
+      }
+    ],
+    "analysisResult": {
+      "dwellTime": 20,
+      "firstFixation": 0,
+      "regressionCount": 0,
+      "leftDwellTime": 0,
+      "rightDwellTime": 20
+    },
+    "rt": null,
+    "stimulus": "\n            <div class=\"stimulus-container\">\n              <div class=\"left-region\"></div>\n              <div class=\"right-region\"></div>\n              <img src=\"b/16.jpg\" class=\"stimulus-image\" alt=\"身材对比图片\" />\n            </div>\n          ",
+    "response": null,
+    "trial_type": "html-keyboard-response",
+    "plugin_version": "2.0.0",
+    "time_elapsed": 644734,
+    "webgazer_data": [
+      {
+        "x": 1286,
+        "y": 489,
+        "t": 2
+      },
+      {
+        "x": 1474,
+        "y": 449,
+        "t": 1278
+      },
+      {
+        "x": 1716,
+        "y": 414,
+        "t": 2284
+      },
+      {
+        "x": 1879,
+        "y": 369,
+        "t": 3306
+      },
+      {
+        "x": 1571,
+        "y": 438,
+        "t": 4335
+      },
+      {
+        "x": 1368,
+        "y": 352,
+        "t": 5246
+      },
+      {
+        "x": 1187,
+        "y": 336,
+        "t": 6259
+      }
+    ],
+    "webgazer_targets": {
+      ".stimulus-container": {
+        "x": 748.40625,
+        "y": 178.09375,
+        "width": 415.1875,
+        "height": 667.796875,
+        "top": 178.09375,
+        "right": 1163.59375,
+        "bottom": 845.890625,
+        "left": 748.40625
+      }
+    },
+    "extension_type": [
+      null
+    ],
+    "extension_version": [
+      null
+    ],
+    "trial_end_time": 1757762110645,
+    "trial_duration_actual": 7297
+  }
+]
