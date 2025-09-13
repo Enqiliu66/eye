@@ -755,48 +755,60 @@
     .prediction-features li {
       margin-bottom: 8px;
     }
-    /* ==== 诊断报告样式 ==== */
-.diagnostic-report {
-  max-width: 800px;
-  background: #fff;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  text-align: left;
-  font-family: 'Roboto', 'Microsoft YaHei', sans-serif;
-}
+/* ==== 诊断报告样式 ==== */
+  .diagnostic-report {
+    max-width: 800px;
+    max-height: 80vh; /* 限制最大高度为视口的80% */
+    overflow-y: auto; /* 添加垂直滚动条 */
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    text-align: left;
+    font-family: 'Roboto', 'Microsoft YaHei', sans-serif;
+  }
 
-.diagnostic-report h3 {
-  color: #2c3e50;
-  text-align: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #e9ecef;
-  padding-bottom: 10px;
-}
+  .diagnostic-report h3 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+  }
 
-.diagnostic-report h4 {
-  color: #2c3e50;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
+  .diagnostic-report h4 {
+    color: #2c3e50;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.3em; /* 增大建议标题字体 */
+  }
 
-.diagnostic-report ul {
-  padding-left: 20px;
-  margin-bottom: 15px;
-}
+  .diagnostic-report ul {
+    padding-left: 20px;
+    margin-bottom: 15px;
+  }
 
-.diagnostic-report li {
-  margin-bottom: 8px;
-}
+  .diagnostic-report li {
+    margin-bottom: 8px;
+    font-size: 1.1em; /* 增大建议内容字体 */
+    line-height: 1.6; /* 增加行高提高可读性 */
+  }
 
-.report-disclaimer {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #e9ecef;
-  font-size: 0.9em;
-  color: #6c757d;
-}
+  .report-disclaimer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+    font-size: 0.8em; /* 缩小免责声明字体 */
+    color: #6c757d;
+    line-height: 1.4; /* 调整行高 */
+  }
+
+  /* 确保整个报告区域可以滚动 */
+  .jspsych-content {
+    overflow-y: auto; /* 允许内容区域滚动 */
+    max-height: calc(100vh - 70px); /* 减去顶部导航栏高度 */
+  }
   </style>
 </head>
 
@@ -937,7 +949,7 @@ const diagnosticReports = {
 
       <h4>根据您的风险等级，为您提供以下参考建议：</h4>
       <ul>
-        <li><strong>解读：</strong>祝贺您！您的认知习惯目前非常健康。请继续保持均衡的饮食和积极的身体意象。</li>
+        <li><strong>祝贺您！您的认知习惯目前非常健康。请继续保持均衡的饮食和积极的身体意象。</li>
         <li><strong>建议：</strong>
           <ul>
             <li>保持当前良好的生活习惯。</li>
@@ -969,7 +981,7 @@ const diagnosticReports = {
 
       <h4>根据您的风险等级，为您提供以下参考建议：</h4>
       <ul>
-        <li><strong>解读：</strong>您的认知模式表明，食物和体型问题可能已对您造成了一定困扰，并影响了您的注意力分配。</li>
+        <li><strong>您的认知模式表明，食物和体型问题可能已对您造成了一定困扰，并影响了您的注意力分配。</li>
         <li><strong>建议：</strong>
           <ul>
             <li><strong>专业咨询：</strong>我们强烈建议您与心理咨询师或辅导员进行一次谈话。他们可以为您提供专业的评估和支持。这并不是一件可怕的事，而是关爱自己的表现。</li>
