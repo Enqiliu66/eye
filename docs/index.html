@@ -755,6 +755,48 @@
     .prediction-features li {
       margin-bottom: 8px;
     }
+    /* ==== 诊断报告样式 ==== */
+.diagnostic-report {
+  max-width: 800px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  text-align: left;
+  font-family: 'Roboto', 'Microsoft YaHei', sans-serif;
+}
+
+.diagnostic-report h3 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.diagnostic-report h4 {
+  color: #2c3e50;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.diagnostic-report ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.diagnostic-report li {
+  margin-bottom: 8px;
+}
+
+.report-disclaimer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+  font-size: 0.9em;
+  color: #6c757d;
+}
   </style>
 </head>
 
@@ -880,7 +922,72 @@ let modelLoaded = false;
     let gazeData = []; // 存储每个试次的眼动数据
     let gazeUpdateInterval; // 眼动数据更新间隔
     let faceDetectionAttempts = 0; // 人脸检测尝试次数
+/* ==== 诊断报告模板 ==== */
+const diagnosticReports = {
+  normal: `
+    <div class="diagnostic-report">
+      <h3>进食障碍风险眼动测评报告</h3>
+      <p><strong>报告编号：</strong>REPORT-{reportId}</p>
+      <p><strong>测评日期：</strong>{reportDate}</p>
+      <p><strong>姓名：</strong>{subjectId}</p>
 
+      <p>尊敬的参与者，感谢您完成本次测评。您的整体进食障碍风险等级评估为：<strong>健康</strong>。</p>
+
+      <p>您的注意模式与健康人群相似，未显示出显著的进食障碍相关认知偏差。</p>
+
+      <h4>根据您的风险等级，为您提供以下参考建议：</h4>
+      <ul>
+        <li><strong>解读：</strong>祝贺您！您的认知习惯目前非常健康。请继续保持均衡的饮食和积极的身体意象。</li>
+        <li><strong>建议：</strong>
+          <ul>
+            <li>保持当前良好的生活习惯。</li>
+            <li>可以阅读相关科普资料，增进对心理健康的认识，起到预防作用。</li>
+            <li>如果您未来感到压力或困扰，随时可以重新测评。</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="report-disclaimer">
+        <p><strong>免责声明：</strong>本报告由人工智能算法生成，仅作为筛查和参考工具，不能作为临床诊断的唯一依据。最终的诊断必须由合格的医疗专业人员通过面谈和评估做出。</p>
+        <p><strong>隐私保护：</strong>您的所有测评数据都将被严格保密，仅用于为您生成此报告。</p>
+        <p><strong>获取帮助：</strong>全国心理援助热线：12356</p>
+        <p>感谢您的信任。关爱心理健康，是爱自己最重要的一步。</p>
+      </div>
+    </div>
+  `,
+
+  abnormal: `
+    <div class="diagnostic-report">
+      <h3>进食障碍风险眼动测评报告</h3>
+      <p><strong>报告编号：</strong>REPORT-{reportId}</p>
+      <p><strong>测评日期：</strong>{reportDate}</p>
+      <p><strong>姓名：</strong>{subjectId}</p>
+
+      <p>尊敬的参与者，感谢您完成本次测评。您的整体进食障碍风险等级评估为：<strong>异常</strong>。</p>
+
+      <p>您的注意模式显示出明显的进食障碍认知偏差，建议寻求专业咨询或评估。</p>
+
+      <h4>根据您的风险等级，为您提供以下参考建议：</h4>
+      <ul>
+        <li><strong>解读：</strong>您的认知模式表明，食物和体型问题可能已对您造成了一定困扰，并影响了您的注意力分配。</li>
+        <li><strong>建议：</strong>
+          <ul>
+            <li><strong>专业咨询：</strong>我们强烈建议您与心理咨询师或辅导员进行一次谈话。他们可以为您提供专业的评估和支持。这并不是一件可怕的事，而是关爱自己的表现。</li>
+            <li><strong>行动步骤：</strong>您可以联系：全国心理援助热线：12356 或 北京心理援助热线：010-82951332。</li>
+            <li><strong>避免独自挣扎：</strong>与一位您信任的朋友或家人聊聊您的感受。</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="report-disclaimer">
+        <p><strong>免责声明：</strong>本报告由人工智能算法生成，仅作为筛查和参考工具，不能作为临床诊断的唯一依据。最终的诊断必须由合格的医疗专业人员通过面谈和评估做出。</p>
+        <p><strong>隐私保护：</strong>您的所有测评数据都将被严格保密，仅用于为您生成此报告。</p>
+        <p><strong>获取帮助：</strong>全国心理援助热线：12356</p>
+        <p>感谢您的信任。关爱心理健康，是爱自己最重要的一步。</p>
+      </div>
+    </div>
+  `
+};
     /* ==== 眼动数据分析变量 ==== */
     let containerRect = null; // 存储图片容器位置信息
     let analysisResults = {
@@ -2569,13 +2676,25 @@ function generateGitHubComment(dataPoints, predictionResult = null) {
     // 汇总分析结果
     aggregateResults(allData);
 
-    // 使用模型进行预测
-    if (modelLoaded) {
-      predictionResult = await predictEatingDisorder(analysisResults);
-      console.log('进食障碍预测结果:', predictionResult);
-    } else {
-      console.warn('模型未加载，跳过预测');
-    }
+// 使用模型进行预测
+if (modelLoaded) {
+  predictionResult = await predictEatingDisorder(analysisResults);
+  console.log('进食障碍预测结果:', predictionResult);
+
+  // 生成诊断报告
+  const reportType = predictionResult.predictedClass === 1 ? 'abnormal' : 'normal';
+  const reportId = `${userInfo.subjectId}_${userInfo.session}_${Date.now()}`;
+  const now = new Date();
+  const reportDate = `${now.getFullYear()}年${(now.getMonth()+1).toString().padStart(2, '0')}月${now.getDate().toString().padStart(2, '0')}日`;
+
+  let diagnosticReport = diagnosticReports[reportType]
+    .replace(/{reportId}/g, reportId)
+    .replace(/{reportDate}/g, reportDate)
+    .replace(/{subjectId}/g, userInfo.subjectId);
+
+} else {
+  console.warn('模型未加载，跳过预测');
+}
           // 生成结果表格
           let resultsTable = generateResultsTable(predictionResult);
           let resultsCSV = generateResultsCSV(predictionResult);
@@ -2711,6 +2830,10 @@ function generateGitHubComment(dataPoints, predictionResult = null) {
                 <h2>第 ${userInfo.session} 次实验完成</h2>
                 <p>详细眼动数据已成功上传至GitHub仓库</p>
             `;
+            // 如果有预测结果，显示诊断报告
+            if (predictionResult) {
+             content += diagnosticReport;
+            }
 
             content += `
                 ${resultsTable}
@@ -2720,6 +2843,7 @@ function generateGitHubComment(dataPoints, predictionResult = null) {
                   <button class="save-button" id="save-csv-btn">保存CSV到本地</button>
                   <button class="save-button" id="save-json-btn">保存JSON到本地</button>
                   <button class="save-button" id="save-results-btn">保存结果表格</button>
+                  <button class="save-button" id="save-report-btn">保存诊断报告</button>
                   <button class="exit-button" id="exit-btn">退出实验</button>
                 </div>
               </div>
@@ -2779,7 +2903,43 @@ document.getElementById('copy-btn').addEventListener('click', function() {
             document.getElementById('save-results-btn').addEventListener('click', function() {
               saveCSVToLocal(resultsCSV, resultsFileName);
             });
+// 保存诊断报告按钮
+document.getElementById('save-report-btn').addEventListener('click', function() {
+  // 创建报告文本内容
+  let reportText = `进食障碍风险眼动测评报告\n`;
+  reportText += `报告编号: REPORT-${reportId}\n`;
+  reportText += `测评日期: ${reportDate}\n`;
+  reportText += `姓名: ${userInfo.subjectId}\n\n`;
 
+  if (predictionResult.predictedClass === 1) {
+    reportText += `尊敬的参与者，感谢您完成本次测评。您的整体进食障碍风险等级评估为：异常。\n\n`;
+    reportText += `您的注意模式显示出明显的进食障碍认知偏差，建议寻求专业咨询或评估。\n\n`;
+    reportText += `建议:\n`;
+    reportText += `- 专业咨询：我们强烈建议您与心理咨询师或辅导员进行一次谈话。\n`;
+    reportText += `- 行动步骤：您可以联系：全国心理援助热线：12356 或 北京心理援助热线：010-82951332。\n`;
+    reportText += `- 避免独自挣扎：与一位您信任的朋友或家人聊聊您的感受。\n`;
+  } else {
+    reportText += `尊敬的参与者，感谢您完成本次测评。您的整体进食障碍风险等级评估为：健康。\n\n`;
+    reportText += `您的注意模式与健康人群相似，未显示出显著的进食障碍相关认知偏差。\n\n`;
+    reportText += `建议:\n`;
+    reportText += `- 保持当前良好的生活习惯。\n`;
+    reportText += `- 可以阅读相关科普资料，增进对心理健康的认识，起到预防作用。\n`;
+    reportText += `- 如果您未来感到压力或困扰，随时可以重新测评。\n`;
+  }
+
+  reportText += `\n免责声明：本报告由人工智能算法生成，仅作为筛查和参考工具，不能作为临床诊断的唯一依据。\n`;
+  reportText += `最终的诊断必须由合格的医疗专业人员通过面谈和评估做出。\n`;
+
+  // 保存为文本文件
+  const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `诊断报告_${userInfo.subjectId}_${reportDate}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
             // 退出实验按钮 - 改为刷新页面
             document.getElementById('exit-btn').addEventListener('click', function() {
               location.reload(); // 刷新页面回到登录界面
