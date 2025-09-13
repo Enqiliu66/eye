@@ -1258,7 +1258,7 @@ function aggregateResults(trialData) {
         analysisResults.food.dwellTime = foodTrials.reduce((sum, trial) =>
             sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / foodTrials.length;
         analysisResults.food.firstFixation = foodTrials.reduce((sum, trial) =>
-            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0) / foodTrials.length; // 改为平均值
+            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
         analysisResults.food.regressionCount = foodTrials.reduce((sum, trial) =>
             sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / foodTrials.length;
     }
@@ -1268,7 +1268,7 @@ function aggregateResults(trialData) {
         analysisResults.body.dwellTime = bodyTrials.reduce((sum, trial) =>
             sum + ((trial.analysisResult && trial.analysisResult.dwellTime) || 0), 0) / bodyTrials.length;
         analysisResults.body.firstFixation = bodyTrials.reduce((sum, trial) =>
-            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0) / bodyTrials.length; // 改为平均值
+            sum + ((trial.analysisResult && trial.analysisResult.firstFixation) || 0), 0);
         analysisResults.body.regressionCount = bodyTrials.reduce((sum, trial) =>
             sum + ((trial.analysisResult && trial.analysisResult.regressionCount) || 0), 0) / bodyTrials.length;
     }
