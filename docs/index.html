@@ -46,10 +46,11 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 1000;
+      z-index: 1001;
       display: flex;
       justify-content: center;
     }
+
     .header h1 {
       color: #fff;
       font-weight: 500;
@@ -68,6 +69,7 @@
       align-items: center;
       justify-content: center;
       background: #f5f6f8;
+        z-index: 1;
     }
     #jspsych-target .jspsych-display-element {
       width: 100%;
@@ -809,6 +811,250 @@
     overflow-y: auto; /* 允许内容区域滚动 */
     max-height: calc(100vh - 70px); /* 减去顶部导航栏高度 */
   }
+
+/* ==== 用户手册侧边栏样式 ==== */
+.user-manual-sidebar {
+  position: fixed;
+  top: 70px;
+  right: -400px;
+  width: 400px;
+  height: calc(100vh - 70px);
+  background: rgba(240, 240, 240, 0.95); 
+  box-shadow: -2px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  padding: 20px;
+  backdrop-filter: blur(5px); 
+}
+
+.user-manual-sidebar.active {
+  right: 0;
+}
+
+.user-manual-toggle {
+  position: fixed;
+  top: 50%; /* 垂直居中 */
+  right: 0; /* 紧贴网页最右边 */
+  transform: translateY(-50%); /* 垂直居中调整 */
+  background: linear-gradient(135deg, #2980b9 0%, #3498db 100%); 
+  color: white;
+  border: none;
+  padding: 20px 10px; 
+  border-radius: 10px 0 0 10px; /* 左上和左下圆角，右上和右下直角 */
+  cursor: pointer;
+  z-index: 998;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2); /* 阴影在左侧 */
+  writing-mode: vertical-rl; /* 垂直排列，从右向左 */
+  text-orientation: mixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.user-manual-toggle:hover {
+  background: linear-gradient(135deg, #2572a5 0%, #2c82c2 100%);
+  transform: translateY(-50%) translateX(-5px); /* 悬停时向左移动一点 */
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+  /* 取消水平悬停时的padding-right变化 */
+  padding-right: 10px; /* 保持竖排时的内边距 */
+}
+
+.user-manual-toggle::before {
+  content: ""; /* 设为空 */
+  display: none;
+}
+
+.user-manual-content {
+  height: 100%;
+}
+
+.user-manual-content h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e9ecef;
+  text-align: center; /* 标题居中 */
+}
+
+.user-manual-content h3 {
+  color: #2c3e50;
+  margin: 20px 0 10px 0;
+  font-size: 1.2em;
+}
+
+.user-manual-content p, .user-manual-content li {
+  line-height: 1.6;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.user-manual-content ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.user-manual-content .important {
+  background: #fff3cd;
+  padding: 10px;
+  border-radius: 5px;
+  border-left: 4px solid #ffc107;
+  margin: 15px 0;
+}
+
+.user-manual-content .warning {
+  background: #f8d7da;
+  padding: 10px;
+  border-radius: 5px;
+  border-left: 4px solid #dc3545;
+  margin: 15px 0;
+}
+
+.user-manual-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 997;
+  display: none;
+}
+
+.user-manual-overlay.active {
+  display: block;
+}
+
+.manual-close-btn {
+  position: absolute;
+  top: 10px; 
+  right: 5px; 
+  left: auto; 
+  background: #6c757d; 
+  color: white;
+  border: none;
+  width: 25px; 
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.manual-close-btn:hover {
+  background: #495057;
+  transform: scale(1.1);
+}
+
+/* 优化提示框样式 */
+.min-time-message {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  color: white;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 13px;
+  display: none;
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 祝福语样式 */
+.final-blessing {
+  text-align: center;
+  margin: 20px 0 10px 0;
+  padding: 15px;
+  background: linear-gradient(135deg, #2980b9 0%, #3498db 100%); 
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+/* 底部留空区域 */
+.manual-bottom-space {
+  height: 50px;
+}
+/* 抖动动画 */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* 确保手册内容区域可滚动 */
+.user-manual-content {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* ==== 中央弹窗提醒样式 ==== */
+.manual-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.manual-popup-overlay.active {
+  display: flex;
+}
+
+.manual-popup-content {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.manual-popup-content h3 {
+  color: #2980b9;
+  margin-bottom: 15px;
+  font-size: 1.4em;
+}
+
+.manual-popup-content p {
+  margin: 10px 0;
+  line-height: 1.6;
+  font-size: 1.1em;
+}
+
+.manual-popup-ok {
+  background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.manual-popup-ok:hover {
+  background: linear-gradient(135deg, #2572a5 0%, #2c82c2 100%);
+  transform: translateY(-2px);
+}
   </style>
 </head>
 
@@ -817,6 +1063,77 @@
   <div class="header">
     <h1>进食障碍眼动预测程序</h1>
   </div>
+
+<!-- 用户手册侧边栏 -->
+<div class="user-manual-sidebar" id="user-manual-sidebar">
+  <div class="user-manual-content" id="user-manual-content">
+    <button class="manual-close-btn" id="manual-close-btn">×</button>
+    <h2>用户适应手册</h2>
+
+    <h3>1. 测量前的环境准备</h3>
+    <p><strong>推荐浏览器：</strong>请使用 Google Chrome 或 Microsoft Edge 浏览器访问系统。</p>
+    <div class="important">
+      <strong>重要提示：</strong>在整个测量周期内，请始终使用同一浏览器，不可中途更换，以免造成数据丢失或异常。
+    </div>
+
+    <p><strong>摄像头准备：</strong>请确保您的电脑内置或外接摄像头可正常使用，并在浏览器中开启摄像头权限。</p>
+    <p><strong>提示：</strong>开始前请关闭其他可能占用摄像头的软件或网页（如微信、Zoom等），确保摄像头可被测量网页独占使用。</p>
+
+    <p><strong>网络环境：</strong>建议使用稳定、高速的家庭宽带或手机热点，避免在测量过程中网络发生中断。</p>
+    <p>若页面加载缓慢或报错：可尝试暂时关闭防火墙或安全软件（如360、电脑管家），或切换网络环境后刷新重试。</p>
+
+    <h3>2. 测量操作流程</h3>
+    <p>请严格按以下步骤执行，以保证数据有效：</p>
+    <ul>
+      <li><strong>a) 访问系统：</strong>在地址栏输入测量页面地址并打开页面（首次加载可能较慢，请耐心等待，必要时可刷新重试）。</li>
+      <li><strong>b) 登录与信息填写：</strong>输入您的唯一实验ID；如实填写性别、年龄等基本信息；点击【开始实验】进入系统。</li>
+      <li><strong>c) 权限授予：</strong>首次使用时，浏览器会请求摄像头权限，请点击"允许"。</li>
+      <li><strong>d) 校准与测量：</strong>请保持面部位于界面中的绿色校准框内，并尽量保持头部稳定；按屏幕提示完成注视点校准及后续自由浏览任务。</li>
+      <li><strong>e) 数据提交：</strong>测量结束后系统将自动上传数据；请耐心等待上传完成，直至出现结束提示后再关闭页面。</li>
+    </ul>
+    <div class="warning">
+      如界面提示"数据上传失败"，请按提示手动下载数据文件，并及时提交给实验负责人。
+    </div>
+
+    <h3>3. 常见问题处理</h3>
+    <ul>
+      <li>如反复出现"The experiment failed to load..."等错误提示，尝试刷新页面或更换网络环境后重新登录；</li>
+      <li>如遇持续技术障碍，请联系实验支持人员并提供您的ID与问题描述。</li>
+    </ul>
+
+    <h3>4. 注意事项</h3>
+    <ul>
+      <li>请在安静、光线稳定的环境下进行测量；</li>
+      <li>测量过程中请尽量避免大幅移动或与他人交谈；</li>
+      <li>如有任何身体不适或主观困难，可暂停任务并联系实验人员。</li>
+    </ul>
+
+    <h3>5. 联系我们</h3>
+    <p>如您在使用过程中遇到任何问题，请通过以下方式联系技术支持：2126660684@qq.com</p>
+
+    <div class="final-blessing">
+      <strong>------祝您测量顺利！------</strong>
+    </div>
+
+    <div class="manual-bottom-space"></div>
+  </div>
+</div>
+
+<!-- 手册切换按钮 -->
+<button class="user-manual-toggle" id="user-manual-toggle">用户适应手册</button>
+
+<!-- 遮罩层 -->
+<div class="user-manual-overlay" id="user-manual-overlay"></div>
+
+  <!-- 中央弹窗提醒 -->
+<div class="manual-popup-overlay" id="manual-popup-overlay">
+  <div class="manual-popup-content">
+    <h3>重要提示</h3>
+    <p>请仔细阅读完<strong>用户适应手册</strong>的所有内容后再开始实验。</p>
+    <p>手册包含了实验前的环境准备、操作流程和常见问题处理等重要信息。</p>
+    <button class="manual-popup-ok" id="manual-popup-ok">明白了</button>
+  </div>
+</div>
 
   <!-- 中央固定十字 -->
   <div id="central-fixation" class="central-fixation">+</div>
@@ -923,6 +1240,173 @@
   <div class="footer">2025 北京师范大学 Eye—ED 项目组联合出品。</div>
 
   <script>
+/* ==== 用户手册功能 ==== */
+function initUserManual() {
+  const sidebar = document.getElementById('user-manual-sidebar');
+  const toggleBtn = document.getElementById('user-manual-toggle');
+  const closeBtn = document.getElementById('manual-close-btn');
+  const overlay = document.getElementById('user-manual-overlay');
+  const popupOverlay = document.getElementById('manual-popup-overlay');
+  const popupOkBtn = document.getElementById('manual-popup-ok');
+
+  // 手册状态变量
+  let isFirstOpen = true;
+  let hasScrolledToBottom = false;
+  let scrollCheckInterval = null;
+  let popupShown = false;
+
+  // 页面加载后立即自动展开手册
+  setTimeout(() => {
+    openManual();
+  }, 500);
+
+  // 切换按钮点击事件
+  let debounceTimer;
+  toggleBtn.addEventListener('click', function() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      if (sidebar.classList.contains('active')) {
+        closeManual();
+      } else {
+        openManual();
+      }
+    }, 100);
+  });
+
+  // 关闭按钮点击事件
+  closeBtn.addEventListener('click', function() {
+    if (isFirstOpen && !hasScrolledToBottom) {
+      // 如果第一次打开且未阅读到底部，显示弹窗提醒
+      showPopup();
+      return;
+    }
+    closeManual();
+  });
+
+  // 遮罩层点击事件
+  overlay.addEventListener('click', function() {
+    if (isFirstOpen && !hasScrolledToBottom) {
+      showPopup();
+      return;
+    }
+    closeManual();
+  });
+
+  // 弹窗确定按钮事件
+  popupOkBtn.addEventListener('click', function() {
+    popupOverlay.classList.remove('active');
+  });
+
+  // 键盘ESC键关闭手册
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+      if (isFirstOpen && !hasScrolledToBottom) {
+        showPopup();
+        return;
+      }
+      closeManual();
+    }
+  });
+
+  function openManual() {
+    sidebar.classList.add('active');
+    overlay.classList.add('active');
+    toggleBtn.style.display = 'none';
+
+    if (isFirstOpen && !popupShown) {
+      // 第一次打开时显示中央弹窗
+      setTimeout(() => {
+        showPopup();
+      }, 300);
+    }
+
+    if (isFirstOpen) {
+      hasScrolledToBottom = false;
+      closeBtn.disabled = true;
+      closeBtn.style.opacity = '0.5';
+      closeBtn.style.cursor = 'not-allowed';
+      closeBtn.title = '请滑动到底部阅读完整内容后关闭';
+
+      // 删除原有的灰色提示（如果存在）
+      const existingPrompt = document.getElementById('scroll-prompt');
+      if (existingPrompt) {
+        existingPrompt.remove();
+      }
+
+      startScrollDetection();
+    } else {
+      closeBtn.disabled = false;
+      closeBtn.style.opacity = '1';
+      closeBtn.style.cursor = 'pointer';
+      closeBtn.title = '';
+    }
+  }
+
+  function closeManual() {
+    if (isFirstOpen && !hasScrolledToBottom) {
+      return;
+    }
+
+    if (isFirstOpen) {
+      isFirstOpen = false;
+    }
+
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    stopScrollDetection();
+
+    setTimeout(() => {
+      toggleBtn.style.display = 'flex';
+    }, 300);
+  }
+
+  function showPopup() {
+    popupShown = true;
+    popupOverlay.classList.add('active');
+  }
+
+  function startScrollDetection() {
+    scrollCheckInterval = setInterval(() => {
+      const content = sidebar.querySelector('.user-manual-content');
+      const scrollTop = content.scrollTop;
+      const scrollHeight = content.scrollHeight;
+      const clientHeight = content.clientHeight;
+
+      if (scrollTop + clientHeight >= scrollHeight - 50) {
+        hasScrolledToBottom = true;
+        closeBtn.disabled = false;
+        closeBtn.style.opacity = '1';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.title = '';
+
+        // 隐藏中央弹窗
+        popupOverlay.classList.remove('active');
+
+        clearInterval(scrollCheckInterval);
+        scrollCheckInterval = null;
+      }
+    }, 500);
+  }
+
+  function stopScrollDetection() {
+    if (scrollCheckInterval) {
+      clearInterval(scrollCheckInterval);
+      scrollCheckInterval = null;
+    }
+  }
+
+  // 页面加载完成后初始化
+  document.addEventListener('DOMContentLoaded', function() {
+    const jsPsychTarget = document.getElementById('jspsych-target');
+    if (jsPsychTarget) {
+      jsPsychTarget.style.zIndex = '1';
+    }
+    toggleBtn.style.display = 'flex';
+  });
+}
+
+// 在页面加载完成后初始化手册功能
+document.addEventListener('DOMContentLoaded', initUserManual);
     /* ==== 模型相关变量 ==== */
 let onnxSession = null;
 let preprocessingConfig = null;
